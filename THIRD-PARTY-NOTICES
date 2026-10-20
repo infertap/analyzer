@@ -31528,7 +31528,7 @@ rustls-platform-verifier-android 0.1.1
     (no licence file in the published crate; the SPDX identifier above is the
      declaration from its Cargo.toml)
 
-rustls-webpki 0.103.14
+rustls-webpki 0.103.16
     Licence:    ISC
     Repository: https://github.com/rustls/webpki
     --- LICENSE ---
@@ -45824,7 +45824,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-webpki-root-certs 1.0.9
+webpki-root-certs 1.0.10
     Licence:    CDLA-Permissive-2.0
     Repository: https://github.com/rustls/webpki-roots
     --- LICENSE ---
