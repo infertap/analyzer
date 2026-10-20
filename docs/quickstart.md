@@ -27,12 +27,13 @@ You need three things before you start:
 
 ## Kubernetes
 
-**1. Mirror the release into your own registry.** The chart has no default registry on purpose —
-nothing about running this product should depend on reaching ours.
+**1. Mirror the release into your own registry.** The image and the chart are published to the
+GitHub container registry. The chart has no default registry on purpose: nothing about running
+this product should depend on reaching ours.
 
 ```sh
-oras copy oci.infertap.ai/analyzer:1.0.10 <your-registry>/analyzer:1.0.10
-oras copy oci.infertap.ai/charts/infertap-analyzer:1.0.10 <your-registry>/charts/infertap-analyzer:1.0.10
+oras copy ghcr.io/infertap/analyzer:1.0.10 <your-registry>/analyzer:1.0.10
+oras copy ghcr.io/infertap/charts/infertap-analyzer:1.0.10 <your-registry>/charts/infertap-analyzer:1.0.10
 ```
 
 **2. Decide how the analyzer proves who it is.** Two supported answers, and the first is stronger
