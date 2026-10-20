@@ -7,6 +7,8 @@ the version on `main` is the next tag.
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-10-20
+
 ### Changed: the log compacts an hour a run of sections at a time
 Compaction read every object of an hour whole and held all of its records at once, about 540
 million at 500 GPUs, and cut them again under the current layout. It now reads runs of
@@ -246,9 +248,6 @@ log afresh.
 ### Added
 - `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `GOVERNANCE.md`,
   `MAINTAINERS.md`, `ROADMAP.md`, issue and pull-request templates.
-
-## [1.0.10] - 2026-08-22
-The version moves everywhere a customer reads it: the bundle, the chart, the quickstart.
 
 ## [1.0.9] - 2026-08-22
 ## [1.0.8] - 2026-08-22
