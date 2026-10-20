@@ -17,7 +17,7 @@
 # **Moving this file is how a console version lands.** The bump commit carries the new version,
 # the new hash, and nothing else.
 
-version = "v1.0.12"
+version = "v1.0.13"
 
 # SHA-256 over the staged tree: a manifest of `<relative path>\0<sha256 of contents>` for every
 # file, sorted under `LC_ALL=C`, hashed whole. `scripts/console-hash.sh` is the one definition and
@@ -25,13 +25,13 @@ version = "v1.0.12"
 #
 # It covers exactly what gets embedded. Staging strips source maps first, so a map appearing or
 # vanishing cannot move the hash of a bundle whose served bytes are identical.
-content_hash = "331e1677f4ac5ad54e2f25608621eb22f59ffc5cd3f6abf987235e6606c2bce9"
+content_hash = "73e0c0c83c8a2a6831cf881550539c9016194fcbe72568f29aa0494a7bec252c"
 
 # Where the bytes came from, for a human tracing provenance. NOT what is verified — the hash is.
 # A commit is recorded rather than relied on because a build from it is reproducible only with
 # its lockfile and Node version, both of which live in the console repository.
 source_repo = "https://github.com/infertap/console"
-source_commit = "4befa12bdc4c1daf686eb9884b0785847569f80f"
+source_commit = "3a2c5dd7e9740b4e909671a8cb0ce22f4a67feff"
 
 # What the bundle carries:
 #
