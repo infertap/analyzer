@@ -1,0 +1,181 @@
+{
+ "fixture_version": "v1",
+ "source": "classification-semantics.md §4: the reason of the last close decides the class",
+ "note": "The class of a recompute is decided by the reason its block's last close carried and by nothing else: no gap limit applies within the examined history, so a gap of most of an hour after an evict is still ETR, and after a clear still post_clear. A close at or beyond the examined history (an hour) is no close: the store reads cold.",
+ "cases": [
+  {
+   "name": "short_gap_after_evict_is_ETR",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 1000000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 2000000,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 3800000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "ETR"
+    },
+    "eviction_waste_tokens": 4
+   }
+  },
+  {
+   "name": "long_gap_after_evict_is_STILL_ETR",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 1000000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 2000000,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 5500000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "ETR"
+    },
+    "eviction_waste_tokens": 4
+   }
+  },
+  {
+   "name": "long_gap_after_clear_is_post_clear",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 1000000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "clear",
+     "instance_id": "i1",
+     "at_ms": 2000000
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 5500000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "post_clear"
+    },
+    "eviction_waste_tokens": 0,
+    "post_clear_tokens": 4
+   }
+  },
+  {
+   "name": "a_close_exactly_the_history_back_is_no_close",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 1000000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 2000000,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 5600000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "cold"
+    },
+    "eviction_waste_tokens": 0
+   }
+  },
+  {
+   "name": "a_close_beyond_the_examined_history_is_no_close",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 1000000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 2000000,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 5700000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "cold"
+    },
+    "eviction_waste_tokens": 0
+   }
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+apiVersion: v2
+name: infertap-analyzer
+description: The InferTap analyzer — KV-cache telemetry, and the console that reads it
+type: application
+
+# The chart's own version, and the app it installs. They move independently: a chart fix is a
+# chart bump, and the appVersion is what `image.tag` defaults to.
+version: 1.0.10
+appVersion: "1.0.10"
+
+home: https://github.com/infertap/analyzer
+sources:
+  - https://github.com/infertap/analyzer
+maintainers:
+  - name: InferTap
+
+# **No `dependencies`, and that is a product decision rather than an omission.** The analyzer needs
+# an S3-API object store that keeps conditional writes, and we never ship one ("no object store" is
+# not a supported configuration). Vendoring a store as a subchart would put a stateful dependency
+# inside our release that customers already run better versions of.

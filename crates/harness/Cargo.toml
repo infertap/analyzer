@@ -1,0 +1,32 @@
+[package]
+name = "analyzer-harness"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+# The test harness every suite shares: the pinned-engine fixture, fixture-authored streams
+# planted as a shipper delivers them, the execution journal's fault store, and the two second
+# implementations the production reader is differentialled against. A dev-dependency of the
+# suites that use it; no shipped binary depends on it.
+[dependencies]
+analyzer-analysis = { path = "../analysis" }
+analyzer-lake = { path = "../lake" }
+analyzer-pipeline = { path = "../pipeline" }
+analyzer-ingest = { path = "../ingest" }
+# The segment decoder the naive bucket source reads through, the same one the reader uses.
+analyzer-segments = { path = "../segments" }
+analyzer-objectstore = { path = "../objectstore", features = ["testing"] }
+analyzer-serving-clickhouse = { path = "../serving-clickhouse", features = ["testing"] }
+serde_json = "1.0"
+# The harness WRITES Parquet: the corpus's shipped-form twins and the multi-row-group fixtures
+# the pruning and projection proofs instrument. The analyzer ships no writer.
+parquet = { version = "59.2", default-features = false, features = ["snap"] }

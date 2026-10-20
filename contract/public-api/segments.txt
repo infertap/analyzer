@@ -1,0 +1,97 @@
+pub mod analyzer_segments
+pub mod analyzer_segments::columnar
+pub struct analyzer_segments::columnar::ProjectedSegment
+pub analyzer_segments::columnar::ProjectedSegment::batch_id: alloc::string::String
+pub analyzer_segments::columnar::ProjectedSegment::rows: alloc::vec::Vec<serde_json::value::Value>
+pub analyzer_segments::columnar::ProjectedSegment::unknown_kinds: u64
+impl core::fmt::Debug for analyzer_segments::columnar::ProjectedSegment
+pub fn analyzer_segments::columnar::ProjectedSegment::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_segments::columnar::Projection<'a>
+pub analyzer_segments::columnar::Projection::columns: &'a [&'a str]
+pub analyzer_segments::columnar::Projection::kinds: &'a [&'a str]
+pub analyzer_segments::columnar::Projection::window: core::option::Option<(f64, f64)>
+impl<'a> core::clone::Clone for analyzer_segments::columnar::Projection<'a>
+pub fn analyzer_segments::columnar::Projection<'a>::clone(&self) -> analyzer_segments::columnar::Projection<'a>
+impl<'a> core::default::Default for analyzer_segments::columnar::Projection<'a>
+pub fn analyzer_segments::columnar::Projection<'a>::default() -> analyzer_segments::columnar::Projection<'a>
+impl<'a> core::fmt::Debug for analyzer_segments::columnar::Projection<'a>
+pub fn analyzer_segments::columnar::Projection<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_segments::columnar::Projection<'a>
+pub struct analyzer_segments::columnar::StreamedSegment
+pub analyzer_segments::columnar::StreamedSegment::batch_id: alloc::string::String
+pub analyzer_segments::columnar::StreamedSegment::unknown_kinds: u64
+impl core::clone::Clone for analyzer_segments::columnar::StreamedSegment
+pub fn analyzer_segments::columnar::StreamedSegment::clone(&self) -> analyzer_segments::columnar::StreamedSegment
+impl core::cmp::Eq for analyzer_segments::columnar::StreamedSegment
+impl core::cmp::PartialEq for analyzer_segments::columnar::StreamedSegment
+pub fn analyzer_segments::columnar::StreamedSegment::eq(&self, &analyzer_segments::columnar::StreamedSegment) -> bool
+impl core::fmt::Debug for analyzer_segments::columnar::StreamedSegment
+pub fn analyzer_segments::columnar::StreamedSegment::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_segments::columnar::StreamedSegment
+pub const analyzer_segments::columnar::STREAM_BATCH_ROWS: usize
+pub fn analyzer_segments::columnar::decode_segment_projected(&str, &str, alloc::vec::Vec<u8>, analyzer_segments::columnar::Projection<'_>) -> core::result::Result<analyzer_segments::columnar::ProjectedSegment, analyzer_segments::error::Error>
+pub fn analyzer_segments::columnar::decode_segment_projected_into(&str, &str, alloc::vec::Vec<u8>, analyzer_segments::columnar::Projection<'_>, &mut dyn core::ops::function::FnMut(alloc::vec::Vec<serde_json::value::Value>) -> core::result::Result<(), analyzer_segments::error::Error>) -> core::result::Result<analyzer_segments::columnar::StreamedSegment, analyzer_segments::error::Error>
+pub fn analyzer_segments::columnar::projected_rows<R: parquet::file::reader::ChunkReader + core::clone::Clone + 'static>(&str, &str, &str, R, analyzer_segments::columnar::Projection<'_>) -> core::result::Result<(alloc::vec::Vec<serde_json::value::Value>, u64), analyzer_segments::error::Error>
+pub mod analyzer_segments::error
+#[non_exhaustive] pub enum analyzer_segments::error::Error
+pub analyzer_segments::error::Error::Corrupt(alloc::string::String)
+pub analyzer_segments::error::Error::Malformed(alloc::string::String)
+impl core::clone::Clone for analyzer_segments::error::Error
+pub fn analyzer_segments::error::Error::clone(&self) -> analyzer_segments::error::Error
+impl core::cmp::Eq for analyzer_segments::error::Error
+impl core::cmp::PartialEq for analyzer_segments::error::Error
+pub fn analyzer_segments::error::Error::eq(&self, &analyzer_segments::error::Error) -> bool
+impl core::error::Error for analyzer_segments::error::Error
+impl core::fmt::Debug for analyzer_segments::error::Error
+pub fn analyzer_segments::error::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_segments::error::Error
+pub fn analyzer_segments::error::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_segments::error::Error
+pub mod analyzer_segments::topic
+pub struct analyzer_segments::topic::Recognized<'a>
+pub analyzer_segments::topic::Recognized::model: &'a str
+pub analyzer_segments::topic::Recognized::pod: &'a str
+impl<'a> core::clone::Clone for analyzer_segments::topic::Recognized<'a>
+pub fn analyzer_segments::topic::Recognized<'a>::clone(&self) -> analyzer_segments::topic::Recognized<'a>
+impl<'a> core::cmp::Eq for analyzer_segments::topic::Recognized<'a>
+impl<'a> core::cmp::PartialEq for analyzer_segments::topic::Recognized<'a>
+pub fn analyzer_segments::topic::Recognized<'a>::eq(&self, &analyzer_segments::topic::Recognized<'a>) -> bool
+impl<'a> core::fmt::Debug for analyzer_segments::topic::Recognized<'a>
+pub fn analyzer_segments::topic::Recognized<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_segments::topic::Recognized<'a>
+impl<'a> core::marker::StructuralPartialEq for analyzer_segments::topic::Recognized<'a>
+pub fn analyzer_segments::topic::recognize(&str) -> core::option::Option<analyzer_segments::topic::Recognized<'_>>
+#[non_exhaustive] pub enum analyzer_segments::Error
+pub analyzer_segments::Error::Corrupt(alloc::string::String)
+pub analyzer_segments::Error::Malformed(alloc::string::String)
+impl core::clone::Clone for analyzer_segments::error::Error
+pub fn analyzer_segments::error::Error::clone(&self) -> analyzer_segments::error::Error
+impl core::cmp::Eq for analyzer_segments::error::Error
+impl core::cmp::PartialEq for analyzer_segments::error::Error
+pub fn analyzer_segments::error::Error::eq(&self, &analyzer_segments::error::Error) -> bool
+impl core::error::Error for analyzer_segments::error::Error
+impl core::fmt::Debug for analyzer_segments::error::Error
+pub fn analyzer_segments::error::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_segments::error::Error
+pub fn analyzer_segments::error::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_segments::error::Error
+pub struct analyzer_segments::DecodedSegment
+pub analyzer_segments::DecodedSegment::batch_id: alloc::string::String
+pub analyzer_segments::DecodedSegment::records: u64
+pub analyzer_segments::DecodedSegment::shaped: alloc::string::String
+pub analyzer_segments::DecodedSegment::unknown_kinds: u64
+impl core::clone::Clone for analyzer_segments::DecodedSegment
+pub fn analyzer_segments::DecodedSegment::clone(&self) -> analyzer_segments::DecodedSegment
+impl core::cmp::Eq for analyzer_segments::DecodedSegment
+impl core::cmp::PartialEq for analyzer_segments::DecodedSegment
+pub fn analyzer_segments::DecodedSegment::eq(&self, &analyzer_segments::DecodedSegment) -> bool
+impl core::fmt::Debug for analyzer_segments::DecodedSegment
+pub fn analyzer_segments::DecodedSegment::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_segments::DecodedSegment
+pub const analyzer_segments::DECLARED_KINDS: &[&str]
+pub const analyzer_segments::LIFECYCLE_KINDS: &[&str]
+pub const analyzer_segments::SEALED_PREFIX: &str
+pub fn analyzer_segments::content_batch_id(&[u8]) -> alloc::string::String
+pub fn analyzer_segments::decode_segment(&str, &str, &[u8]) -> core::result::Result<analyzer_segments::DecodedSegment, analyzer_segments::error::Error>
+pub fn analyzer_segments::is_own_copy(core::option::Option<&str>) -> bool
+pub fn analyzer_segments::models_kind(&str) -> bool

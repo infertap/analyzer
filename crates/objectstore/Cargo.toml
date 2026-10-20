@@ -1,0 +1,40 @@
+[package]
+name = "analyzer-objectstore"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+# The live-bucket test fixture, compiled only for the test binaries that ask for it (a
+# dev-dependency with this feature). Never on in a shipped build.
+testing = []
+
+[dependencies]
+log = { version = "0.4", features = ["std"] }
+# The crate's error type: one enum, every variant rendering the message it replaced.
+thiserror = "2"
+# **The workspace's only outbound network client, and the reason it is bought rather than
+# written.** This crate exists so ClickHouse performs no I/O; the part that made buying
+# non-negotiable is not SigV4 but the CREDENTIAL CHAIN — IMDSv2's own token TTL, IRSA's
+# kubelet-rotated token file, expiry under clock skew, refresh races. Those fail weeks in, on an
+# unattended box where nothing may report back to us.
+#
+# One trait over S3, Azure, GCS and local is also the port itself — an AWS-only client would be
+# wrapped once for AWS and again for Azure.
+object_store = { version = "0.14", default-features = false, features = ["aws"] }
+# `object_store` is async to the bone. The engine seam already stops async at `block_on`
+# (storage's `Engine`), and this crate does the same rather than turning the pipeline async.
+tokio = { version = "1", default-features = false, features = ["rt", "rt-multi-thread"] }
+bytes = "1"
+# Just the `Stream` trait, for draining `list`'s BoxStream. The full `futures` crate would be a
+# large dependency for one method; `futures-core` is the trait definition alone.
+futures-core = "0.3"

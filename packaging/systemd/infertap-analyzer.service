@@ -1,0 +1,183 @@
+# infertap-analyzer systemd unit.
+#
+# The daemon holds its own properties by construction; this file makes the OS hold the ones
+# it cannot. Two directives here are LOAD-BEARING rather than hygiene, and both are called
+# out at their site below: `StartLimitIntervalSec=0` (the in-process supervision cap hands
+# whole-process failures to systemd deliberately, and a crash loop that ends in a stopped
+# unit is silent) and `KillMode=mixed` (the daemon must be the one that stops the engine, in
+# order — the default would have systemd SIGTERM the engine child directly and race it).
+#
+# Install:
+#   install -m 0755 infertap-analyzer /usr/local/bin/infertap-analyzer
+#   install -m 0755 clickhouse /usr/local/lib/infertap-analyzer/clickhouse   # the PINNED build
+#   install -m 0644 infertap-analyzer.service /etc/systemd/system/
+#   groupadd --system infertap-analyzer
+#   useradd  --system --gid infertap-analyzer --home-dir /var/lib/infertap-analyzer \
+#            --shell /usr/sbin/nologin infertap-analyzer
+#   install -m 0600 -o infertap-analyzer bucket.env /etc/infertap-analyzer/bucket.env
+#   # bucket.env carries INFERTAP_S3_ACCESS_KEY_ID / INFERTAP_S3_SECRET_ACCESS_KEY —
+#   # credentials ride the environment and the generated engine config, never argv
+#   # preflight MUST pass before the unit is enabled; it validates what this file assumes
+#   sudo -u infertap-analyzer infertap-analyzer preflight \
+#       --data-dir /var/lib/infertap-analyzer \
+#       --out /var/lib/infertap-analyzer/out \
+#       --clickhouse /usr/local/lib/infertap-analyzer/clickhouse
+#   systemctl daemon-reload && systemctl enable --now infertap-analyzer
+#
+# Edit the ExecStart paths to the deployment. A static system user is
+# used rather than DynamicUser because the state directory is consumed by the customer's
+# own shipper (rclone, a timer, a mount) and a rotating uid makes that ownership unownable.
+
+[Unit]
+Description=infertap-analyzer - self-maintaining KV-cache telemetry analyzer
+Documentation=https://github.com/infertap/analyzer
+After=local-fs.target
+Wants=local-fs.target
+
+# **LOAD-BEARING.** `crates/serving-clickhouse/src/engine/server.rs` decides supervision policy deliberately:
+# the process gives up after a bounded number of engine restarts and EXITS, because the
+# failures a server-only restart fixes cannot be told apart from the ones it cannot, while
+# the whole-process failures a full restart does fix are ours and cannot be enumerated in
+# advance. That policy is only correct if systemd always takes the handoff. With the default
+# rate limit (5 starts / 10 s) a crash loop reaches `failed` and STOPS — the daemon goes
+# quiet and nothing says so, which is the one failure mode an airgapped deployment cannot
+# afford. Zero disables the limit; `Restart=always` below is the other half.
+StartLimitIntervalSec=0
+
+[Service]
+# Type=notify + WatchdogSec catch a wedged daemon: the daemon's own
+# liveness checks are in-process, so a wedge that parks the loop parks the checks with
+# it. The daemon sends READY=1 once the engine is owned, and pets WATCHDOG=1 from the
+# health sampler's successful publication — so a missed watchdog and a 503 from /metrics
+# are the same condition, and systemd restarts what no in-process check can reach.
+# 300 s = the sampler's own staleness bound (3 health intervals = 3 min) plus margin;
+# raise it only with the health interval.
+Type=notify
+NotifyAccess=main
+WatchdogSec=300
+User=infertap-analyzer
+Group=infertap-analyzer
+
+EnvironmentFile=/etc/infertap-analyzer/bucket.env
+ExecStart=/usr/local/bin/infertap-analyzer run \
+    --bucket-url https://CHANGEME/records-bucket/ \
+    --bucket-prefix CHANGEME/ \
+    --fleet-id CHANGEME \
+    --data-dir /var/lib/infertap-analyzer \
+    --out /var/lib/infertap-analyzer/out \
+    --metrics-addr 127.0.0.1:9363 \
+    --clickhouse /usr/local/lib/infertap-analyzer/clickhouse
+
+# See StartLimitIntervalSec above. `always` rather than `on-failure` because the decided
+# policy is that every unplanned exit is systemd's to recover, and the daemon's own clean
+# exits are all operator-initiated (`systemctl stop`), which systemd does not treat as a
+# restart trigger regardless of this setting.
+Restart=always
+RestartSec=5
+
+# **LOAD-BEARING.** The default (`control-group`) sends SIGTERM to every process in the
+# cgroup, which includes the clickhouse-server child — so `systemctl stop` would signal the
+# engine directly, racing the daemon's ordered shutdown and making crash recovery the steady
+# state for ordinary stops. `mixed` sends SIGTERM to the main process only and reserves
+# SIGKILL-everything for the timeout, which is exactly the escalation the daemon already
+# implements internally.
+KillMode=mixed
+KillSignal=SIGTERM
+
+# A cycle in flight is NOT interruptible: SIGTERM between cycles stops at once, and SIGTERM
+# during one stops when its ingest and its keyed tick end. This must exceed the deployment's
+# observed worst case or a stop during one takes the kill-and-recover path — survivable by
+# design, but not the ordered one. Raise it after watching
+# `infertap_analyzer_tick_duration_seconds` on a real fleet; 30 min is a starting value for
+# the deployments this ships to first, not a derivation.
+TimeoutStopSec=1800
+
+ExecStartPre=/usr/bin/install -d -o infertap-analyzer -g infertap-analyzer -m 0750 \
+    /var/lib/infertap-analyzer/out
+
+# --- privilege ---
+NoNewPrivileges=yes
+# The engine asks for CAP_SYS_NICE and CAP_IPC_LOCK and logs a warning when it does not get
+# them; it runs correctly without either, and neither is worth the grant.
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+# --- filesystem ---
+# The engine's data directory, its generated config pair and the report artifacts are
+# the only paths written — records arrive from the bucket (rulings 2026-08-06 §3); the
+# working state lives inside
+# the state directory. No local staging tier exists to size, ship, or leak.
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+StateDirectory=infertap-analyzer
+ReadWritePaths=/var/lib/infertap-analyzer
+UMask=0027
+
+# --- network ---
+# TWO loopback listeners (/metrics and the console's read API, both on by default since serve
+# mode landed), one loopback client (the engine's own protocol), and
+# ONE outbound peer: the customer's records bucket, reached by the engine child's S3
+# client (rulings 2026-08-06 §3). The bucket's address is deployment configuration, so no
+# IPAddressAllow/Deny pair can be shipped here — a deployment that knows its bucket's
+# CIDR should add `IPAddressAllow=<bucket> localhost` + `IPAddressDeny=any` back in a
+# drop-in. The address-family restriction still holds at the kernel.
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+# --- kernel surface ---
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+RestrictNamespaces=yes
+RestrictRealtime=yes
+# NOT set: MemoryDenyWriteExecute. The engine JIT-compiles expressions, so it needs W^X and
+# the directive would break it. Deliberately absent and said out loud, because an unexplained
+# gap in a hardening block reads as an oversight.
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+
+# --- resources ---
+# The engine opens a file descriptor per part per query and the default 1024 is far too low
+# for a MergeTree store; this matches the engine's own packaging.
+LimitNOFILE=500000
+TasksMax=4096
+
+# **LOAD-BEARING.** The engine's generated config holds a ceiling, but it governs THE ENGINE;
+# without this the analyzer process is outside every bound, and on a real-volume run the
+# kernel's global OOM killer answers for it — taking sshd, which is a host death, not a
+# service failure. The rule: one ceiling per process, and every process gets one.
+#
+# The daemon reads this cap through /proc/self/cgroup and derives the engine's
+# max_server_memory from it (0.9 of the cap), so tightening this in a drop-in tightens
+# the engine's ceiling at the next start with no second edit. That derived figure is a
+# BACKSTOP on both processes' sum, not the engine's share — the engine child lives in
+# this unit's cgroup and its memory tracker measures the cgroup's total, so a value
+# below the cap fires against analyzer + engine together (measured 2026-08-22: a 0.8
+# "share" left the engine refusing while the analyzer itself held the memory).
+# 80% of the host converts a runaway into this unit's bounded restart while sshd,
+# journald and the shipper keep the remainder.
+MemoryMax=80%
+# **The throttle point below the wall** (2026-08-22, measured on the rig). With only
+# MemoryMax set, the cgroup has no reclaim target: page cache from segment and part
+# reads grew to 95% of the cap (20.8 GiB file, 1.03 GiB anon — the processes were FLAT),
+# and the kernel hit the hard limit 3,172 times, refaulted the working set 72.7 MILLION
+# times, ran synchronous direct reclaim on every allocating thread, and once lost the
+# race and OOM-killed the service. The everyday symptom was worse than the kill: ingest
+# ran ~30x under its isolated rate inside that thrash. MemoryHigh gives the kernel an
+# async reclaim target well before the wall — applied on the rig, memory.current fell
+# 21.9 -> 13.4 GiB the moment it took. Tuned on the rig rather than derived: two thirds
+# of the cap (16G) stopped the thrash but throttled the derivation ~40% (43k -> 26k
+# events/s); 20G — ~80% of the cap — kept direct reclaim at zero without costing real
+# work. Percentages here are of PHYSICAL RAM, so 65% of host = ~80% of the 80% cap.
+MemoryHigh=65%
+
+[Install]
+WantedBy=multi-user.target

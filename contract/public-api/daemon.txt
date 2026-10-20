@@ -1,0 +1,318 @@
+pub mod analyzer_daemon
+pub use analyzer_daemon::SocketAddr
+pub use analyzer_daemon::StaticCredentials
+pub mod analyzer_daemon::counters
+pub struct analyzer_daemon::counters::Cadences
+pub analyzer_daemon::counters::Cadences::ingest: core::time::Duration
+pub analyzer_daemon::counters::Cadences::tick: core::time::Duration
+impl core::clone::Clone for analyzer_daemon::counters::Cadences
+pub fn analyzer_daemon::counters::Cadences::clone(&self) -> analyzer_daemon::counters::Cadences
+impl core::cmp::Eq for analyzer_daemon::counters::Cadences
+impl core::cmp::PartialEq for analyzer_daemon::counters::Cadences
+pub fn analyzer_daemon::counters::Cadences::eq(&self, &analyzer_daemon::counters::Cadences) -> bool
+impl core::fmt::Debug for analyzer_daemon::counters::Cadences
+pub fn analyzer_daemon::counters::Cadences::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_daemon::counters::Cadences
+impl core::marker::StructuralPartialEq for analyzer_daemon::counters::Cadences
+pub struct analyzer_daemon::counters::Counters
+impl analyzer_daemon::counters::Counters
+pub fn analyzer_daemon::counters::Counters::audited(&self, u64, core::option::Option<f64>)
+pub fn analyzer_daemon::counters::Counters::bytes_ingested(&self, u64)
+pub fn analyzer_daemon::counters::Counters::evicts_audited(&self, &analyzer_analysis::differential::AuditOutcome)
+pub fn analyzer_daemon::counters::Counters::files_ingested(&self, u64)
+pub fn analyzer_daemon::counters::Counters::files_projected(&self, u64)
+pub fn analyzer_daemon::counters::Counters::ingest_refused(&self)
+pub fn analyzer_daemon::counters::Counters::new() -> Self
+pub fn analyzer_daemon::counters::Counters::reclaimed(&self, u64)
+pub fn analyzer_daemon::counters::Counters::record_ingest(&self, analyzer_daemon::counters::PendingIngest)
+pub fn analyzer_daemon::counters::Counters::record_ingest_cycle(&self, analyzer_daemon::counters::IngestCycle)
+pub fn analyzer_daemon::counters::Counters::refusals(&self) -> u64
+pub fn analyzer_daemon::counters::Counters::restore_ingest(&self, analyzer_daemon::counters::PendingIngest)
+pub fn analyzer_daemon::counters::Counters::snapshot(&self, u64, analyzer_daemon::counters::Cadences) -> analyzer_serving_clickhouse::selfhealth::LoopStatus
+pub fn analyzer_daemon::counters::Counters::take_ingest(&self) -> analyzer_daemon::counters::PendingIngest
+pub fn analyzer_daemon::counters::Counters::tick_failed(&self)
+pub fn analyzer_daemon::counters::Counters::tick_started(&self)
+pub fn analyzer_daemon::counters::Counters::tick_succeeded(&self, core::time::Duration)
+impl core::default::Default for analyzer_daemon::counters::Counters
+pub fn analyzer_daemon::counters::Counters::default() -> Self
+impl core::fmt::Debug for analyzer_daemon::counters::Counters
+pub fn analyzer_daemon::counters::Counters::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_daemon::counters::IngestCycle
+pub analyzer_daemon::counters::IngestCycle::bytes_deferred: u64
+pub analyzer_daemon::counters::IngestCycle::elapsed: core::time::Duration
+pub analyzer_daemon::counters::IngestCycle::files_deferred: u64
+pub analyzer_daemon::counters::IngestCycle::interval: core::time::Duration
+impl core::clone::Clone for analyzer_daemon::counters::IngestCycle
+pub fn analyzer_daemon::counters::IngestCycle::clone(&self) -> analyzer_daemon::counters::IngestCycle
+impl core::cmp::Eq for analyzer_daemon::counters::IngestCycle
+impl core::cmp::PartialEq for analyzer_daemon::counters::IngestCycle
+pub fn analyzer_daemon::counters::IngestCycle::eq(&self, &analyzer_daemon::counters::IngestCycle) -> bool
+impl core::fmt::Debug for analyzer_daemon::counters::IngestCycle
+pub fn analyzer_daemon::counters::IngestCycle::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_daemon::counters::IngestCycle
+impl core::marker::StructuralPartialEq for analyzer_daemon::counters::IngestCycle
+pub struct analyzer_daemon::counters::PendingIngest
+pub analyzer_daemon::counters::PendingIngest::duplicates_skipped: u64
+pub analyzer_daemon::counters::PendingIngest::files_seen: u64
+pub analyzer_daemon::counters::PendingIngest::records: u64
+pub analyzer_daemon::counters::PendingIngest::unknown_kinds: u64
+impl core::clone::Clone for analyzer_daemon::counters::PendingIngest
+pub fn analyzer_daemon::counters::PendingIngest::clone(&self) -> analyzer_daemon::counters::PendingIngest
+impl core::cmp::Eq for analyzer_daemon::counters::PendingIngest
+impl core::cmp::PartialEq for analyzer_daemon::counters::PendingIngest
+pub fn analyzer_daemon::counters::PendingIngest::eq(&self, &analyzer_daemon::counters::PendingIngest) -> bool
+impl core::default::Default for analyzer_daemon::counters::PendingIngest
+pub fn analyzer_daemon::counters::PendingIngest::default() -> analyzer_daemon::counters::PendingIngest
+impl core::fmt::Debug for analyzer_daemon::counters::PendingIngest
+pub fn analyzer_daemon::counters::PendingIngest::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_daemon::counters::PendingIngest
+impl core::marker::StructuralPartialEq for analyzer_daemon::counters::PendingIngest
+pub mod analyzer_daemon::preflight
+pub struct analyzer_daemon::preflight::Deployment<'a>
+pub analyzer_daemon::preflight::Deployment::bucket: core::option::Option<&'a analyzer_daemon::BucketConfig>
+pub analyzer_daemon::preflight::Deployment::clickhouse_bin: &'a std::path::Path
+pub analyzer_daemon::preflight::Deployment::data_dir: &'a std::path::Path
+pub analyzer_daemon::preflight::Deployment::out_dir: &'a std::path::Path
+impl<'a> core::clone::Clone for analyzer_daemon::preflight::Deployment<'a>
+pub fn analyzer_daemon::preflight::Deployment<'a>::clone(&self) -> analyzer_daemon::preflight::Deployment<'a>
+impl<'a> core::fmt::Debug for analyzer_daemon::preflight::Deployment<'a>
+pub fn analyzer_daemon::preflight::Deployment<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_daemon::preflight::Preflight
+pub analyzer_daemon::preflight::Preflight::checks: alloc::vec::Vec<analyzer_serving_clickhouse::selfhealth::Check>
+impl analyzer_daemon::preflight::Preflight
+pub fn analyzer_daemon::preflight::Preflight::refused(&self) -> bool
+impl core::clone::Clone for analyzer_daemon::preflight::Preflight
+pub fn analyzer_daemon::preflight::Preflight::clone(&self) -> analyzer_daemon::preflight::Preflight
+impl core::cmp::Eq for analyzer_daemon::preflight::Preflight
+impl core::cmp::PartialEq for analyzer_daemon::preflight::Preflight
+pub fn analyzer_daemon::preflight::Preflight::eq(&self, &analyzer_daemon::preflight::Preflight) -> bool
+impl core::fmt::Debug for analyzer_daemon::preflight::Preflight
+pub fn analyzer_daemon::preflight::Preflight::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_daemon::preflight::Preflight
+pub const analyzer_daemon::preflight::CLOCK_SKEW_MAX_SECONDS: f64
+pub fn analyzer_daemon::preflight::run(&analyzer_daemon::preflight::Deployment<'_>) -> analyzer_daemon::preflight::Preflight
+pub mod analyzer_daemon::pressure
+pub enum analyzer_daemon::pressure::Pressure
+pub analyzer_daemon::pressure::Pressure::Normal
+pub analyzer_daemon::pressure::Pressure::Reclaim
+pub analyzer_daemon::pressure::Pressure::Refuse
+pub analyzer_daemon::pressure::Pressure::Unmeasured
+impl analyzer_daemon::pressure::Pressure
+pub fn analyzer_daemon::pressure::Pressure::allows_ingest(self) -> bool
+pub fn analyzer_daemon::pressure::Pressure::as_str(self) -> &'static str
+pub fn analyzer_daemon::pressure::Pressure::wants_reclaim(self) -> bool
+impl core::clone::Clone for analyzer_daemon::pressure::Pressure
+pub fn analyzer_daemon::pressure::Pressure::clone(&self) -> analyzer_daemon::pressure::Pressure
+impl core::cmp::Eq for analyzer_daemon::pressure::Pressure
+impl core::cmp::PartialEq for analyzer_daemon::pressure::Pressure
+pub fn analyzer_daemon::pressure::Pressure::eq(&self, &analyzer_daemon::pressure::Pressure) -> bool
+impl core::fmt::Debug for analyzer_daemon::pressure::Pressure
+pub fn analyzer_daemon::pressure::Pressure::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_daemon::pressure::Pressure
+pub fn analyzer_daemon::pressure::Pressure::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_daemon::pressure::Pressure
+impl core::marker::StructuralPartialEq for analyzer_daemon::pressure::Pressure
+#[non_exhaustive] pub enum analyzer_daemon::Error
+pub analyzer_daemon::Error::BelowFloor
+pub analyzer_daemon::Error::BelowFloor::flag: &'static str
+pub analyzer_daemon::Error::BelowFloor::floor: u64
+pub analyzer_daemon::Error::BelowFloor::value: u64
+pub analyzer_daemon::Error::BelowFloor::why: &'static str
+pub analyzer_daemon::Error::Bind
+pub analyzer_daemon::Error::Bind::addr: core::net::socket_addr::SocketAddr
+pub analyzer_daemon::Error::Bind::source: core::io::error::Error
+pub analyzer_daemon::Error::Dao(analyzer_serving_clickhouse::error::Error)
+pub analyzer_daemon::Error::Engine(analyzer_serving_clickhouse::engine::error::Error)
+pub analyzer_daemon::Error::EngineDied
+pub analyzer_daemon::Error::Environment
+pub analyzer_daemon::Error::Environment::check: &'static str
+pub analyzer_daemon::Error::Environment::message: alloc::string::String
+pub analyzer_daemon::Error::HostClaim
+pub analyzer_daemon::Error::HostClaim::source: core::io::error::Error
+pub analyzer_daemon::Error::HostClaimed
+pub analyzer_daemon::Error::HostClaimed::detail: alloc::string::String
+pub analyzer_daemon::Error::Ingest(analyzer_ingest::error::Error)
+pub analyzer_daemon::Error::Modules
+pub analyzer_daemon::Error::Modules::source: analyzer_analysis::error::Error
+pub analyzer_daemon::Error::NoClassifiedDay
+pub analyzer_daemon::Error::Pipeline(analyzer_pipeline::error::Error)
+pub analyzer_daemon::Error::Retention(analyzer_serving_clickhouse::engine::error::Error)
+pub analyzer_daemon::Error::SamplerStale
+pub analyzer_daemon::Error::SamplerStale::age: core::time::Duration
+pub analyzer_daemon::Error::SamplerStale::intervals: u32
+pub analyzer_daemon::Error::Signal
+pub analyzer_daemon::Error::Signal::signal: i32
+pub analyzer_daemon::Error::Signal::source: core::io::error::Error
+pub analyzer_daemon::Error::Store(analyzer_objectstore::Error)
+pub analyzer_daemon::Error::Thread
+pub analyzer_daemon::Error::Thread::name: &'static str
+pub analyzer_daemon::Error::Thread::source: core::io::error::Error
+pub analyzer_daemon::Error::UnparseableCount
+pub analyzer_daemon::Error::UnparseableCount::source: core::num::error::ParseIntError
+pub analyzer_daemon::Error::UnparseableCount::what: &'static str
+impl core::convert::From<analyzer_ingest::error::Error> for analyzer_daemon::Error
+pub fn analyzer_daemon::Error::from(analyzer_ingest::error::Error) -> Self
+impl core::convert::From<analyzer_objectstore::Error> for analyzer_daemon::Error
+pub fn analyzer_daemon::Error::from(analyzer_objectstore::Error) -> Self
+impl core::convert::From<analyzer_pipeline::error::Error> for analyzer_daemon::Error
+pub fn analyzer_daemon::Error::from(analyzer_pipeline::error::Error) -> Self
+impl core::convert::From<analyzer_serving_clickhouse::engine::error::Error> for analyzer_daemon::Error
+pub fn analyzer_daemon::Error::from(analyzer_serving_clickhouse::engine::error::Error) -> Self
+impl core::convert::From<analyzer_serving_clickhouse::error::Error> for analyzer_daemon::Error
+pub fn analyzer_daemon::Error::from(analyzer_serving_clickhouse::error::Error) -> Self
+impl core::error::Error for analyzer_daemon::Error
+pub fn analyzer_daemon::Error::source(&self) -> core::option::Option<&(dyn core::error::Error + 'static)>
+impl core::fmt::Debug for analyzer_daemon::Error
+pub fn analyzer_daemon::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_daemon::Error
+pub fn analyzer_daemon::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_daemon::BucketConfig
+pub analyzer_daemon::BucketConfig::credentials: core::option::Option<analyzer_objectstore::s3::StaticCredentials>
+pub analyzer_daemon::BucketConfig::key_prefix: alloc::string::String
+pub analyzer_daemon::BucketConfig::url: alloc::string::String
+impl core::clone::Clone for analyzer_daemon::BucketConfig
+pub fn analyzer_daemon::BucketConfig::clone(&self) -> analyzer_daemon::BucketConfig
+impl core::fmt::Debug for analyzer_daemon::BucketConfig
+pub fn analyzer_daemon::BucketConfig::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_daemon::Ceiling
+pub analyzer_daemon::Ceiling::bytes: u64
+pub analyzer_daemon::Ceiling::source: analyzer_daemon::memory::Source
+impl analyzer_daemon::Ceiling
+pub fn analyzer_daemon::Ceiling::engine_share(self) -> u64
+pub fn analyzer_daemon::Ceiling::gib(self) -> f64
+pub fn analyzer_daemon::Ceiling::working_state(self) -> usize
+impl core::clone::Clone for analyzer_daemon::Ceiling
+pub fn analyzer_daemon::Ceiling::clone(&self) -> analyzer_daemon::Ceiling
+impl core::cmp::Eq for analyzer_daemon::Ceiling
+impl core::cmp::PartialEq for analyzer_daemon::Ceiling
+pub fn analyzer_daemon::Ceiling::eq(&self, &analyzer_daemon::Ceiling) -> bool
+impl core::fmt::Debug for analyzer_daemon::Ceiling
+pub fn analyzer_daemon::Ceiling::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_daemon::Ceiling
+impl core::marker::StructuralPartialEq for analyzer_daemon::Ceiling
+pub struct analyzer_daemon::CycleOutcome
+pub analyzer_daemon::CycleOutcome::ingested_files: u64
+pub analyzer_daemon::CycleOutcome::pressure: analyzer_daemon::pressure::Pressure
+pub analyzer_daemon::CycleOutcome::reclaimed: bool
+pub analyzer_daemon::CycleOutcome::ticked: bool
+impl core::clone::Clone for analyzer_daemon::CycleOutcome
+pub fn analyzer_daemon::CycleOutcome::clone(&self) -> analyzer_daemon::CycleOutcome
+impl core::cmp::Eq for analyzer_daemon::CycleOutcome
+impl core::cmp::PartialEq for analyzer_daemon::CycleOutcome
+pub fn analyzer_daemon::CycleOutcome::eq(&self, &analyzer_daemon::CycleOutcome) -> bool
+impl core::fmt::Debug for analyzer_daemon::CycleOutcome
+pub fn analyzer_daemon::CycleOutcome::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_daemon::CycleOutcome
+pub struct analyzer_daemon::Daemon
+impl analyzer_daemon::Daemon
+pub fn analyzer_daemon::Daemon::annotation_sink(&self) -> alloc::sync::Arc<(dyn core::ops::function::Fn(&str, &[u8]) -> core::result::Result<(), alloc::boxed::Box<(dyn core::error::Error + core::marker::Send + core::marker::Sync)>> + core::marker::Send + core::marker::Sync)>
+pub fn analyzer_daemon::Daemon::api_engine(&self) -> core::result::Result<alloc::sync::Arc<std::sync::poison::mutex::Mutex<analyzer_serving_clickhouse::engine::Engine>>, analyzer_daemon::Error>
+pub fn analyzer_daemon::Daemon::counters(&self) -> &alloc::sync::Arc<analyzer_daemon::counters::Counters>
+pub fn analyzer_daemon::Daemon::engine(&self) -> &analyzer_serving_clickhouse::engine::Engine
+pub fn analyzer_daemon::Daemon::engine_query_counts(&self) -> analyzer_daemon::EngineQueryCounts
+pub fn analyzer_daemon::Daemon::observe(&mut self, impl core::ops::function::Fn(analyzer_daemon::LoopSnapshot) + core::marker::Send + 'static)
+pub fn analyzer_daemon::Daemon::retention(&self) -> analyzer_serving_clickhouse::engine::RetentionConfig
+pub fn analyzer_daemon::Daemon::tick_kick(&self) -> alloc::sync::Arc<core::sync::atomic::AtomicBool>
+impl analyzer_daemon::Daemon
+pub fn analyzer_daemon::Daemon::cycle(&mut self, analyzer_daemon::Due) -> analyzer_daemon::CycleOutcome
+pub fn analyzer_daemon::Daemon::run(self, &analyzer_daemon::Shutdown) -> core::result::Result<(), analyzer_daemon::Error>
+impl analyzer_daemon::Daemon
+pub fn analyzer_daemon::Daemon::emit_health(&self, &analyzer_serving_clickhouse::selfhealth::SelfHealth) -> core::result::Result<(), analyzer_daemon::Error>
+pub fn analyzer_daemon::Daemon::sample(&self) -> analyzer_serving_clickhouse::selfhealth::SelfHealth
+impl analyzer_daemon::Daemon
+pub fn analyzer_daemon::Daemon::serving(&self) -> alloc::sync::Arc<dyn analyzer_pipeline::publish::Serving>
+pub fn analyzer_daemon::Daemon::source_config(&self) -> analyzer_pipeline::parquet_source::SourceConfig
+pub fn analyzer_daemon::Daemon::spine(&self) -> alloc::sync::Arc<analyzer_pipeline::spine::Spine>
+pub fn analyzer_daemon::Daemon::start(analyzer_daemon::DaemonConfig) -> core::result::Result<Self, analyzer_daemon::Error>
+impl core::fmt::Debug for analyzer_daemon::Daemon
+pub fn analyzer_daemon::Daemon::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_daemon::DaemonConfig
+pub analyzer_daemon::DaemonConfig::admit_corpus_forms: bool
+pub analyzer_daemon::DaemonConfig::analyzer_id: core::option::Option<alloc::string::String>
+pub analyzer_daemon::DaemonConfig::bucket: analyzer_daemon::BucketConfig
+pub analyzer_daemon::DaemonConfig::classify_workers: core::option::Option<usize>
+pub analyzer_daemon::DaemonConfig::clickhouse_bin: std::path::PathBuf
+pub analyzer_daemon::DaemonConfig::data_dir: std::path::PathBuf
+pub analyzer_daemon::DaemonConfig::disabled_modules: alloc::vec::Vec<alloc::string::String>
+pub analyzer_daemon::DaemonConfig::fleet_id: alloc::string::String
+pub analyzer_daemon::DaemonConfig::health_interval: core::time::Duration
+pub analyzer_daemon::DaemonConfig::host_claim: bool
+pub analyzer_daemon::DaemonConfig::http_port: u16
+pub analyzer_daemon::DaemonConfig::ingest_interval: core::time::Duration
+pub analyzer_daemon::DaemonConfig::ingest_workers: core::option::Option<usize>
+pub analyzer_daemon::DaemonConfig::maintain_interval: core::time::Duration
+pub analyzer_daemon::DaemonConfig::metrics_addr: core::option::Option<core::net::socket_addr::SocketAddr>
+pub analyzer_daemon::DaemonConfig::out_dir: std::path::PathBuf
+pub analyzer_daemon::DaemonConfig::params: analyzer_analysis::Params
+pub analyzer_daemon::DaemonConfig::retention: analyzer_serving_clickhouse::engine::RetentionConfig
+pub analyzer_daemon::DaemonConfig::segment_cache_bytes: u64
+pub analyzer_daemon::DaemonConfig::segment_transport: core::option::Option<analyzer_pipeline::parquet_source::SegmentTransport>
+pub analyzer_daemon::DaemonConfig::tcp_port: u16
+impl analyzer_daemon::DaemonConfig
+pub fn analyzer_daemon::DaemonConfig::new(impl core::convert::Into<alloc::string::String>, analyzer_daemon::BucketConfig, impl core::convert::Into<std::path::PathBuf>, impl core::convert::Into<std::path::PathBuf>) -> Self
+pub fn analyzer_daemon::DaemonConfig::validate(&self) -> core::result::Result<(), analyzer_daemon::Error>
+impl core::clone::Clone for analyzer_daemon::DaemonConfig
+pub fn analyzer_daemon::DaemonConfig::clone(&self) -> analyzer_daemon::DaemonConfig
+impl core::fmt::Debug for analyzer_daemon::DaemonConfig
+pub fn analyzer_daemon::DaemonConfig::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_daemon::Due
+pub analyzer_daemon::Due::ingest: bool
+pub analyzer_daemon::Due::maintain: bool
+impl analyzer_daemon::Due
+pub const analyzer_daemon::Due::BOTH: Self
+pub const analyzer_daemon::Due::INGEST: Self
+pub const analyzer_daemon::Due::MAINTAIN: Self
+pub const analyzer_daemon::Due::NONE: Self
+pub fn analyzer_daemon::Due::any(self) -> bool
+impl core::clone::Clone for analyzer_daemon::Due
+pub fn analyzer_daemon::Due::clone(&self) -> analyzer_daemon::Due
+impl core::cmp::Eq for analyzer_daemon::Due
+impl core::cmp::PartialEq for analyzer_daemon::Due
+pub fn analyzer_daemon::Due::eq(&self, &analyzer_daemon::Due) -> bool
+impl core::fmt::Debug for analyzer_daemon::Due
+pub fn analyzer_daemon::Due::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_daemon::Due
+impl core::marker::StructuralPartialEq for analyzer_daemon::Due
+pub struct analyzer_daemon::EngineQueryCounts
+pub analyzer_daemon::EngineQueryCounts::loop_engine: u64
+pub analyzer_daemon::EngineQueryCounts::sampler: u64
+impl core::clone::Clone for analyzer_daemon::EngineQueryCounts
+pub fn analyzer_daemon::EngineQueryCounts::clone(&self) -> analyzer_daemon::EngineQueryCounts
+impl core::cmp::Eq for analyzer_daemon::EngineQueryCounts
+impl core::cmp::PartialEq for analyzer_daemon::EngineQueryCounts
+pub fn analyzer_daemon::EngineQueryCounts::eq(&self, &analyzer_daemon::EngineQueryCounts) -> bool
+impl core::fmt::Debug for analyzer_daemon::EngineQueryCounts
+pub fn analyzer_daemon::EngineQueryCounts::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_daemon::EngineQueryCounts
+impl core::marker::StructuralPartialEq for analyzer_daemon::EngineQueryCounts
+pub struct analyzer_daemon::LoopSnapshot
+pub analyzer_daemon::LoopSnapshot::ledger: core::option::Option<analyzer_analysis::degradation::Ledger>
+pub analyzer_daemon::LoopSnapshot::next_tick_at_ms: core::option::Option<f64>
+pub analyzer_daemon::LoopSnapshot::refusing: bool
+impl core::clone::Clone for analyzer_daemon::LoopSnapshot
+pub fn analyzer_daemon::LoopSnapshot::clone(&self) -> analyzer_daemon::LoopSnapshot
+impl core::default::Default for analyzer_daemon::LoopSnapshot
+pub fn analyzer_daemon::LoopSnapshot::default() -> analyzer_daemon::LoopSnapshot
+impl core::fmt::Debug for analyzer_daemon::LoopSnapshot
+pub fn analyzer_daemon::LoopSnapshot::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_daemon::Shutdown(_)
+impl analyzer_daemon::Shutdown
+pub fn analyzer_daemon::Shutdown::flag(&self) -> alloc::sync::Arc<core::sync::atomic::AtomicBool>
+pub fn analyzer_daemon::Shutdown::listen(&self) -> core::result::Result<(), analyzer_daemon::Error>
+pub fn analyzer_daemon::Shutdown::new() -> Self
+pub fn analyzer_daemon::Shutdown::request(&self)
+pub fn analyzer_daemon::Shutdown::requested(&self) -> bool
+impl core::clone::Clone for analyzer_daemon::Shutdown
+pub fn analyzer_daemon::Shutdown::clone(&self) -> analyzer_daemon::Shutdown
+impl core::default::Default for analyzer_daemon::Shutdown
+pub fn analyzer_daemon::Shutdown::default() -> analyzer_daemon::Shutdown
+impl core::fmt::Debug for analyzer_daemon::Shutdown
+pub fn analyzer_daemon::Shutdown::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub const analyzer_daemon::DEFAULT_HEALTH_INTERVAL: core::time::Duration
+pub const analyzer_daemon::DEFAULT_INGEST_INTERVAL: core::time::Duration
+pub const analyzer_daemon::DEFAULT_MAINTAIN_INTERVAL: core::time::Duration
+pub const analyzer_daemon::MIN_CACHE_BYTES: u64
+pub const analyzer_daemon::RECLAIM_COOLDOWN: core::time::Duration
+pub const analyzer_daemon::STALE_SAMPLE_INTERVALS: u32
+pub fn analyzer_daemon::declare_deploy(&analyzer_daemon::BucketConfig, &analyzer_ingest::annotations::DeployAnnotation) -> core::result::Result<alloc::string::String, analyzer_daemon::Error>
+pub fn analyzer_daemon::reset_derived(&analyzer_daemon::DaemonConfig) -> core::result::Result<analyzer_pipeline::reset::Reset, analyzer_daemon::Error>

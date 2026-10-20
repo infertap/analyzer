@@ -1,0 +1,125 @@
+{
+ "fixture_version": "v1",
+ "source": "classification-semantics.md \u00a75: a tainted absence is indeterminate, not cold",
+ "params": {},
+ "cases": [
+  {
+   "name": "primary_indeterminate",
+   "records": [
+    {
+     "kind": "heartbeat",
+     "at_ms": 10000,
+     "msgs_seen": 10,
+     "dropped": 0,
+     "oversized": 0,
+     "events_ingested": 40,
+     "resident_tracked": 1,
+     "evicted_tracked": 0,
+     "resident_overflow": 0,
+     "evicted_aged_out": 0,
+     "endpoints": [
+      {
+       "source": "i1",
+       "endpoint": "tcp://e:1",
+       "msgs_seen": 10,
+       "dropped": 0
+      }
+     ]
+    },
+    {
+     "kind": "heartbeat",
+     "at_ms": 70000,
+     "msgs_seen": 10,
+     "dropped": 3,
+     "oversized": 0,
+     "events_ingested": 40,
+     "resident_tracked": 1,
+     "evicted_tracked": 0,
+     "resident_overflow": 0,
+     "evicted_aged_out": 0,
+     "endpoints": [
+      {
+       "source": "i1",
+       "endpoint": "tcp://e:1",
+       "msgs_seen": 10,
+       "dropped": 3
+      }
+     ]
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 3000000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "indeterminate"
+    }
+   }
+  },
+  {
+   "name": "pair_cold",
+   "records": [
+    {
+     "kind": "heartbeat",
+     "at_ms": 10000,
+     "msgs_seen": 10,
+     "dropped": 0,
+     "oversized": 0,
+     "events_ingested": 40,
+     "resident_tracked": 1,
+     "evicted_tracked": 0,
+     "resident_overflow": 0,
+     "evicted_aged_out": 0,
+     "endpoints": [
+      {
+       "source": "i1",
+       "endpoint": "tcp://e:1",
+       "msgs_seen": 10,
+       "dropped": 0
+      }
+     ]
+    },
+    {
+     "kind": "heartbeat",
+     "at_ms": 70000,
+     "msgs_seen": 10,
+     "dropped": 0,
+     "oversized": 0,
+     "events_ingested": 40,
+     "resident_tracked": 1,
+     "evicted_tracked": 0,
+     "resident_overflow": 0,
+     "evicted_aged_out": 0,
+     "endpoints": [
+      {
+       "source": "i1",
+       "endpoint": "tcp://e:1",
+       "msgs_seen": 10,
+       "dropped": 0
+      }
+     ]
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 3000000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "cold"
+    }
+   }
+  }
+ ]
+}

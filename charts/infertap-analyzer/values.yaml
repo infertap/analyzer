@@ -1,0 +1,194 @@
+# The InferTap analyzer.
+#
+# **Spelled the way this audience's other charts spell it.** Key names were taken from
+# `grafana/values.yaml` and `prometheus-community/prometheus/values.yaml` rather than invented:
+# `image.registry`/`repository`/`tag`, `persistence.*`, `existingSecret` with key names beside it,
+# `ingress.ingressClassName`, full probe blocks. Familiarity is the point — an operator should be
+# able to guess where a setting lives.
+#
+# Two values are REQUIRED and have no default. That is deliberate: each is a fact about a
+# deployment that only the deployment knows, and a plausible default would be a wrong answer that
+# installs cleanly.
+
+image:
+  # **NO DEFAULT.** The customer's own mirror is the first install step, enforced here rather than
+  # in prose: a chart with our registry baked in is a chart
+  # that quietly puts us in their runtime path. `oras copy` once, then set this to your registry.
+  registry: ""
+  repository: infertap/analyzer
+  # Empty defaults to the chart's appVersion, which is the convention every chart here follows.
+  tag: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+fleet:
+  # REQUIRED. One analyzer serves one fleet; there is no multi-fleet mode and no plan for one.
+  id: ""
+  # **There is no GPU count to declare, deliberately.** The envelope is observed from the
+  # analyzer's own ingest utilisation and reported on `/v1/health`. Nobody estimates anything,
+  # and it cannot go stale as the fleet grows.
+
+bucket:
+  # REQUIRED. The customer's S3-API object store, holding the tap's sealed segments. It must keep
+  # conditional writes (preflight's bucket_fences_writers proves it). We never ship one.
+  url: ""
+  # The destination your taps ship to, ending in the stream's component `kv/` — the tap's
+  # INFERTAP_DEST ends in `kv/`, and so does this (e.g. `infertap/prod-us-east/kv/`).
+  prefix: ""
+  # Credentials come from a Secret you already have, never from this file — a values.yaml is a
+  # file customers commit to git. The key names are configurable because you rarely control what
+  # the keys in an existing Secret are called.
+  # **Leave this empty to use the cluster's own identity instead.** The analyzer asks the AWS
+  # provider chain when no static pair is configured, so an annotated ServiceAccount (below)
+  # reaches the bucket with no secret anywhere in the cluster. That is the stronger posture, and
+  # `serviceAccount.annotations` is what makes it reachable.
+  existingSecret: ""
+  accessKeyIdKey: INFERTAP_S3_ACCESS_KEY_ID
+  secretAccessKeyKey: INFERTAP_S3_SECRET_ACCESS_KEY
+
+# **The pod's identity.**
+#
+# The analyzer resolves a credential from the AWS provider chain whenever `bucket.existingSecret`
+# is unset. On Kubernetes the chain finds IRSA through a projected token mounted because the pod's
+# ServiceAccount carries a role annotation. A pod running as `default` carries none, so
+# "configure no credential" would degrade to the NODE's instance profile, which every pod on that
+# node shares.
+#
+# Nothing here is required. The defaults create a ServiceAccount with no annotations, which is
+# all a deployment using a Secret needs.
+serviceAccount:
+  create: true
+  # Empty means "name it after the release". Set this to use one your platform team already
+  # manages — common where the role binding is provisioned outside the application's chart.
+  name: ""
+  # For EKS/IRSA:
+  #   eks.amazonaws.com/role-arn: arn:aws:iam::<account>:role/<role>
+  # For GKE Workload Identity:
+  #   iam.gke.io/gcp-service-account: <name>@<project>.iam.gserviceaccount.com
+  annotations: {}
+
+persistence:
+  # `false` is a rig, not a deployment. The analyzer's data directory holds the engine's store and
+  # the derived rollups; losing it means re-deriving everything from the bucket, which is designed
+  # to work (replay-is-recovery) and is not something to do on every pod restart.
+  enabled: true
+  size: 500Gi
+  storageClassName: ""
+  # ReadWriteOnce and one replica are the same decision seen twice — see the StatefulSet comment.
+  accessModes:
+    - ReadWriteOnce
+
+# **Requests are a SCHEDULING floor, not a capacity claim.** A default that is right for production
+# but cannot schedule on a modest node turns a tuning decision into a silent outage: the pod sits
+# `Pending`, and the reason lives in `kubectl describe`, not anywhere an installer looks. Peer
+# charts size the same way: `prometheus` ships `resources: {}`, and `elasticsearch`, a stateful,
+# memory-hungry store much like this one, requests 1000m/2Gi and expects you to raise it.
+#
+# **The LIMIT is the capacity lever, and it is generous on purpose.** `daemon::memory` takes the
+# MINIMUM of the cgroup limit and the host's own MemTotal and hands that to the engine, so a large
+# limit reads as "use what this node has" rather than "reserve 32 GiB". Measured on an 8 GB node
+# with this limit: the daemon logs `memory ceiling 7.6 GiB, the host's own`. Lower it when you want
+# the engine capped BELOW the node, which is the only thing lowering it does.
+#
+# The spread between request and limit makes this pod Burstable. Set them equal if you want
+# Guaranteed QoS and no eviction under node pressure; that is a deliberate choice, not a default,
+# because it costs a reservation the analyzer only occasionally needs.
+#
+# **Whether this analyzer is keeping up is not answerable in this file.** It is observed, on
+# `/v1/health`, as ingest utilisation against the envelope. Anything written here would be a guess
+# with a number's confidence.
+resources:
+  limits:
+    memory: 32Gi
+  requests:
+    memory: 2Gi
+    cpu: 500m
+
+# **Preflight runs as an initContainer, so a deployment that cannot work refuses to start.**
+#
+# This closes a parity gap rather than adding a feature: `install.sh` has always gated the VM path
+# on `preflight`, and the chart ran it nowhere. So on Kubernetes a bad bucket URL, a wrong
+# credential, an unwritable volume or a skewed clock all became a running pod that quietly failed
+# later, while the same mistakes on a VM stopped the install with a named reason.
+#
+# The cost, stated because it is real: preflight starts the engine and round-trips one probe object
+# through your bucket on EVERY pod start, so a crash-looping pod writes one small object per
+# attempt under `<prefix>preflight/`. They expire with your own lifecycle policy, like everything
+# else we put there. Turn this off and you are turning off the gate, not tidying the bucket.
+preflight:
+  enabled: true
+
+service:
+  type: ClusterIP
+  consolePort: 8088
+  metricsPort: 9363
+
+ingress:
+  # OFF by default, and `kubectl port-forward` is the documented path (see NOTES.txt). Ingress is
+  # the topology for a cluster with an internal ingress and SSO in front of it — a legitimate one,
+  # and the one that needs the session cookie's `Secure` flag, which the chart sets for you when
+  # this is enabled so the two cannot disagree.
+  enabled: false
+  ingressClassName: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+serviceMonitor:
+  enabled: false
+  interval: 30s
+  labels: {}
+
+# **The startup probe is ON by default, and that is not a default to copy from elsewhere.**
+# Grafana ships `startupProbe: {}`. We cannot: the engine takes time to come up and the first
+# health publication follows it, so liveness without a startup probe fires during a normal cold
+# start and Kubernetes kills a pod that is working. `failureThreshold × periodSeconds` is the
+# budget for a cold start — ten minutes here, and raise it if your storage is slow.
+startupProbe:
+  httpGet:
+    path: /metrics
+    port: metrics
+  periodSeconds: 10
+  failureThreshold: 60
+
+# `/metrics` answers 503 when the health publication is stale, which IS the condition the systemd
+# unit wires to `WatchdogSec`. No endpoint was added for Kubernetes; the signal already existed.
+livenessProbe:
+  httpGet:
+    path: /metrics
+    port: metrics
+  periodSeconds: 30
+  failureThreshold: 3
+
+# Readiness gates the Service, so it answers the same question with a shorter fuse: a pod whose
+# engine has gone away should stop being sent console traffic before it is killed for it.
+readinessProbe:
+  httpGet:
+    path: /metrics
+    port: metrics
+  periodSeconds: 10
+  failureThreshold: 2
+
+# Extra flags for `run`, for a deployment that needs one this chart does not model. Appended after
+# everything the chart builds, so an explicit flag here wins.
+extraArgs: []
+
+podAnnotations: {}
+podLabels: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# The image runs as uid/gid 10001 and needs no privileges. `fsGroup` is what makes the mounted
+# volume writable by that user, and is the one line most often missing from a chart whose pod
+# starts and then cannot write.
+podSecurityContext:
+  fsGroup: 10001
+  runAsNonRoot: true
+  runAsUser: 10001
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL

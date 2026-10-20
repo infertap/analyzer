@@ -1,0 +1,46 @@
+{
+  "cells": [
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+36000 -> 2|16",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+37200 -> 1|16",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+37440 -> 1|32",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+37800 -> 1|8",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+41400 -> 1|64",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+36000 -> 1|8",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+37200 -> 1|16",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+37440 -> 1|32",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+41400 -> 1|64",
+    "band_rank_minute|class=cold|band=none|instance_id=i2|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+36000 -> 1|8",
+    "band_rank_minute|class=cold|band=none|instance_id=i2|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+37800 -> 1|8",
+    "band_rollup_daily|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 4|120",
+    "band_rollup_daily|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i2|dp_rank=0|group_idx=0|bucket=day+0 -> 2|16",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+36000 -> 3|56",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+39600 -> 1|64",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i2|dp_rank=0|group_idx=0|bucket=t+36000 -> 2|16",
+    "class_rollup_daily|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 4|120",
+    "class_rollup_daily|class=cold|workload_class=agentic|model=\\N|instance_id=i2|dp_rank=0|group_idx=0|bucket=day+0 -> 2|16",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+36000 -> 3|56",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+39600 -> 1|64",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i2|dp_rank=0|group_idx=0|bucket=t+36000 -> 2|16",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+36000 -> 2|16",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+37200 -> 1|16",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+37440 -> 1|32",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+37800 -> 1|8",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+41400 -> 1|64",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+36000 -> 1|8",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+37200 -> 1|16",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+37440 -> 1|32",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+41400 -> 1|64",
+    "recompute_rank_minute|class=cold|instance_id=i2|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+36000 -> 1|8",
+    "recompute_rank_minute|class=cold|instance_id=i2|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+37800 -> 1|8"
+  ],
+  "coverage": {
+    "coverage_daily|day=day+0|instance_id=i1": [
+      41699000.0,
+      86400000.0
+    ],
+    "coverage_daily|day=day+0|instance_id=i2": [
+      38999000.0,
+      86400000.0
+    ]
+  }
+}

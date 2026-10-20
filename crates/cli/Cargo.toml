@@ -1,0 +1,54 @@
+[package]
+name = "infertap-analyzer"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "infertap-analyzer"
+path = "src/main.rs"
+
+[dependencies]
+# The bucket layout (`dated`): the shipper's dated tree and the analyzer's own root.
+analyzer-lake = { path = "../lake" }
+log = { version = "0.4", features = ["std"] }
+toml = { version = "0.9", default-features = false, features = ["parse", "serde"] }
+# The shell's error type: one enum, every crate's error passing through it.
+thiserror = "2"
+analyzer-daemon = { path = "../daemon" }
+analyzer-ingest = { path = "../ingest" }
+# The engine the shell starts and migrates, and (`annotate`) the deploy-marker writer
+# `record_deploy`, shared with the serve path so the CLI and the API cannot drift about what a
+# declared deploy is.
+analyzer-serving-clickhouse = { path = "../serving-clickhouse" }
+analyzer-analysis = { path = "../analysis" }
+# The engine-free core: the derivation's execution, over the lake.
+analyzer-pipeline = { path = "../pipeline" }
+# `token issue|rotate`: the CLI mints the viewer credential the read API verifies. It needs no
+# engine and no server -- the store is a file beside the data directory.
+analyzer-api = { path = "../api" }
+# selftest parses its embedded corpus fixtures and serializes derived snapshots
+serde_json = "1.0"
+tikv-jemallocator = { version = "0.7", features = ["background_threads", "stats"] }
+
+[dev-dependencies]
+# The shared test harness, for the journal the chaos drill reads.
+harness = { path = "../harness", package = "analyzer-harness" }
+# The static audit's kind-coverage guard compares the pinned corpora against the reader's
+# own kind roster — `models_kind` lives with the families it lists.
+analyzer-segments = { path = "../segments" }
+# The chaos drill writes its segments through the product's own transport; the engine has no
+# bucket to write to any more. `testing` for the journal helpers the pipeline suite shares,
+# which read a stopped daemon's journal from the drill bucket.
+analyzer-objectstore = { path = "../objectstore", features = ["testing"] }
+# D2b: the suite runs against the shipped backend through the shared-server fixture.
+analyzer-serving-clickhouse = { path = "../serving-clickhouse", features = ["testing"] }

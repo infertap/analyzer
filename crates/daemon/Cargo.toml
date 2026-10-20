@@ -1,0 +1,50 @@
+[package]
+name = "analyzer-daemon"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# The bucket layout (`dated`): the shipper's dated tree and the analyzer's own root.
+analyzer-lake = { path = "../lake" }
+log = { version = "0.4", features = ["std"] }
+# The crate's error type: one enum, every variant rendering the message it replaced.
+thiserror = "2"
+# The object-storage port: preflight probes the bucket through the transport the PRODUCT uses,
+# not through the engine's S3 client.
+analyzer-objectstore = { path = "../objectstore" }
+# The loop composes the existing boundaries and adds no external dependency of its own.
+# Deliberate: the daemon is cadence and policy, and every operation it schedules already
+# belongs to a crate below it. The serving store: the engine the daemon owns, the port it
+# publishes through, and the reads its /metrics figures come from.
+analyzer-serving-clickhouse = { path = "../serving-clickhouse" }
+analyzer-ingest = { path = "../ingest" }
+analyzer-analysis = { path = "../analysis" }
+# The engine-free core: the derivation's execution, over the lake.
+analyzer-pipeline = { path = "../pipeline" }
+# D3: SIGTERM. A daemon that cannot be stopped cleanly is one that runs its crash-recovery
+# path on every ordinary `systemctl stop` -- correct, but recovery-as-steady-state is the
+# shape this build exists to avoid. `std` has no signal API and `libc` is forbidden in our
+# own sources, so catching one needs a crate. signal-hook's `flag` module is the minimal
+# form: it registers an async-signal-safe handler that does nothing but set an AtomicBool,
+# which is exactly what `Shutdown` already is -- no thread, no runtime, no channel.
+# Default features off: the crate's iterator/pipe machinery needs a reactor we do not want.
+signal-hook = { version = "0.3", default-features = false }
+
+[dev-dependencies]
+# The shared test harness: planted streams and the journal faults.
+harness = { path = "../harness", package = "analyzer-harness" }
+analyzer-serving-clickhouse = { path = "../serving-clickhouse", features = ["testing"] }
+analyzer-objectstore = { path = "../objectstore", features = ["testing"] }
+# tests author a records corpus and read back the health artifact; the crate itself
+# serializes nothing.
+serde_json = "1.0"

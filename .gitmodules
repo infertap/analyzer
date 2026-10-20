@@ -1,0 +1,3 @@
+[submodule "contract/inference-events"]
+	path = contract/inference-events
+	url = https://github.com/infertap/inference-events.git

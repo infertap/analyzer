@@ -1,0 +1,36 @@
+[package]
+name = "analyzer-ingest"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+log = { version = "0.4", features = ["std"] }
+# The crate's error type: one enum, every variant rendering the message it replaced.
+thiserror = "2"
+# The object-storage port. Ingest fetches segment bytes itself now; the engine is handed
+# rows, never asked to be an HTTP client.
+analyzer-objectstore = { path = "../objectstore" }
+# The input log: ingest writes it.
+analyzer-lake = { path = "../lake" }
+# The record model's decode, a crate of its own so a consumer can link a segment reader
+# without linking a database — see that crate's header.
+analyzer-segments = { path = "../segments" }
+# The reader's wire format IS JSON: parsing the tap's JSONL and writing the shaped
+# NDJSON hand-off both need it. std has no JSON.
+serde_json = "1.0"
+
+[dev-dependencies]
+# D2b: the suites that meet the engine run against the shipped backend through the
+# shared-server fixture.
+# The fault store (`testing::FaultyStore`), for a cycle whose commit the log refuses.
+analyzer-objectstore = { path = "../objectstore", features = ["testing"] }

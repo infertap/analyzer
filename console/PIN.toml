@@ -1,0 +1,48 @@
+# The console pin.
+#
+# **The hash is the pin. The transport is not.** `contract/PIN.md` pins the inference-events spec
+# as a submodule gitlink, because the thing pinned there IS the bytes this repo consumes — a
+# corpus, read as-is. The console is different in one way that decides the whole design: **a
+# build stands between its source and what we embed.** Pinning the source would leave the built
+# artifact unpinned, and closing that gap by running `npm` inside `cargo build` would make the
+# Rust build non-hermetic, dependent on a Node toolchain and the npm registry, and unable to
+# complete on a clean box.
+#
+# So this pins the ARTIFACT by content hash, and `scripts/stage-console.sh` will accept those
+# bytes from anywhere — a local `npm run build`, or a signed release tarball once the console has
+# a release pipeline — because it hashes whatever arrives before letting it stay.
+# `crates/api/build.rs` hashes again at embed time. Two checks, because staging and embedding are
+# different moments and a hand-copied directory should not survive either.
+#
+# **Moving this file is how a console version lands.** The bump commit carries the new version,
+# the new hash, and nothing else.
+
+version = "v1.0.12"
+
+# SHA-256 over the staged tree: a manifest of `<relative path>\0<sha256 of contents>` for every
+# file, sorted under `LC_ALL=C`, hashed whole. `scripts/console-hash.sh` is the one definition and
+# prints the manifest with `--manifest` when something disagrees.
+#
+# It covers exactly what gets embedded. Staging strips source maps first, so a map appearing or
+# vanishing cannot move the hash of a bundle whose served bytes are identical.
+content_hash = "331e1677f4ac5ad54e2f25608621eb22f59ffc5cd3f6abf987235e6606c2bce9"
+
+# Where the bytes came from, for a human tracing provenance. NOT what is verified — the hash is.
+# A commit is recorded rather than relied on because a build from it is reproducible only with
+# its lockfile and Node version, both of which live in the console repository.
+source_repo = "https://github.com/infertap/console"
+source_commit = "4befa12bdc4c1daf686eb9884b0785847569f80f"
+
+# What the bundle carries:
+#
+#   - the reviewed surfaces, the drill grammar and the refusal vocabulary, built against this
+#     repository's `contract/openapi.json` at the commit the console's own `contract/PIN.md` names
+#   - no source maps: they are produced for support and never ship
+#   - an empty `VITE_API_BASE`, so every request is same-origin and no host is written down
+#     anywhere in the bundle
+#   - no fixture corpus: `sideEffects: ["*.css"]` lets the bundler drop it, and the console's
+#     corpus audit derives its markers from the fixture's own sources and finds none in the build
+#
+# **What the pin cannot catch.** A hash proves the bytes we embed are the bytes that were
+# reviewed. It says nothing about whether those bytes agree with the API in this same binary:
+# the console's `contract/PIN.md` and its contract test carry that agreement.

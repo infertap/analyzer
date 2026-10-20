@@ -1,0 +1,228 @@
+{
+  "claim": "a tap behind the fleet holds the tick at the fleet's arrival watermark: the rows the taps ahead shipped past it wait in scratch and the next in-order tick takes them seeded; a tap thirty minutes behind the fleet's newest leaves the watermark and the fleet moves on",
+  "waves": [
+    {
+      "expect_sliced": false,
+      "records": [
+        {
+          "kind": "agent_start",
+          "at_ms": 34200000.0,
+          "incarnation": "run-a",
+          "canary": "k-run-a",
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 34800000.0,
+          "incarnation": "run-a",
+          "canary": "k-run-a",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://i1:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 34800000.0
+            }
+          ]
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "p",
+          "content_id": "p",
+          "at_ms": 36000000.0,
+          "incarnation": "run-a",
+          "workload_class": "agentic",
+          "n_tokens": 8
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "q",
+          "content_id": "q",
+          "at_ms": 37200000.0,
+          "incarnation": "run-a",
+          "workload_class": "agentic",
+          "n_tokens": 16
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "r",
+          "content_id": "r",
+          "at_ms": 37440000.0,
+          "incarnation": "run-a",
+          "workload_class": "agentic",
+          "n_tokens": 32
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 37500000.0,
+          "incarnation": "run-a",
+          "canary": "k-run-a",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://i1:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 37500000.0
+            }
+          ]
+        },
+        {
+          "kind": "agent_start",
+          "at_ms": 34200000.0,
+          "incarnation": "run-b",
+          "canary": "k-run-b",
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 34800000.0,
+          "incarnation": "run-b",
+          "canary": "k-run-b",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i2",
+              "endpoint": "tcp://i2:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 34800000.0
+            }
+          ]
+        },
+        {
+          "kind": "store",
+          "instance_id": "i2",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "s",
+          "content_id": "s",
+          "at_ms": 36000000.0,
+          "incarnation": "run-b",
+          "workload_class": "agentic",
+          "n_tokens": 8
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 36600000.0,
+          "incarnation": "run-b",
+          "canary": "k-run-b",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i2",
+              "endpoint": "tcp://i2:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 36600000.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expect_sliced": true,
+      "records": [
+        {
+          "kind": "store",
+          "instance_id": "i2",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "t",
+          "content_id": "t",
+          "at_ms": 37800000.0,
+          "incarnation": "run-b",
+          "workload_class": "agentic",
+          "n_tokens": 8
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 39000000.0,
+          "incarnation": "run-b",
+          "canary": "k-run-b",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i2",
+              "endpoint": "tcp://i2:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 39000000.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expect_sliced": true,
+      "records": [
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "u",
+          "content_id": "u",
+          "at_ms": 41400000.0,
+          "incarnation": "run-a",
+          "workload_class": "agentic",
+          "n_tokens": 64
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 41700000.0,
+          "incarnation": "run-a",
+          "canary": "k-run-a",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://i1:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 41700000.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

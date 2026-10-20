@@ -1,0 +1,23 @@
+{
+  "claim": "a re-admit onto an open residency is the same one copy, so a fleet holding everything once emits band 1 and nothing else",
+  "expect_fleet_cells": [["1", "none"]],
+  "waves": [
+    {
+      "records": [
+        { "kind": "agent_start", "at_ms": 1800000.0, "incarnation": "run-1", "canary": "k1", "heartbeat_secs": 60, "max_segment_secs": 300 },
+        { "kind": "heartbeat", "at_ms": 2160000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 10, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 2160000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 2160000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 3360000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 11, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 3360000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 3360000.0 } ] },
+        { "kind": "store", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 3600000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 6 },
+        { "kind": "heartbeat", "at_ms": 4560000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 12, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 4560000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 4560000.0 } ] },
+        { "kind": "store", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 5400000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 6 },
+        { "kind": "heartbeat", "at_ms": 5760000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 13, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 5760000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 5760000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 6960000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 14, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 6960000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 6960000.0 } ] },
+        { "kind": "evict", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 7200000.0, "incarnation": "run-1", "workload_class": "agentic" },
+        { "kind": "store", "instance_id": "i2", "dp_rank": 0, "group_idx": 0, "block_id": "c", "content_id": "c", "at_ms": 7200000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 4 },
+        { "kind": "heartbeat", "at_ms": 8160000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 15, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 8160000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 8160000.0 } ] },
+        { "kind": "evict", "instance_id": "i2", "dp_rank": 0, "group_idx": 0, "block_id": "c", "content_id": "c", "at_ms": 9000000.0, "incarnation": "run-1", "workload_class": "agentic" },
+        { "kind": "heartbeat", "at_ms": 9360000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 16, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 9360000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 9360000.0 } ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+[package]
+name = "analyzer-serving-clickhouse"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+# D2b's shared-server fixture, compiled only for tests that ask for it (a dev-dependency
+# with this feature). Never on in a shipped build: the product has no test server.
+testing = []
+
+[dependencies]
+log = { version = "0.4", features = ["std"] }
+# The crate's error types: one enum per boundary, every variant rendering the message it
+# replaced.
+thiserror = "2"
+# Server posture (D1): the ephemeral engine credential is a random password whose
+# SHA-256 is the only form that reaches disk.
+sha2 = "0.10"
+# D2, the engine-boundary transport: the OFFICIAL ClickHouse client, chosen over a
+# hand-rolled HTTP call because the wire has a documented 200-is-not-success edge every
+# mature driver absorbs, and CVE-tracked beats bespoke in a customer's security review.
+# `default-features = false` drops lz4: compression buys nothing over loopback and would
+# put a codec in the SBOM for no gain. No TLS feature is enabled — the only endpoint this
+# client may address is 127.0.0.1, enforced in code.
+clickhouse = { version = "0.15", default-features = false }
+# The async boundary stops at this crate: one current-thread runtime, `block_on` inside
+# `Engine`, a sync API above. `rt` builds it, `net`/`time` are what the HTTP client needs
+# to drive a socket; nothing else is enabled.
+tokio = { version = "1", default-features = false, features = ["rt", "net", "time"] }
+# The namespace binding and the self-health artifacts travel as JSON.
+serde_json = "1.0"
+analyzer-analysis = { path = "../analysis" }
+# The bucket layout (`dated`): a partition's day, and the self-health's view of the input
+# log.
+analyzer-lake = { path = "../lake" }
+# The core this crate serves: the serving port it implements, and the executor the read
+# layer asks the durable standing of.
+analyzer-pipeline = { path = "../pipeline" }
+# The declared-annotation contract and its ONE row writer live in ingest (the crate that
+# owns inbound formats, 2026-08-28); `record_deploy` here delegates, and the module is
+# re-exported so the API builds the durable object through this one surface.
+analyzer-ingest = { path = "../ingest" }
+
+[dev-dependencies]
+# The shared test harness, for the journal the marker pins edit.
+harness = { path = "../harness", package = "analyzer-harness" }
+# The crate dev-depends on ITSELF to switch its own `testing` feature on for tests
+# (cargo's supported shape for exactly this): `cargo test` gets the fixture, a shipped
+# build never sees it.
+analyzer-serving-clickhouse = { path = ".", features = ["testing"] }
+# The lake-side seam a drill test states its facts through.
+analyzer-pipeline = { path = "../pipeline" }
+# The drill-tier pin writes derived files through the port's directory form; the marker
+# pins edit the execution journal through the shared journal helpers (`testing`).
+analyzer-objectstore = { path = "../objectstore", features = ["testing"] }

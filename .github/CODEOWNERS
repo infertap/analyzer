@@ -1,0 +1,30 @@
+# Review routing. One line per crate, because the crate DAG is the boundary map
+# (ARCHITECTURE.md): a change inside a crate is reviewed by whoever owns that boundary.
+# The owner is a placeholder until maintainers are named per area; the FILE is the
+# mechanism, and a later line only ever narrows an earlier one.
+
+*                          @fishercort
+
+# The library: the fold and what feeds it.
+/crates/analysis/          @fishercort
+/crates/segments/          @fishercort
+/crates/objectstore/       @fishercort
+/crates/serving-clickhouse/ @fishercort
+/crates/ingest/            @fishercort
+/crates/pipeline/          @fishercort
+
+# The application: reads, the API, the loop, the binary.
+/crates/api/               @fishercort
+/crates/daemon/            @fishercort
+/crates/cli/               @fishercort
+
+# The contracts a change here can break for someone else.
+/contract/                 @fishercort
+/fixtures/                 @fishercort
+/conformance/              @fishercort
+
+# How it ships and how it is checked.
+/.github/                  @fishercort
+/scripts/                  @fishercort
+/charts/                   @fishercort
+/packaging/                @fishercort

@@ -1,0 +1,36 @@
+{
+  "cells": [
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+82800 -> 1|8",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+88920 -> 1|8",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+94320 -> 1|16",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+82800 -> 1|8",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+88920 -> 1|8",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+94320 -> 1|16",
+    "band_rollup_daily|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 1|8",
+    "band_rollup_daily|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+1 -> 2|24",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+82800 -> 1|8",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+86400 -> 1|8",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+93600 -> 1|16",
+    "class_rollup_daily|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 1|8",
+    "class_rollup_daily|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+1 -> 2|24",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+82800 -> 1|8",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+86400 -> 1|8",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+93600 -> 1|16",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+82800 -> 1|8",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+88920 -> 1|8",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+94320 -> 1|16",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+82800 -> 1|8",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+88920 -> 1|8",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+94320 -> 1|16"
+  ],
+  "coverage": {
+    "coverage_daily|day=day+0|instance_id=i1": [
+      86400000.0,
+      86400000.0
+    ],
+    "coverage_daily|day=day+1|instance_id=i1": [
+      8279000.0,
+      86400000.0
+    ]
+  }
+}

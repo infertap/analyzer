@@ -1,0 +1,49 @@
+[package]
+name = "analyzer-segments"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+inference-events = { version = "1.0.0", path = "../../contract/inference-events/crates/model" }
+# The crate's error type: one enum, every variant rendering the message it replaced.
+thiserror = "2"
+# **The absence of the STORE is the assertion.** This crate is what a consumer links to read
+# sealed segments without running our appliance: the record model's decode and nothing else.
+# It MUST NOT gain `analyzer-serving-clickhouse` — a reader that drags in a database it never calls is not
+# a reader a partner can deploy, and that transitive dependency is exactly why this crate
+# exists. The external column is a reviewed budget, not a count: when
+# the shipped encoding is Parquet, the `parquet` crate IS the decode of the shipped form, and
+# refusing it would not keep the partner closure small — it would keep the crate unable to read
+# what the tap ships.
+#
+# The write-ahead form is JSON (serde_json); the content-hash batch key is SHA-256 rendered hex
+# (sha2, hex); the shipped form is Parquet (parquet — `snap` because Snappy is the contract's
+# codec floor, spec 2.1; `arrow` because the derivation re-reads the same segments on every
+# tick, and for that access pattern the columnar batch read with row-group pruning and
+# projection pushdown IS the decode — a row-at-a-time source would spend the whole Parquet
+# conversion to read Parquet like JSONL. The
+# workspace column stays empty; the store never enters this closure).
+#
+# `bytes` is already in parquet's own closure and is here only because parquet's reader takes
+# its in-memory input as `bytes::Bytes` — the sole public `ChunkReader` over bytes at this
+# pin — and constructing one requires naming the type. `arrow-array`/`arrow-schema` are the
+# same shape one layer up: the arrow feature already puts both in the tree, and they are named
+# here only because parquet yields `RecordBatch`es without re-exporting the types that read
+# them. No new crate enters the tree; every version is parquet's own.
+serde_json = "1.0"
+sha2 = "0.10"
+hex = "0.4"
+parquet = { version = "59.2", default-features = false, features = ["snap", "arrow"] }
+bytes = "1"
+arrow-array = "59.2"
+arrow-schema = "59.2"

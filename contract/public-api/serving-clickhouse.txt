@@ -1,0 +1,1915 @@
+pub mod analyzer_serving_clickhouse
+pub use analyzer_serving_clickhouse::DeployAnnotation
+pub use analyzer_serving_clickhouse::DeploySource
+pub use analyzer_serving_clickhouse::Discriminator
+pub use analyzer_serving_clickhouse::Holder
+pub use analyzer_serving_clickhouse::RunStaleness
+pub use analyzer_serving_clickhouse::annotations
+pub mod analyzer_serving_clickhouse::bands
+pub struct analyzer_serving_clickhouse::bands::BandLens
+pub analyzer_serving_clickhouse::bands::BandLens::evidence: analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::bands::BandLens::gap_unobserved: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::bands::BandLens::gap_unobserved_events: u64
+pub analyzer_serving_clickhouse::bands::BandLens::holders: core::option::Option<analyzer_serving_clickhouse::bands::HolderBound>
+pub analyzer_serving_clickhouse::bands::BandLens::rows: alloc::vec::Vec<analyzer_serving_clickhouse::bands::BandRow>
+impl core::clone::Clone for analyzer_serving_clickhouse::bands::BandLens
+pub fn analyzer_serving_clickhouse::bands::BandLens::clone(&self) -> analyzer_serving_clickhouse::bands::BandLens
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::bands::BandLens
+pub fn analyzer_serving_clickhouse::bands::BandLens::eq(&self, &analyzer_serving_clickhouse::bands::BandLens) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::bands::BandLens
+pub fn analyzer_serving_clickhouse::bands::BandLens::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::bands::BandLens
+pub struct analyzer_serving_clickhouse::bands::BandRead
+pub analyzer_serving_clickhouse::bands::BandRead::evidence: analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::bands::BandRead::rows: alloc::vec::Vec<analyzer_serving_clickhouse::bands::BandRow>
+impl analyzer_serving_clickhouse::bands::BandRead
+pub fn analyzer_serving_clickhouse::bands::BandRead::lens(self, core::option::Option<usize>) -> analyzer_serving_clickhouse::bands::BandLens
+impl core::clone::Clone for analyzer_serving_clickhouse::bands::BandRead
+pub fn analyzer_serving_clickhouse::bands::BandRead::clone(&self) -> analyzer_serving_clickhouse::bands::BandRead
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::bands::BandRead
+pub fn analyzer_serving_clickhouse::bands::BandRead::eq(&self, &analyzer_serving_clickhouse::bands::BandRead) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::bands::BandRead
+pub fn analyzer_serving_clickhouse::bands::BandRead::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::bands::BandRead
+pub struct analyzer_serving_clickhouse::bands::BandRow
+pub analyzer_serving_clickhouse::bands::BandRow::band: alloc::string::String
+pub analyzer_serving_clickhouse::bands::BandRow::bucket: alloc::string::String
+pub analyzer_serving_clickhouse::bands::BandRow::dims: alloc::vec::Vec<(analyzer_serving_clickhouse::Dim, alloc::string::String)>
+pub analyzer_serving_clickhouse::bands::BandRow::events: u64
+pub analyzer_serving_clickhouse::bands::BandRow::tokens: analyzer_serving_clickhouse::Covered<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::bands::BandRow
+pub fn analyzer_serving_clickhouse::bands::BandRow::clone(&self) -> analyzer_serving_clickhouse::bands::BandRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::bands::BandRow
+pub fn analyzer_serving_clickhouse::bands::BandRow::eq(&self, &analyzer_serving_clickhouse::bands::BandRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::bands::BandRow
+pub fn analyzer_serving_clickhouse::bands::BandRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::bands::BandRow
+pub struct analyzer_serving_clickhouse::bands::HolderBound
+pub analyzer_serving_clickhouse::bands::HolderBound::population: u64
+pub analyzer_serving_clickhouse::bands::HolderBound::returned: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::bands::HolderBound
+pub fn analyzer_serving_clickhouse::bands::HolderBound::clone(&self) -> analyzer_serving_clickhouse::bands::HolderBound
+impl core::cmp::Eq for analyzer_serving_clickhouse::bands::HolderBound
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::bands::HolderBound
+pub fn analyzer_serving_clickhouse::bands::HolderBound::eq(&self, &analyzer_serving_clickhouse::bands::HolderBound) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::bands::HolderBound
+pub fn analyzer_serving_clickhouse::bands::HolderBound::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::bands::HolderBound
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::bands::HolderBound
+pub mod analyzer_serving_clickhouse::coverage
+pub enum analyzer_serving_clickhouse::coverage::CoverageBy
+pub analyzer_serving_clickhouse::coverage::CoverageBy::Fleet
+pub analyzer_serving_clickhouse::coverage::CoverageBy::Instance
+impl core::clone::Clone for analyzer_serving_clickhouse::coverage::CoverageBy
+pub fn analyzer_serving_clickhouse::coverage::CoverageBy::clone(&self) -> analyzer_serving_clickhouse::coverage::CoverageBy
+impl core::cmp::Eq for analyzer_serving_clickhouse::coverage::CoverageBy
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::coverage::CoverageBy
+pub fn analyzer_serving_clickhouse::coverage::CoverageBy::eq(&self, &analyzer_serving_clickhouse::coverage::CoverageBy) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::coverage::CoverageBy
+pub fn analyzer_serving_clickhouse::coverage::CoverageBy::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::coverage::CoverageBy
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::coverage::CoverageBy
+pub struct analyzer_serving_clickhouse::coverage::CoverageRow
+pub analyzer_serving_clickhouse::coverage::CoverageRow::covered_ms: f64
+pub analyzer_serving_clickhouse::coverage::CoverageRow::day: alloc::string::String
+pub analyzer_serving_clickhouse::coverage::CoverageRow::fraction: f64
+pub analyzer_serving_clickhouse::coverage::CoverageRow::instance: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::coverage::CoverageRow::instances: u64
+pub analyzer_serving_clickhouse::coverage::CoverageRow::token_mass: core::option::Option<f64>
+pub analyzer_serving_clickhouse::coverage::CoverageRow::token_weighted_fraction: core::option::Option<f64>
+pub analyzer_serving_clickhouse::coverage::CoverageRow::token_wsum: core::option::Option<f64>
+pub analyzer_serving_clickhouse::coverage::CoverageRow::window_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::coverage::CoverageRow
+pub fn analyzer_serving_clickhouse::coverage::CoverageRow::clone(&self) -> analyzer_serving_clickhouse::coverage::CoverageRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::coverage::CoverageRow
+pub fn analyzer_serving_clickhouse::coverage::CoverageRow::eq(&self, &analyzer_serving_clickhouse::coverage::CoverageRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::coverage::CoverageRow
+pub fn analyzer_serving_clickhouse::coverage::CoverageRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::coverage::CoverageRow
+pub mod analyzer_serving_clickhouse::delivery
+pub struct analyzer_serving_clickhouse::delivery::DeliveryReport
+pub analyzer_serving_clickhouse::delivery::DeliveryReport::orphan_batches: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryReport::rows: alloc::vec::Vec<analyzer_serving_clickhouse::delivery::DeliveryRow>
+pub analyzer_serving_clickhouse::delivery::DeliveryReport::totals: analyzer_serving_clickhouse::delivery::DeliveryTotals
+impl core::clone::Clone for analyzer_serving_clickhouse::delivery::DeliveryReport
+pub fn analyzer_serving_clickhouse::delivery::DeliveryReport::clone(&self) -> analyzer_serving_clickhouse::delivery::DeliveryReport
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::delivery::DeliveryReport
+pub fn analyzer_serving_clickhouse::delivery::DeliveryReport::eq(&self, &analyzer_serving_clickhouse::delivery::DeliveryReport) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::delivery::DeliveryReport
+pub fn analyzer_serving_clickhouse::delivery::DeliveryReport::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::delivery::DeliveryReport
+pub struct analyzer_serving_clickhouse::delivery::DeliveryRow
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::first_seen_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::incarnation: alloc::string::String
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::instances: alloc::vec::Vec<alloc::string::String>
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::last_seen_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::records_dropped_at_source: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::records_oversized: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::records_seen: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::segments_captured: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::segments_declared_dropped: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::segments_expected: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryRow::segments_missing_unexplained: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::delivery::DeliveryRow
+pub fn analyzer_serving_clickhouse::delivery::DeliveryRow::clone(&self) -> analyzer_serving_clickhouse::delivery::DeliveryRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::delivery::DeliveryRow
+pub fn analyzer_serving_clickhouse::delivery::DeliveryRow::eq(&self, &analyzer_serving_clickhouse::delivery::DeliveryRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::delivery::DeliveryRow
+pub fn analyzer_serving_clickhouse::delivery::DeliveryRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::delivery::DeliveryRow
+pub struct analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::as_of_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::fraction: core::option::Option<f64>
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::records_dropped_at_source: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::records_oversized: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::records_seen: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::segments_captured: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::segments_declared_dropped: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::segments_expected: u64
+pub analyzer_serving_clickhouse::delivery::DeliveryTotals::segments_missing_unexplained: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub fn analyzer_serving_clickhouse::delivery::DeliveryTotals::clone(&self) -> analyzer_serving_clickhouse::delivery::DeliveryTotals
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub fn analyzer_serving_clickhouse::delivery::DeliveryTotals::eq(&self, &analyzer_serving_clickhouse::delivery::DeliveryTotals) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub fn analyzer_serving_clickhouse::delivery::DeliveryTotals::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub mod analyzer_serving_clickhouse::drill
+pub enum analyzer_serving_clickhouse::drill::EvidenceOf
+pub analyzer_serving_clickhouse::drill::EvidenceOf::Block(alloc::string::String)
+pub analyzer_serving_clickhouse::drill::EvidenceOf::Holder(analyzer_analysis::intervals::Holder)
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::EvidenceOf
+pub fn analyzer_serving_clickhouse::drill::EvidenceOf::clone(&self) -> analyzer_serving_clickhouse::drill::EvidenceOf
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::EvidenceOf
+pub fn analyzer_serving_clickhouse::drill::EvidenceOf::eq(&self, &analyzer_serving_clickhouse::drill::EvidenceOf) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::EvidenceOf
+pub fn analyzer_serving_clickhouse::drill::EvidenceOf::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::EvidenceOf
+pub enum analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::drill::RawReach::Covers
+pub analyzer_serving_clickhouse::drill::RawReach::Outside
+pub analyzer_serving_clickhouse::drill::RawReach::Outside::raw_from_ms: core::option::Option<f64>
+impl analyzer_serving_clickhouse::drill::RawReach
+pub fn analyzer_serving_clickhouse::drill::RawReach::covers(self) -> bool
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::RawReach
+pub fn analyzer_serving_clickhouse::drill::RawReach::clone(&self) -> analyzer_serving_clickhouse::drill::RawReach
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::RawReach
+pub fn analyzer_serving_clickhouse::drill::RawReach::eq(&self, &analyzer_serving_clickhouse::drill::RawReach) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::RawReach
+pub fn analyzer_serving_clickhouse::drill::RawReach::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::drill::RawReach
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::RawReach
+pub struct analyzer_serving_clickhouse::drill::DayDetail
+pub analyzer_serving_clickhouse::drill::DayDetail::by_class: alloc::vec::Vec<(alloc::string::String, analyzer_serving_clickhouse::Covered<f64>)>
+pub analyzer_serving_clickhouse::drill::DayDetail::coverage: core::option::Option<analyzer_serving_clickhouse::Covered<f64>>
+pub analyzer_serving_clickhouse::drill::DayDetail::day: alloc::string::String
+pub analyzer_serving_clickhouse::drill::DayDetail::evidence: analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::drill::DayDetail::holders: alloc::vec::Vec<analyzer_serving_clickhouse::holders::HolderRow>
+pub analyzer_serving_clickhouse::drill::DayDetail::holders_next: core::option::Option<analyzer_serving_clickhouse::holders::HolderCursor>
+pub analyzer_serving_clickhouse::drill::DayDetail::holders_total: usize
+pub analyzer_serving_clickhouse::drill::DayDetail::window: analyzer_analysis::Window
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::DayDetail
+pub fn analyzer_serving_clickhouse::drill::DayDetail::clone(&self) -> analyzer_serving_clickhouse::drill::DayDetail
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::DayDetail
+pub fn analyzer_serving_clickhouse::drill::DayDetail::eq(&self, &analyzer_serving_clickhouse::drill::DayDetail) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::DayDetail
+pub fn analyzer_serving_clickhouse::drill::DayDetail::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::DayDetail
+pub struct analyzer_serving_clickhouse::drill::Evidence
+pub analyzer_serving_clickhouse::drill::Evidence::reach: analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::drill::Evidence::read_from: analyzer_serving_clickhouse::events::ReadFrom
+pub analyzer_serving_clickhouse::drill::Evidence::records: alloc::vec::Vec<analyzer_serving_clickhouse::drill::EvidenceRecord>
+pub analyzer_serving_clickhouse::drill::Evidence::subject: analyzer_serving_clickhouse::drill::EvidenceOf
+pub analyzer_serving_clickhouse::drill::Evidence::truncated: bool
+pub analyzer_serving_clickhouse::drill::Evidence::window: analyzer_analysis::Window
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::Evidence
+pub fn analyzer_serving_clickhouse::drill::Evidence::clone(&self) -> analyzer_serving_clickhouse::drill::Evidence
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::Evidence
+pub fn analyzer_serving_clickhouse::drill::Evidence::eq(&self, &analyzer_serving_clickhouse::drill::Evidence) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::Evidence
+pub fn analyzer_serving_clickhouse::drill::Evidence::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::Evidence
+pub struct analyzer_serving_clickhouse::drill::EvidenceCursor
+pub analyzer_serving_clickhouse::drill::EvidenceCursor::at_ms: f64
+pub analyzer_serving_clickhouse::drill::EvidenceCursor::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::drill::EvidenceCursor::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::drill::EvidenceCursor::key_epoch: core::option::Option<u32>
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::EvidenceCursor
+pub fn analyzer_serving_clickhouse::drill::EvidenceCursor::clone(&self) -> analyzer_serving_clickhouse::drill::EvidenceCursor
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::EvidenceCursor
+pub fn analyzer_serving_clickhouse::drill::EvidenceCursor::eq(&self, &analyzer_serving_clickhouse::drill::EvidenceCursor) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::EvidenceCursor
+pub fn analyzer_serving_clickhouse::drill::EvidenceCursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::EvidenceCursor
+pub struct analyzer_serving_clickhouse::drill::EvidenceRecord
+pub analyzer_serving_clickhouse::drill::EvidenceRecord::at_ms: f64
+pub analyzer_serving_clickhouse::drill::EvidenceRecord::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::drill::EvidenceRecord::class: alloc::string::String
+pub analyzer_serving_clickhouse::drill::EvidenceRecord::coverage: f64
+pub analyzer_serving_clickhouse::drill::EvidenceRecord::gap_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::drill::EvidenceRecord::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::drill::EvidenceRecord::key_epoch: core::option::Option<u32>
+pub analyzer_serving_clickhouse::drill::EvidenceRecord::n_tokens: u64
+impl analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::EvidenceRecord::cursor(&self) -> analyzer_serving_clickhouse::drill::EvidenceCursor
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::EvidenceRecord::clone(&self) -> analyzer_serving_clickhouse::drill::EvidenceRecord
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::EvidenceRecord::eq(&self, &analyzer_serving_clickhouse::drill::EvidenceRecord) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::EvidenceRecord::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::day_window(&str) -> core::result::Result<analyzer_analysis::Window, analyzer_serving_clickhouse::Error>
+pub mod analyzer_serving_clickhouse::engine
+pub mod analyzer_serving_clickhouse::engine::server
+pub enum analyzer_serving_clickhouse::engine::server::DaemonClaim
+pub analyzer_serving_clickhouse::engine::server::DaemonClaim::AdoptedOrphan(u32)
+pub analyzer_serving_clickhouse::engine::server::DaemonClaim::Fresh
+impl core::clone::Clone for analyzer_serving_clickhouse::engine::server::DaemonClaim
+pub fn analyzer_serving_clickhouse::engine::server::DaemonClaim::clone(&self) -> analyzer_serving_clickhouse::engine::server::DaemonClaim
+impl core::cmp::Eq for analyzer_serving_clickhouse::engine::server::DaemonClaim
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::engine::server::DaemonClaim
+pub fn analyzer_serving_clickhouse::engine::server::DaemonClaim::eq(&self, &analyzer_serving_clickhouse::engine::server::DaemonClaim) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::server::DaemonClaim
+pub fn analyzer_serving_clickhouse::engine::server::DaemonClaim::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::engine::server::DaemonClaim
+pub enum analyzer_serving_clickhouse::engine::server::Owner
+pub analyzer_serving_clickhouse::engine::server::Owner::Free
+pub analyzer_serving_clickhouse::engine::server::Owner::Live(u32)
+pub analyzer_serving_clickhouse::engine::server::Owner::Stale(u32)
+impl core::clone::Clone for analyzer_serving_clickhouse::engine::server::Owner
+pub fn analyzer_serving_clickhouse::engine::server::Owner::clone(&self) -> analyzer_serving_clickhouse::engine::server::Owner
+impl core::cmp::Eq for analyzer_serving_clickhouse::engine::server::Owner
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::engine::server::Owner
+pub fn analyzer_serving_clickhouse::engine::server::Owner::eq(&self, &analyzer_serving_clickhouse::engine::server::Owner) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::server::Owner
+pub fn analyzer_serving_clickhouse::engine::server::Owner::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::engine::server::Owner
+pub struct analyzer_serving_clickhouse::engine::server::Credential
+pub analyzer_serving_clickhouse::engine::server::Credential::user: alloc::string::String
+impl analyzer_serving_clickhouse::engine::server::Credential
+pub fn analyzer_serving_clickhouse::engine::server::Credential::generate(&str) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::Credential::password(&self) -> &str
+pub fn analyzer_serving_clickhouse::engine::server::Credential::sha256_hex(&self) -> &str
+impl core::clone::Clone for analyzer_serving_clickhouse::engine::server::Credential
+pub fn analyzer_serving_clickhouse::engine::server::Credential::clone(&self) -> analyzer_serving_clickhouse::engine::server::Credential
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::server::Credential
+pub fn analyzer_serving_clickhouse::engine::server::Credential::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_serving_clickhouse::engine::server::DaemonGuard
+impl analyzer_serving_clickhouse::engine::server::DaemonGuard
+pub fn analyzer_serving_clickhouse::engine::server::DaemonGuard::claim(&self) -> &analyzer_serving_clickhouse::engine::server::DaemonClaim
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::server::DaemonGuard
+pub fn analyzer_serving_clickhouse::engine::server::DaemonGuard::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::ops::drop::Drop for analyzer_serving_clickhouse::engine::server::DaemonGuard
+pub fn analyzer_serving_clickhouse::engine::server::DaemonGuard::drop(&mut self)
+pub struct analyzer_serving_clickhouse::engine::server::ServerConfig
+pub analyzer_serving_clickhouse::engine::server::ServerConfig::data_dir: std::path::PathBuf
+pub analyzer_serving_clickhouse::engine::server::ServerConfig::http_port: u16
+pub analyzer_serving_clickhouse::engine::server::ServerConfig::max_server_memory_bytes: core::option::Option<u64>
+pub analyzer_serving_clickhouse::engine::server::ServerConfig::system_log_ttl_days: u32
+pub analyzer_serving_clickhouse::engine::server::ServerConfig::tcp_port: u16
+pub analyzer_serving_clickhouse::engine::server::ServerConfig::user: alloc::string::String
+impl analyzer_serving_clickhouse::engine::server::ServerConfig
+pub fn analyzer_serving_clickhouse::engine::server::ServerConfig::new(impl core::convert::Into<std::path::PathBuf>) -> Self
+pub fn analyzer_serving_clickhouse::engine::server::ServerConfig::render_config_xml(&self) -> alloc::string::String
+pub fn analyzer_serving_clickhouse::engine::server::ServerConfig::render_users_xml(&self, &analyzer_serving_clickhouse::engine::server::Credential) -> alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::engine::server::ServerConfig
+pub fn analyzer_serving_clickhouse::engine::server::ServerConfig::clone(&self) -> analyzer_serving_clickhouse::engine::server::ServerConfig
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::server::ServerConfig
+pub fn analyzer_serving_clickhouse::engine::server::ServerConfig::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_serving_clickhouse::engine::server::ServerHandle
+impl analyzer_serving_clickhouse::engine::server::ServerHandle
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::client_query(&self, &str) -> core::result::Result<alloc::string::String, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::config(&self) -> &analyzer_serving_clickhouse::engine::server::ServerConfig
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::credential(&self) -> &analyzer_serving_clickhouse::engine::server::Credential
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::is_alive(&mut self) -> bool
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::pid(&self) -> u32
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::restart(self) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::shutdown(self) -> core::result::Result<(), analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::start(impl core::convert::Into<std::path::PathBuf>, &analyzer_serving_clickhouse::engine::server::ServerConfig) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::uptime(&self) -> core::time::Duration
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::server::ServerHandle
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::ops::drop::Drop for analyzer_serving_clickhouse::engine::server::ServerHandle
+pub fn analyzer_serving_clickhouse::engine::server::ServerHandle::drop(&mut self)
+pub struct analyzer_serving_clickhouse::engine::server::Session
+impl analyzer_serving_clickhouse::engine::server::Session
+pub fn analyzer_serving_clickhouse::engine::server::Session::close(self) -> core::result::Result<(), analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::Session::engine(&self) -> &analyzer_serving_clickhouse::engine::Engine
+pub fn analyzer_serving_clickhouse::engine::server::Session::open(impl core::convert::Into<std::path::PathBuf>, impl core::convert::Into<std::path::PathBuf>) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::Session::open_with(impl core::convert::Into<std::path::PathBuf>, &analyzer_serving_clickhouse::engine::server::ServerConfig) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+pub const analyzer_serving_clickhouse::engine::server::CLIENT_LIFECYCLE_TIMEOUT_SECS: u64
+pub const analyzer_serving_clickhouse::engine::server::DEFAULT_HTTP_PORT: u16
+pub const analyzer_serving_clickhouse::engine::server::DEFAULT_TCP_PORT: u16
+pub const analyzer_serving_clickhouse::engine::server::MAX_SERVER_MEMORY_RATIO: f64
+pub const analyzer_serving_clickhouse::engine::server::ORPHAN_STOP_TIMEOUT: core::time::Duration
+pub const analyzer_serving_clickhouse::engine::server::PINNED_ENGINE_VERSION: &str
+pub const analyzer_serving_clickhouse::engine::server::READINESS_TIMEOUT: core::time::Duration
+pub const analyzer_serving_clickhouse::engine::server::SHUTDOWN_TIMEOUT: core::time::Duration
+pub const analyzer_serving_clickhouse::engine::server::SYSTEM_LOG_TTL_DAYS: u32
+pub fn analyzer_serving_clickhouse::engine::server::claim_for_daemon(&std::path::Path) -> core::result::Result<analyzer_serving_clickhouse::engine::server::DaemonGuard, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::engine_config_exhibit(&analyzer_serving_clickhouse::engine::server::ServerConfig) -> core::result::Result<alloc::string::String, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::owner_of(&std::path::Path) -> analyzer_serving_clickhouse::engine::server::Owner
+pub fn analyzer_serving_clickhouse::engine::server::random_token() -> core::result::Result<alloc::string::String, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::require_exclusive(&std::path::Path) -> core::result::Result<analyzer_serving_clickhouse::engine::server::Owner, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::server::sha256_hex_upper(&[u8]) -> alloc::string::String
+#[non_exhaustive] pub enum analyzer_serving_clickhouse::engine::Error
+pub analyzer_serving_clickhouse::engine::Error::Connection(alloc::string::String)
+pub analyzer_serving_clickhouse::engine::Error::Io(alloc::string::String)
+pub analyzer_serving_clickhouse::engine::Error::Migration(alloc::string::String)
+pub analyzer_serving_clickhouse::engine::Error::Refused(alloc::string::String)
+pub analyzer_serving_clickhouse::engine::Error::Server(alloc::string::String)
+pub analyzer_serving_clickhouse::engine::Error::Statement(alloc::string::String)
+impl core::clone::Clone for analyzer_serving_clickhouse::engine::Error
+pub fn analyzer_serving_clickhouse::engine::Error::clone(&self) -> analyzer_serving_clickhouse::engine::Error
+impl core::cmp::Eq for analyzer_serving_clickhouse::engine::Error
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::engine::Error
+pub fn analyzer_serving_clickhouse::engine::Error::eq(&self, &analyzer_serving_clickhouse::engine::Error) -> bool
+impl core::convert::From<analyzer_serving_clickhouse::engine::Error> for analyzer_pipeline::error::Error
+pub fn analyzer_pipeline::error::Error::from(analyzer_serving_clickhouse::engine::Error) -> Self
+impl core::convert::From<analyzer_serving_clickhouse::engine::Error> for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::from(analyzer_serving_clickhouse::engine::Error) -> Self
+impl core::error::Error for analyzer_serving_clickhouse::engine::Error
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::Error
+pub fn analyzer_serving_clickhouse::engine::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_serving_clickhouse::engine::Error
+pub fn analyzer_serving_clickhouse::engine::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::engine::Error
+pub enum analyzer_serving_clickhouse::engine::RetentionKnob
+pub analyzer_serving_clickhouse::engine::RetentionKnob::HourDays
+pub analyzer_serving_clickhouse::engine::RetentionKnob::InstanceDetailDays
+pub analyzer_serving_clickhouse::engine::RetentionKnob::LedgerDays
+pub analyzer_serving_clickhouse::engine::RetentionKnob::MinuteDays
+pub analyzer_serving_clickhouse::engine::RetentionKnob::RollupYears
+impl analyzer_serving_clickhouse::engine::RetentionKnob
+pub fn analyzer_serving_clickhouse::engine::RetentionKnob::interval(self, &analyzer_serving_clickhouse::engine::RetentionConfig) -> alloc::string::String
+pub fn analyzer_serving_clickhouse::engine::RetentionKnob::placeholder(self) -> &'static str
+pub fn analyzer_serving_clickhouse::engine::RetentionKnob::value(self, &analyzer_serving_clickhouse::engine::RetentionConfig) -> (u32, &'static str)
+impl core::clone::Clone for analyzer_serving_clickhouse::engine::RetentionKnob
+pub fn analyzer_serving_clickhouse::engine::RetentionKnob::clone(&self) -> analyzer_serving_clickhouse::engine::RetentionKnob
+impl core::cmp::Eq for analyzer_serving_clickhouse::engine::RetentionKnob
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::engine::RetentionKnob
+pub fn analyzer_serving_clickhouse::engine::RetentionKnob::eq(&self, &analyzer_serving_clickhouse::engine::RetentionKnob) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::RetentionKnob
+pub fn analyzer_serving_clickhouse::engine::RetentionKnob::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::engine::RetentionKnob
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::engine::RetentionKnob
+pub struct analyzer_serving_clickhouse::engine::Engine
+impl analyzer_serving_clickhouse::engine::Engine
+pub fn analyzer_serving_clickhouse::engine::Engine::connect_server(&str, &str, &str, impl core::convert::Into<std::path::PathBuf>) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::Engine::data_dir(&self) -> &std::path::Path
+pub fn analyzer_serving_clickhouse::engine::Engine::for_handle(&analyzer_serving_clickhouse::engine::server::ServerHandle) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::Engine::identity(&self) -> alloc::string::String
+pub fn analyzer_serving_clickhouse::engine::Engine::in_database(&self, &str) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::Engine::insert_stream<R: alloc::io::read::Read>(&self, &str, &mut R) -> core::result::Result<u64, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::Engine::queries_executed(&self) -> u64
+pub fn analyzer_serving_clickhouse::engine::Engine::queries_shared(&self) -> alloc::sync::Arc<core::sync::atomic::AtomicU64>
+pub fn analyzer_serving_clickhouse::engine::Engine::run(&self, &str) -> core::result::Result<alloc::string::String, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::Engine::run_to_writer<W: core::io::write::Write>(&self, &str, &mut W) -> core::result::Result<u64, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::Engine::sibling(&self) -> core::result::Result<Self, analyzer_serving_clickhouse::engine::Error>
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::Engine
+pub fn analyzer_serving_clickhouse::engine::Engine::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_serving_clickhouse::engine::Migration
+pub analyzer_serving_clickhouse::engine::Migration::name: &'static str
+pub analyzer_serving_clickhouse::engine::Migration::sql: &'static str
+pub analyzer_serving_clickhouse::engine::Migration::version: u32
+impl core::clone::Clone for analyzer_serving_clickhouse::engine::Migration
+pub fn analyzer_serving_clickhouse::engine::Migration::clone(&self) -> analyzer_serving_clickhouse::engine::Migration
+impl core::cmp::Eq for analyzer_serving_clickhouse::engine::Migration
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::engine::Migration
+pub fn analyzer_serving_clickhouse::engine::Migration::eq(&self, &analyzer_serving_clickhouse::engine::Migration) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::Migration
+pub fn analyzer_serving_clickhouse::engine::Migration::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::engine::Migration
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::engine::Migration
+pub struct analyzer_serving_clickhouse::engine::RetentionConfig
+pub analyzer_serving_clickhouse::engine::RetentionConfig::hour_retention_days: u32
+pub analyzer_serving_clickhouse::engine::RetentionConfig::instance_detail_retention_days: u32
+pub analyzer_serving_clickhouse::engine::RetentionConfig::ledger_retention_days: u32
+pub analyzer_serving_clickhouse::engine::RetentionConfig::minute_retention_days: u32
+pub analyzer_serving_clickhouse::engine::RetentionConfig::rollup_retention_years: u32
+impl analyzer_serving_clickhouse::engine::RetentionConfig
+pub const analyzer_serving_clickhouse::engine::RetentionConfig::FIXTURE_WIDE: Self
+pub fn analyzer_serving_clickhouse::engine::RetentionConfig::validate(&self) -> core::result::Result<(), analyzer_serving_clickhouse::engine::Error>
+impl core::clone::Clone for analyzer_serving_clickhouse::engine::RetentionConfig
+pub fn analyzer_serving_clickhouse::engine::RetentionConfig::clone(&self) -> analyzer_serving_clickhouse::engine::RetentionConfig
+impl core::cmp::Eq for analyzer_serving_clickhouse::engine::RetentionConfig
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::engine::RetentionConfig
+pub fn analyzer_serving_clickhouse::engine::RetentionConfig::eq(&self, &analyzer_serving_clickhouse::engine::RetentionConfig) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::engine::RetentionConfig
+pub fn analyzer_serving_clickhouse::engine::RetentionConfig::default() -> Self
+impl core::fmt::Debug for analyzer_serving_clickhouse::engine::RetentionConfig
+pub fn analyzer_serving_clickhouse::engine::RetentionConfig::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::engine::RetentionConfig
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::engine::RetentionConfig
+pub const analyzer_serving_clickhouse::engine::CELL_TABLES: [&str; 8]
+pub const analyzer_serving_clickhouse::engine::DEFAULT_HOUR_RETENTION_DAYS: u32
+pub const analyzer_serving_clickhouse::engine::DEFAULT_INSTANCE_DETAIL_RETENTION_DAYS: u32
+pub const analyzer_serving_clickhouse::engine::DEFAULT_LEDGER_RETENTION_DAYS: u32
+pub const analyzer_serving_clickhouse::engine::DEFAULT_MINUTE_RETENTION_DAYS: u32
+pub const analyzer_serving_clickhouse::engine::DEFAULT_ROLLUP_RETENTION_YEARS: u32
+pub const analyzer_serving_clickhouse::engine::ENGINE_FAMILY: &str
+pub const analyzer_serving_clickhouse::engine::EXTERNAL_GROUP_BY_SPILL_BYTES: u64
+pub const analyzer_serving_clickhouse::engine::EXTERNAL_SORT_SPILL_BYTES: u64
+pub const analyzer_serving_clickhouse::engine::HOUR_RETENTION_FLOOR_DAYS: u32
+pub const analyzer_serving_clickhouse::engine::INSTANCE_DETAIL_RETENTION_FLOOR_DAYS: u32
+pub const analyzer_serving_clickhouse::engine::LEDGER_RETENTION_FLOOR_DAYS: u32
+pub const analyzer_serving_clickhouse::engine::MIGRATIONS: &[analyzer_serving_clickhouse::engine::Migration]
+pub const analyzer_serving_clickhouse::engine::MINUTE_RETENTION_FLOOR_DAYS: u32
+pub const analyzer_serving_clickhouse::engine::RETENTION_TTLS: &[(&str, &str, analyzer_serving_clickhouse::engine::RetentionKnob)]
+pub const analyzer_serving_clickhouse::engine::ROLLUP_RETENTION_FLOOR_YEARS: u32
+pub fn analyzer_serving_clickhouse::engine::apply_retention(&analyzer_serving_clickhouse::engine::Engine, &analyzer_serving_clickhouse::engine::RetentionConfig) -> core::result::Result<(), analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::migrate(&analyzer_serving_clickhouse::engine::Engine, &analyzer_serving_clickhouse::engine::RetentionConfig) -> core::result::Result<alloc::vec::Vec<u32>, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::quote_ident(&str) -> alloc::string::String
+pub fn analyzer_serving_clickhouse::engine::quote_literal(&str) -> alloc::string::String
+pub fn analyzer_serving_clickhouse::engine::schema_dump(&analyzer_serving_clickhouse::engine::Engine) -> core::result::Result<alloc::string::String, analyzer_serving_clickhouse::engine::Error>
+pub fn analyzer_serving_clickhouse::engine::sql_i64(i64) -> alloc::string::String
+pub fn analyzer_serving_clickhouse::engine::truncate_all_but_migrations(&analyzer_serving_clickhouse::engine::Engine) -> core::result::Result<(), analyzer_serving_clickhouse::engine::Error>
+pub mod analyzer_serving_clickhouse::events
+pub enum analyzer_serving_clickhouse::events::ReadFrom
+pub analyzer_serving_clickhouse::events::ReadFrom::Log
+pub analyzer_serving_clickhouse::events::ReadFrom::Ring
+impl analyzer_serving_clickhouse::events::ReadFrom
+pub fn analyzer_serving_clickhouse::events::ReadFrom::as_str(self) -> &'static str
+impl core::clone::Clone for analyzer_serving_clickhouse::events::ReadFrom
+pub fn analyzer_serving_clickhouse::events::ReadFrom::clone(&self) -> analyzer_serving_clickhouse::events::ReadFrom
+impl core::cmp::Eq for analyzer_serving_clickhouse::events::ReadFrom
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::ReadFrom
+pub fn analyzer_serving_clickhouse::events::ReadFrom::eq(&self, &analyzer_serving_clickhouse::events::ReadFrom) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::ReadFrom
+pub fn analyzer_serving_clickhouse::events::ReadFrom::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::events::ReadFrom
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::ReadFrom
+pub struct analyzer_serving_clickhouse::events::BlockDay
+pub analyzer_serving_clickhouse::events::BlockDay::blocks: alloc::vec::Vec<analyzer_serving_clickhouse::events::RankedBlock>
+pub analyzer_serving_clickhouse::events::BlockDay::capacity: u32
+pub analyzer_serving_clickhouse::events::BlockDay::cut: u32
+pub analyzer_serving_clickhouse::events::BlockDay::day: alloc::string::String
+pub analyzer_serving_clickhouse::events::BlockDay::error_bound: f64
+pub analyzer_serving_clickhouse::events::BlockDay::tokens: i64
+impl core::clone::Clone for analyzer_serving_clickhouse::events::BlockDay
+pub fn analyzer_serving_clickhouse::events::BlockDay::clone(&self) -> analyzer_serving_clickhouse::events::BlockDay
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::BlockDay
+pub fn analyzer_serving_clickhouse::events::BlockDay::eq(&self, &analyzer_serving_clickhouse::events::BlockDay) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::BlockDay
+pub fn analyzer_serving_clickhouse::events::BlockDay::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::BlockDay
+pub struct analyzer_serving_clickhouse::events::EventPage<T, C>
+pub analyzer_serving_clickhouse::events::EventPage::next: core::option::Option<C>
+pub analyzer_serving_clickhouse::events::EventPage::read_from: analyzer_serving_clickhouse::events::ReadFrom
+pub analyzer_serving_clickhouse::events::EventPage::rows: alloc::vec::Vec<T>
+impl<T: core::clone::Clone, C: core::clone::Clone> core::clone::Clone for analyzer_serving_clickhouse::events::EventPage<T, C>
+pub fn analyzer_serving_clickhouse::events::EventPage<T, C>::clone(&self) -> analyzer_serving_clickhouse::events::EventPage<T, C>
+impl<T: core::cmp::PartialEq, C: core::cmp::PartialEq> core::cmp::PartialEq for analyzer_serving_clickhouse::events::EventPage<T, C>
+pub fn analyzer_serving_clickhouse::events::EventPage<T, C>::eq(&self, &analyzer_serving_clickhouse::events::EventPage<T, C>) -> bool
+impl<T: core::cmp::PartialEq, C: core::cmp::PartialEq> core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::EventPage<T, C>
+impl<T: core::fmt::Debug, C: core::fmt::Debug> core::fmt::Debug for analyzer_serving_clickhouse::events::EventPage<T, C>
+pub fn analyzer_serving_clickhouse::events::EventPage<T, C>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_serving_clickhouse::events::HolderEvent
+pub analyzer_serving_clickhouse::events::HolderEvent::at_ms: f64
+pub analyzer_serving_clickhouse::events::HolderEvent::class: alloc::string::String
+pub analyzer_serving_clickhouse::events::HolderEvent::dp_rank: u32
+pub analyzer_serving_clickhouse::events::HolderEvent::group_idx: u32
+pub analyzer_serving_clickhouse::events::HolderEvent::instance: alloc::string::String
+pub analyzer_serving_clickhouse::events::HolderEvent::key_epoch: core::option::Option<u32>
+pub analyzer_serving_clickhouse::events::HolderEvent::tokens: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::events::HolderEvent
+pub fn analyzer_serving_clickhouse::events::HolderEvent::clone(&self) -> analyzer_serving_clickhouse::events::HolderEvent
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::HolderEvent
+pub fn analyzer_serving_clickhouse::events::HolderEvent::eq(&self, &analyzer_serving_clickhouse::events::HolderEvent) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::HolderEvent
+pub fn analyzer_serving_clickhouse::events::HolderEvent::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::HolderEvent
+pub struct analyzer_serving_clickhouse::events::HolderEventCursor
+pub analyzer_serving_clickhouse::events::HolderEventCursor::at_ms: f64
+pub analyzer_serving_clickhouse::events::HolderEventCursor::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::events::HolderEventCursor::key_epoch: core::option::Option<u32>
+impl core::clone::Clone for analyzer_serving_clickhouse::events::HolderEventCursor
+pub fn analyzer_serving_clickhouse::events::HolderEventCursor::clone(&self) -> analyzer_serving_clickhouse::events::HolderEventCursor
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::HolderEventCursor
+pub fn analyzer_serving_clickhouse::events::HolderEventCursor::eq(&self, &analyzer_serving_clickhouse::events::HolderEventCursor) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::HolderEventCursor
+pub fn analyzer_serving_clickhouse::events::HolderEventCursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::HolderEventCursor
+pub struct analyzer_serving_clickhouse::events::RankedBlock
+pub analyzer_serving_clickhouse::events::RankedBlock::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::events::RankedBlock::certain: bool
+pub analyzer_serving_clickhouse::events::RankedBlock::holders_at_least: u32
+pub analyzer_serving_clickhouse::events::RankedBlock::tokens_at_least: i64
+pub analyzer_serving_clickhouse::events::RankedBlock::tokens_at_most: i64
+impl core::clone::Clone for analyzer_serving_clickhouse::events::RankedBlock
+pub fn analyzer_serving_clickhouse::events::RankedBlock::clone(&self) -> analyzer_serving_clickhouse::events::RankedBlock
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::RankedBlock
+pub fn analyzer_serving_clickhouse::events::RankedBlock::eq(&self, &analyzer_serving_clickhouse::events::RankedBlock) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::RankedBlock
+pub fn analyzer_serving_clickhouse::events::RankedBlock::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::RankedBlock
+pub struct analyzer_serving_clickhouse::events::TimelineCursor
+pub analyzer_serving_clickhouse::events::TimelineCursor::at_ms: f64
+pub analyzer_serving_clickhouse::events::TimelineCursor::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::events::TimelineCursor::key_epoch: core::option::Option<u32>
+impl core::clone::Clone for analyzer_serving_clickhouse::events::TimelineCursor
+pub fn analyzer_serving_clickhouse::events::TimelineCursor::clone(&self) -> analyzer_serving_clickhouse::events::TimelineCursor
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::TimelineCursor
+pub fn analyzer_serving_clickhouse::events::TimelineCursor::eq(&self, &analyzer_serving_clickhouse::events::TimelineCursor) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::TimelineCursor
+pub fn analyzer_serving_clickhouse::events::TimelineCursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::TimelineCursor
+pub struct analyzer_serving_clickhouse::events::TimelineEvent
+pub analyzer_serving_clickhouse::events::TimelineEvent::at_ms: f64
+pub analyzer_serving_clickhouse::events::TimelineEvent::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::events::TimelineEvent::class: alloc::string::String
+pub analyzer_serving_clickhouse::events::TimelineEvent::gap_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::events::TimelineEvent::key_epoch: core::option::Option<u32>
+pub analyzer_serving_clickhouse::events::TimelineEvent::tokens: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::events::TimelineEvent
+pub fn analyzer_serving_clickhouse::events::TimelineEvent::clone(&self) -> analyzer_serving_clickhouse::events::TimelineEvent
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::TimelineEvent
+pub fn analyzer_serving_clickhouse::events::TimelineEvent::eq(&self, &analyzer_serving_clickhouse::events::TimelineEvent) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::TimelineEvent
+pub fn analyzer_serving_clickhouse::events::TimelineEvent::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::TimelineEvent
+pub mod analyzer_serving_clickhouse::holders
+pub struct analyzer_serving_clickhouse::holders::HolderCursor
+pub analyzer_serving_clickhouse::holders::HolderCursor::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::holders::HolderCursor::tokens: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::HolderCursor
+pub fn analyzer_serving_clickhouse::holders::HolderCursor::clone(&self) -> analyzer_serving_clickhouse::holders::HolderCursor
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::HolderCursor
+pub fn analyzer_serving_clickhouse::holders::HolderCursor::eq(&self, &analyzer_serving_clickhouse::holders::HolderCursor) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::HolderCursor
+pub fn analyzer_serving_clickhouse::holders::HolderCursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::HolderCursor
+pub struct analyzer_serving_clickhouse::holders::HolderFilters
+pub analyzer_serving_clickhouse::holders::HolderFilters::class: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::holders::HolderFilters::workload: core::option::Option<alloc::string::String>
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::HolderFilters
+pub fn analyzer_serving_clickhouse::holders::HolderFilters::clone(&self) -> analyzer_serving_clickhouse::holders::HolderFilters
+impl core::cmp::Eq for analyzer_serving_clickhouse::holders::HolderFilters
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::HolderFilters
+pub fn analyzer_serving_clickhouse::holders::HolderFilters::eq(&self, &analyzer_serving_clickhouse::holders::HolderFilters) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::holders::HolderFilters
+pub fn analyzer_serving_clickhouse::holders::HolderFilters::default() -> analyzer_serving_clickhouse::holders::HolderFilters
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::HolderFilters
+pub fn analyzer_serving_clickhouse::holders::HolderFilters::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::HolderFilters
+pub struct analyzer_serving_clickhouse::holders::HolderRow
+pub analyzer_serving_clickhouse::holders::HolderRow::events: u64
+pub analyzer_serving_clickhouse::holders::HolderRow::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::holders::HolderRow::model: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::holders::HolderRow::share_of_fleet_total: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::holders::HolderRow::state: analyzer_analysis::staleness::RunStaleness
+pub analyzer_serving_clickhouse::holders::HolderRow::tokens: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::holders::HolderRow::workload: core::option::Option<alloc::string::String>
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::HolderRow
+pub fn analyzer_serving_clickhouse::holders::HolderRow::clone(&self) -> analyzer_serving_clickhouse::holders::HolderRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::HolderRow
+pub fn analyzer_serving_clickhouse::holders::HolderRow::eq(&self, &analyzer_serving_clickhouse::holders::HolderRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::HolderRow
+pub fn analyzer_serving_clickhouse::holders::HolderRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::HolderRow
+pub struct analyzer_serving_clickhouse::holders::HoldersPage
+pub analyzer_serving_clickhouse::holders::HoldersPage::fleet_total: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::holders::HoldersPage::next: core::option::Option<analyzer_serving_clickhouse::holders::HolderCursor>
+pub analyzer_serving_clickhouse::holders::HoldersPage::rows: alloc::vec::Vec<analyzer_serving_clickhouse::holders::HolderRow>
+pub analyzer_serving_clickhouse::holders::HoldersPage::total_rows: usize
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::HoldersPage
+pub fn analyzer_serving_clickhouse::holders::HoldersPage::clone(&self) -> analyzer_serving_clickhouse::holders::HoldersPage
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::HoldersPage
+pub fn analyzer_serving_clickhouse::holders::HoldersPage::eq(&self, &analyzer_serving_clickhouse::holders::HoldersPage) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::HoldersPage
+pub fn analyzer_serving_clickhouse::holders::HoldersPage::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::HoldersPage
+pub struct analyzer_serving_clickhouse::holders::Page
+pub analyzer_serving_clickhouse::holders::Page::after: core::option::Option<analyzer_serving_clickhouse::holders::HolderCursor>
+pub analyzer_serving_clickhouse::holders::Page::limit: u32
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::Page
+pub fn analyzer_serving_clickhouse::holders::Page::clone(&self) -> analyzer_serving_clickhouse::holders::Page
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::Page
+pub fn analyzer_serving_clickhouse::holders::Page::eq(&self, &analyzer_serving_clickhouse::holders::Page) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::Page
+pub fn analyzer_serving_clickhouse::holders::Page::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::Page
+pub mod analyzer_serving_clickhouse::ingest
+pub struct analyzer_serving_clickhouse::ingest::Batch
+pub analyzer_serving_clickhouse::ingest::Batch::batch_id: alloc::string::String
+pub analyzer_serving_clickhouse::ingest::Batch::cache_span_ms: core::option::Option<(f64, f64)>
+pub analyzer_serving_clickhouse::ingest::Batch::ingested_at_ms: f64
+pub analyzer_serving_clickhouse::ingest::Batch::records: u64
+pub analyzer_serving_clickhouse::ingest::Batch::source: alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::ingest::Batch
+pub fn analyzer_serving_clickhouse::ingest::Batch::clone(&self) -> analyzer_serving_clickhouse::ingest::Batch
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::ingest::Batch
+pub fn analyzer_serving_clickhouse::ingest::Batch::eq(&self, &analyzer_serving_clickhouse::ingest::Batch) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::ingest::Batch
+pub fn analyzer_serving_clickhouse::ingest::Batch::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::ingest::Batch
+pub struct analyzer_serving_clickhouse::ingest::IngestStatus
+pub analyzer_serving_clickhouse::ingest::IngestStatus::batches_total: u64
+pub analyzer_serving_clickhouse::ingest::IngestStatus::last: core::option::Option<analyzer_serving_clickhouse::ingest::Batch>
+pub analyzer_serving_clickhouse::ingest::IngestStatus::records_total: u64
+pub analyzer_serving_clickhouse::ingest::IngestStatus::unknown_kinds_total: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::ingest::IngestStatus
+pub fn analyzer_serving_clickhouse::ingest::IngestStatus::clone(&self) -> analyzer_serving_clickhouse::ingest::IngestStatus
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::ingest::IngestStatus
+pub fn analyzer_serving_clickhouse::ingest::IngestStatus::eq(&self, &analyzer_serving_clickhouse::ingest::IngestStatus) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::ingest::IngestStatus
+pub fn analyzer_serving_clickhouse::ingest::IngestStatus::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::ingest::IngestStatus
+pub mod analyzer_serving_clickhouse::markers
+pub use analyzer_serving_clickhouse::markers::DeployAnnotation
+pub use analyzer_serving_clickhouse::markers::DeploySource
+pub struct analyzer_serving_clickhouse::markers::Marker
+pub analyzer_serving_clickhouse::markers::Marker::at_ms: f64
+pub analyzer_serving_clickhouse::markers::Marker::declared_at_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::markers::Marker::from_value: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::markers::Marker::kind: alloc::string::String
+pub analyzer_serving_clickhouse::markers::Marker::label: alloc::string::String
+pub analyzer_serving_clickhouse::markers::Marker::provenance: alloc::string::String
+pub analyzer_serving_clickhouse::markers::Marker::source: alloc::string::String
+pub analyzer_serving_clickhouse::markers::Marker::to_value: core::option::Option<alloc::string::String>
+impl analyzer_serving_clickhouse::markers::Marker
+pub fn analyzer_serving_clickhouse::markers::Marker::breaks(&self) -> bool
+impl core::clone::Clone for analyzer_serving_clickhouse::markers::Marker
+pub fn analyzer_serving_clickhouse::markers::Marker::clone(&self) -> analyzer_serving_clickhouse::markers::Marker
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::markers::Marker
+pub fn analyzer_serving_clickhouse::markers::Marker::eq(&self, &analyzer_serving_clickhouse::markers::Marker) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::markers::Marker
+pub fn analyzer_serving_clickhouse::markers::Marker::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::markers::Marker
+pub mod analyzer_serving_clickhouse::persist
+pub use analyzer_serving_clickhouse::persist::Written
+pub struct analyzer_serving_clickhouse::persist::Head<'a>
+pub analyzer_serving_clickhouse::persist::Head::fleet_id: &'a str
+pub analyzer_serving_clickhouse::persist::Head::meaning: &'a analyzer_analysis::emitted::Meaning
+pub analyzer_serving_clickhouse::persist::Head::version: u64
+impl<'a> core::clone::Clone for analyzer_serving_clickhouse::persist::Head<'a>
+pub fn analyzer_serving_clickhouse::persist::Head<'a>::clone(&self) -> analyzer_serving_clickhouse::persist::Head<'a>
+impl<'a> core::fmt::Debug for analyzer_serving_clickhouse::persist::Head<'a>
+pub fn analyzer_serving_clickhouse::persist::Head<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_serving_clickhouse::persist::Head<'a>
+pub fn analyzer_serving_clickhouse::persist::read_back<P: analyzer_analysis::module::Persisted>(&analyzer_serving_clickhouse::engine::Engine, (&str, &analyzer_analysis::emitted::Meaning), &mut P, &[i64]) -> core::result::Result<u64, analyzer_pipeline::error::Error>
+pub fn analyzer_serving_clickhouse::persist::served(&analyzer_serving_clickhouse::engine::Engine, &analyzer_analysis::module::Table, (&str, &analyzer_analysis::emitted::Meaning), &[i64]) -> core::result::Result<alloc::vec::Vec<alloc::vec::Vec<alloc::string::String>>, analyzer_pipeline::error::Error>
+pub mod analyzer_serving_clickhouse::placement
+pub struct analyzer_serving_clickhouse::placement::PairRow
+pub analyzer_serving_clickhouse::placement::PairRow::a: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::placement::PairRow::b: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::placement::PairRow::day: alloc::string::String
+pub analyzer_serving_clickhouse::placement::PairRow::token_ms: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::placement::PairRow::workload: alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::placement::PairRow
+pub fn analyzer_serving_clickhouse::placement::PairRow::clone(&self) -> analyzer_serving_clickhouse::placement::PairRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::placement::PairRow
+pub fn analyzer_serving_clickhouse::placement::PairRow::eq(&self, &analyzer_serving_clickhouse::placement::PairRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::placement::PairRow
+pub fn analyzer_serving_clickhouse::placement::PairRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::placement::PairRow
+pub struct analyzer_serving_clickhouse::placement::Placement
+pub analyzer_serving_clickhouse::placement::Placement::rows: alloc::vec::Vec<analyzer_serving_clickhouse::placement::PairRow>
+pub analyzer_serving_clickhouse::placement::Placement::truncation: core::option::Option<analyzer_serving_clickhouse::placement::Truncation>
+pub analyzer_serving_clickhouse::placement::Placement::window_total: analyzer_serving_clickhouse::Covered<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::placement::Placement
+pub fn analyzer_serving_clickhouse::placement::Placement::clone(&self) -> analyzer_serving_clickhouse::placement::Placement
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::placement::Placement
+pub fn analyzer_serving_clickhouse::placement::Placement::eq(&self, &analyzer_serving_clickhouse::placement::Placement) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::placement::Placement
+pub fn analyzer_serving_clickhouse::placement::Placement::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::placement::Placement
+pub struct analyzer_serving_clickhouse::placement::Truncation
+pub analyzer_serving_clickhouse::placement::Truncation::pairs_returned: usize
+pub analyzer_serving_clickhouse::placement::Truncation::pairs_total: usize
+pub analyzer_serving_clickhouse::placement::Truncation::token_ms_excluded: analyzer_serving_clickhouse::Covered<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::placement::Truncation
+pub fn analyzer_serving_clickhouse::placement::Truncation::clone(&self) -> analyzer_serving_clickhouse::placement::Truncation
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::placement::Truncation
+pub fn analyzer_serving_clickhouse::placement::Truncation::eq(&self, &analyzer_serving_clickhouse::placement::Truncation) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::placement::Truncation
+pub fn analyzer_serving_clickhouse::placement::Truncation::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::placement::Truncation
+pub mod analyzer_serving_clickhouse::raw
+pub struct analyzer_serving_clickhouse::raw::Edges
+pub analyzer_serving_clickhouse::raw::Edges::audited_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::raw::Edges::classified_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::raw::Edges::covered_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::raw::Edges::emitted_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::raw::Edges::last_tick_at_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::raw::Edges::settled_through_day: core::option::Option<i64>
+impl core::clone::Clone for analyzer_serving_clickhouse::raw::Edges
+pub fn analyzer_serving_clickhouse::raw::Edges::clone(&self) -> analyzer_serving_clickhouse::raw::Edges
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::raw::Edges
+pub fn analyzer_serving_clickhouse::raw::Edges::eq(&self, &analyzer_serving_clickhouse::raw::Edges) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::raw::Edges
+pub fn analyzer_serving_clickhouse::raw::Edges::default() -> analyzer_serving_clickhouse::raw::Edges
+impl core::fmt::Debug for analyzer_serving_clickhouse::raw::Edges
+pub fn analyzer_serving_clickhouse::raw::Edges::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::raw::Edges
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::raw::Edges
+pub mod analyzer_serving_clickhouse::replication_read
+pub struct analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub analyzer_serving_clickhouse::replication_read::CopiesBucket::bands_token_ms: [f64; 4]
+pub analyzer_serving_clickhouse::replication_read::CopiesBucket::bucket_ms: i64
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub fn analyzer_serving_clickhouse::replication_read::CopiesBucket::clone(&self) -> analyzer_serving_clickhouse::replication_read::CopiesBucket
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub fn analyzer_serving_clickhouse::replication_read::CopiesBucket::eq(&self, &analyzer_serving_clickhouse::replication_read::CopiesBucket) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub fn analyzer_serving_clickhouse::replication_read::CopiesBucket::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub struct analyzer_serving_clickhouse::replication_read::CopiesData
+pub analyzer_serving_clickhouse::replication_read::CopiesData::cache_group_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::CopiesData::copies_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::CopiesData::cross_engine_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::CopiesData::dup_total_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::CopiesData::emitted_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::replication_read::CopiesData::fleet_profile: [f64; 4]
+pub analyzer_serving_clickhouse::replication_read::CopiesData::grain: analyzer_serving_clickhouse::Grain
+pub analyzer_serving_clickhouse::replication_read::CopiesData::members: alloc::vec::Vec<analyzer_serving_clickhouse::replication_read::CopiesMember>
+pub analyzer_serving_clickhouse::replication_read::CopiesData::rows: alloc::vec::Vec<analyzer_serving_clickhouse::replication_read::CopiesBucket>
+pub analyzer_serving_clickhouse::replication_read::CopiesData::window_dup_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::CopiesData::window_held_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::CopiesData::within_engine_token_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::CopiesData
+pub fn analyzer_serving_clickhouse::replication_read::CopiesData::clone(&self) -> analyzer_serving_clickhouse::replication_read::CopiesData
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::CopiesData
+pub fn analyzer_serving_clickhouse::replication_read::CopiesData::eq(&self, &analyzer_serving_clickhouse::replication_read::CopiesData) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::CopiesData
+pub fn analyzer_serving_clickhouse::replication_read::CopiesData::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::CopiesData
+pub struct analyzer_serving_clickhouse::replication_read::CopiesMember
+pub analyzer_serving_clickhouse::replication_read::CopiesMember::dup_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::CopiesMember::profile: [f64; 4]
+pub analyzer_serving_clickhouse::replication_read::CopiesMember::share: f64
+pub analyzer_serving_clickhouse::replication_read::CopiesMember::workload: alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::CopiesMember
+pub fn analyzer_serving_clickhouse::replication_read::CopiesMember::clone(&self) -> analyzer_serving_clickhouse::replication_read::CopiesMember
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::CopiesMember
+pub fn analyzer_serving_clickhouse::replication_read::CopiesMember::eq(&self, &analyzer_serving_clickhouse::replication_read::CopiesMember) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::CopiesMember
+pub fn analyzer_serving_clickhouse::replication_read::CopiesMember::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::CopiesMember
+pub struct analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub analyzer_serving_clickhouse::replication_read::InstanceDupRow::bucket_ms: i64
+pub analyzer_serving_clickhouse::replication_read::InstanceDupRow::copies_band: alloc::string::String
+pub analyzer_serving_clickhouse::replication_read::InstanceDupRow::locality: alloc::string::String
+pub analyzer_serving_clickhouse::replication_read::InstanceDupRow::token_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDupRow::clone(&self) -> analyzer_serving_clickhouse::replication_read::InstanceDupRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDupRow::eq(&self, &analyzer_serving_clickhouse::replication_read::InstanceDupRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDupRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub struct analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub analyzer_serving_clickhouse::replication_read::InstanceDuplication::copies_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::InstanceDuplication::group_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::InstanceDuplication::held_token_ms: f64
+pub analyzer_serving_clickhouse::replication_read::InstanceDuplication::rows: alloc::vec::Vec<analyzer_serving_clickhouse::replication_read::InstanceDupRow>
+pub analyzer_serving_clickhouse::replication_read::InstanceDuplication::within_token_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDuplication::clone(&self) -> analyzer_serving_clickhouse::replication_read::InstanceDuplication
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDuplication::eq(&self, &analyzer_serving_clickhouse::replication_read::InstanceDuplication) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDuplication::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub const analyzer_serving_clickhouse::replication_read::HISTOGRAM_BANDS: [(&str, &[&str]); 4]
+pub mod analyzer_serving_clickhouse::roster
+pub struct analyzer_serving_clickhouse::roster::RunRow
+pub analyzer_serving_clickhouse::roster::RunRow::engine_version: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::roster::RunRow::first_seen_ms: f64
+pub analyzer_serving_clickhouse::roster::RunRow::incarnation: alloc::string::String
+pub analyzer_serving_clickhouse::roster::RunRow::instance: alloc::string::String
+pub analyzer_serving_clickhouse::roster::RunRow::last_seen_ms: f64
+pub analyzer_serving_clickhouse::roster::RunRow::model: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::roster::RunRow::pod: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::roster::RunRow::staleness: analyzer_analysis::staleness::RunStaleness
+pub analyzer_serving_clickhouse::roster::RunRow::stop_observed: bool
+pub analyzer_serving_clickhouse::roster::RunRow::threshold_ms: core::option::Option<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::roster::RunRow
+pub fn analyzer_serving_clickhouse::roster::RunRow::clone(&self) -> analyzer_serving_clickhouse::roster::RunRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::roster::RunRow
+pub fn analyzer_serving_clickhouse::roster::RunRow::eq(&self, &analyzer_serving_clickhouse::roster::RunRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::roster::RunRow
+pub fn analyzer_serving_clickhouse::roster::RunRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::roster::RunRow
+pub mod analyzer_serving_clickhouse::selfhealth
+pub mod analyzer_serving_clickhouse::selfhealth::metric
+pub const analyzer_serving_clickhouse::selfhealth::metric::DISK_FREE_BYTES: &str
+pub const analyzer_serving_clickhouse::selfhealth::metric::DISK_TOTAL_BYTES: &str
+pub enum analyzer_serving_clickhouse::selfhealth::MetricKind
+pub analyzer_serving_clickhouse::selfhealth::MetricKind::Counter
+pub analyzer_serving_clickhouse::selfhealth::MetricKind::Gauge
+impl analyzer_serving_clickhouse::selfhealth::MetricKind
+pub fn analyzer_serving_clickhouse::selfhealth::MetricKind::as_str(self) -> &'static str
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::MetricKind
+pub fn analyzer_serving_clickhouse::selfhealth::MetricKind::clone(&self) -> analyzer_serving_clickhouse::selfhealth::MetricKind
+impl core::cmp::Eq for analyzer_serving_clickhouse::selfhealth::MetricKind
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::MetricKind
+pub fn analyzer_serving_clickhouse::selfhealth::MetricKind::eq(&self, &analyzer_serving_clickhouse::selfhealth::MetricKind) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::MetricKind
+pub fn analyzer_serving_clickhouse::selfhealth::MetricKind::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::selfhealth::MetricKind
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::MetricKind
+pub enum analyzer_serving_clickhouse::selfhealth::Status
+pub analyzer_serving_clickhouse::selfhealth::Status::Critical
+pub analyzer_serving_clickhouse::selfhealth::Status::Ok
+pub analyzer_serving_clickhouse::selfhealth::Status::Unknown
+pub analyzer_serving_clickhouse::selfhealth::Status::Warn
+impl analyzer_serving_clickhouse::selfhealth::Status
+pub fn analyzer_serving_clickhouse::selfhealth::Status::as_str(self) -> &'static str
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::Status
+pub fn analyzer_serving_clickhouse::selfhealth::Status::clone(&self) -> analyzer_serving_clickhouse::selfhealth::Status
+impl core::cmp::Eq for analyzer_serving_clickhouse::selfhealth::Status
+impl core::cmp::Ord for analyzer_serving_clickhouse::selfhealth::Status
+pub fn analyzer_serving_clickhouse::selfhealth::Status::cmp(&self, &analyzer_serving_clickhouse::selfhealth::Status) -> core::cmp::Ordering
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::Status
+pub fn analyzer_serving_clickhouse::selfhealth::Status::eq(&self, &analyzer_serving_clickhouse::selfhealth::Status) -> bool
+impl core::cmp::PartialOrd for analyzer_serving_clickhouse::selfhealth::Status
+pub fn analyzer_serving_clickhouse::selfhealth::Status::partial_cmp(&self, &analyzer_serving_clickhouse::selfhealth::Status) -> core::option::Option<core::cmp::Ordering>
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::Status
+pub fn analyzer_serving_clickhouse::selfhealth::Status::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::selfhealth::Status
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::Status
+pub struct analyzer_serving_clickhouse::selfhealth::Check
+pub analyzer_serving_clickhouse::selfhealth::Check::message: alloc::string::String
+pub analyzer_serving_clickhouse::selfhealth::Check::name: &'static str
+pub analyzer_serving_clickhouse::selfhealth::Check::status: analyzer_serving_clickhouse::selfhealth::Status
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::Check
+pub fn analyzer_serving_clickhouse::selfhealth::Check::clone(&self) -> analyzer_serving_clickhouse::selfhealth::Check
+impl core::cmp::Eq for analyzer_serving_clickhouse::selfhealth::Check
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::Check
+pub fn analyzer_serving_clickhouse::selfhealth::Check::eq(&self, &analyzer_serving_clickhouse::selfhealth::Check) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::Check
+pub fn analyzer_serving_clickhouse::selfhealth::Check::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::Check
+pub struct analyzer_serving_clickhouse::selfhealth::FleetFigures
+pub analyzer_serving_clickhouse::selfhealth::FleetFigures::capture_fraction: core::option::Option<f64>
+pub analyzer_serving_clickhouse::selfhealth::FleetFigures::coverage_fraction: core::option::Option<f64>
+pub analyzer_serving_clickhouse::selfhealth::FleetFigures::discriminator: alloc::string::String
+pub analyzer_serving_clickhouse::selfhealth::FleetFigures::frontier_end_seconds: f64
+pub analyzer_serving_clickhouse::selfhealth::FleetFigures::recompute_tokens: f64
+pub analyzer_serving_clickhouse::selfhealth::FleetFigures::segments_missing_unexplained: f64
+pub analyzer_serving_clickhouse::selfhealth::FleetFigures::semantics_version: &'static str
+pub analyzer_serving_clickhouse::selfhealth::FleetFigures::stored_tokens: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::FleetFigures
+pub fn analyzer_serving_clickhouse::selfhealth::FleetFigures::clone(&self) -> analyzer_serving_clickhouse::selfhealth::FleetFigures
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::FleetFigures
+pub fn analyzer_serving_clickhouse::selfhealth::FleetFigures::eq(&self, &analyzer_serving_clickhouse::selfhealth::FleetFigures) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::FleetFigures
+pub fn analyzer_serving_clickhouse::selfhealth::FleetFigures::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::FleetFigures
+pub struct analyzer_serving_clickhouse::selfhealth::HealthArtifacts
+pub analyzer_serving_clickhouse::selfhealth::HealthArtifacts::json: std::path::PathBuf
+pub analyzer_serving_clickhouse::selfhealth::HealthArtifacts::prom: std::path::PathBuf
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::HealthArtifacts
+pub fn analyzer_serving_clickhouse::selfhealth::HealthArtifacts::clone(&self) -> analyzer_serving_clickhouse::selfhealth::HealthArtifacts
+impl core::cmp::Eq for analyzer_serving_clickhouse::selfhealth::HealthArtifacts
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::HealthArtifacts
+pub fn analyzer_serving_clickhouse::selfhealth::HealthArtifacts::eq(&self, &analyzer_serving_clickhouse::selfhealth::HealthArtifacts) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::HealthArtifacts
+pub fn analyzer_serving_clickhouse::selfhealth::HealthArtifacts::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::HealthArtifacts
+pub struct analyzer_serving_clickhouse::selfhealth::LoopStatus
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::audit_blocks_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::audit_disagreed_at_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::bytes_ingested_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::effective_retention_days: f64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::engine_queries_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::evict_audited_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::evict_mismatched_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::evict_underresolved_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::files_ingested_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::files_projected_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_backlog_bytes: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_backlog_events_estimate: core::option::Option<f64>
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_backlog_files: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_catchup_cycles: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_duty_cycle: core::option::Option<f64>
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_duty_samples: usize
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_refused_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_refusing: bool
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ingest_rows_per_second: core::option::Option<f64>
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::last_tick_duration_seconds: core::option::Option<f64>
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::reclaimed_bytes_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::records_ingested_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::tick_failures_total: u64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::tick_interval_seconds: f64
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::tick_lag_seconds: core::option::Option<f64>
+pub analyzer_serving_clickhouse::selfhealth::LoopStatus::ticks_total: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::LoopStatus
+pub fn analyzer_serving_clickhouse::selfhealth::LoopStatus::clone(&self) -> analyzer_serving_clickhouse::selfhealth::LoopStatus
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::LoopStatus
+pub fn analyzer_serving_clickhouse::selfhealth::LoopStatus::eq(&self, &analyzer_serving_clickhouse::selfhealth::LoopStatus) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::selfhealth::LoopStatus
+pub fn analyzer_serving_clickhouse::selfhealth::LoopStatus::default() -> analyzer_serving_clickhouse::selfhealth::LoopStatus
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::LoopStatus
+pub fn analyzer_serving_clickhouse::selfhealth::LoopStatus::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::selfhealth::LoopStatus
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::LoopStatus
+pub struct analyzer_serving_clickhouse::selfhealth::Metric
+pub analyzer_serving_clickhouse::selfhealth::Metric::help: &'static str
+pub analyzer_serving_clickhouse::selfhealth::Metric::kind: analyzer_serving_clickhouse::selfhealth::MetricKind
+pub analyzer_serving_clickhouse::selfhealth::Metric::name: &'static str
+pub analyzer_serving_clickhouse::selfhealth::Metric::value: core::option::Option<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::Metric
+pub fn analyzer_serving_clickhouse::selfhealth::Metric::clone(&self) -> analyzer_serving_clickhouse::selfhealth::Metric
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::Metric
+pub fn analyzer_serving_clickhouse::selfhealth::Metric::eq(&self, &analyzer_serving_clickhouse::selfhealth::Metric) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::Metric
+pub fn analyzer_serving_clickhouse::selfhealth::Metric::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::Metric
+pub struct analyzer_serving_clickhouse::selfhealth::Paths<'a>
+pub analyzer_serving_clickhouse::selfhealth::Paths::analyzer_id: core::option::Option<&'a str>
+pub analyzer_serving_clickhouse::selfhealth::Paths::data_dir: &'a std::path::Path
+pub analyzer_serving_clickhouse::selfhealth::Paths::fleet: core::option::Option<&'a analyzer_serving_clickhouse::selfhealth::FleetFigures>
+pub analyzer_serving_clickhouse::selfhealth::Paths::ledger_retention_days: u32
+pub analyzer_serving_clickhouse::selfhealth::Paths::loop_status: core::option::Option<analyzer_serving_clickhouse::selfhealth::LoopStatus>
+pub analyzer_serving_clickhouse::selfhealth::Paths::out_dir: &'a std::path::Path
+pub analyzer_serving_clickhouse::selfhealth::Paths::runs: core::option::Option<analyzer_serving_clickhouse::selfhealth::RunStates>
+pub analyzer_serving_clickhouse::selfhealth::Paths::server: core::option::Option<analyzer_serving_clickhouse::selfhealth::ServerStatus>
+impl<'a> core::clone::Clone for analyzer_serving_clickhouse::selfhealth::Paths<'a>
+pub fn analyzer_serving_clickhouse::selfhealth::Paths<'a>::clone(&self) -> analyzer_serving_clickhouse::selfhealth::Paths<'a>
+impl<'a> core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::Paths<'a>
+pub fn analyzer_serving_clickhouse::selfhealth::Paths<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_serving_clickhouse::selfhealth::Paths<'a>
+pub struct analyzer_serving_clickhouse::selfhealth::RunStates
+pub analyzer_serving_clickhouse::selfhealth::RunStates::departed: u64
+pub analyzer_serving_clickhouse::selfhealth::RunStates::reporting: u64
+pub analyzer_serving_clickhouse::selfhealth::RunStates::silent_unexplained: u64
+pub analyzer_serving_clickhouse::selfhealth::RunStates::ungradeable: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::RunStates
+pub fn analyzer_serving_clickhouse::selfhealth::RunStates::clone(&self) -> analyzer_serving_clickhouse::selfhealth::RunStates
+impl core::cmp::Eq for analyzer_serving_clickhouse::selfhealth::RunStates
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::RunStates
+pub fn analyzer_serving_clickhouse::selfhealth::RunStates::eq(&self, &analyzer_serving_clickhouse::selfhealth::RunStates) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::selfhealth::RunStates
+pub fn analyzer_serving_clickhouse::selfhealth::RunStates::default() -> analyzer_serving_clickhouse::selfhealth::RunStates
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::RunStates
+pub fn analyzer_serving_clickhouse::selfhealth::RunStates::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::selfhealth::RunStates
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::RunStates
+pub struct analyzer_serving_clickhouse::selfhealth::SelfHealth
+pub analyzer_serving_clickhouse::selfhealth::SelfHealth::analyzer_id: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::selfhealth::SelfHealth::checks: alloc::vec::Vec<analyzer_serving_clickhouse::selfhealth::Check>
+pub analyzer_serving_clickhouse::selfhealth::SelfHealth::fleet: alloc::string::String
+pub analyzer_serving_clickhouse::selfhealth::SelfHealth::meaning: core::option::Option<(alloc::string::String, alloc::string::String)>
+pub analyzer_serving_clickhouse::selfhealth::SelfHealth::metrics: alloc::vec::Vec<analyzer_serving_clickhouse::selfhealth::Metric>
+impl analyzer_serving_clickhouse::selfhealth::SelfHealth
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::status(&self) -> analyzer_serving_clickhouse::selfhealth::Status
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::to_json(&self) -> serde_json::value::Value
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::to_json_string(&self) -> core::result::Result<alloc::string::String, analyzer_pipeline::error::Error>
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::to_prometheus(&self) -> alloc::string::String
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::unmeasured(&self) -> alloc::vec::Vec<&'static str>
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::value(&self, &str) -> core::option::Option<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::SelfHealth
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::clone(&self) -> analyzer_serving_clickhouse::selfhealth::SelfHealth
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::SelfHealth
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::eq(&self, &analyzer_serving_clickhouse::selfhealth::SelfHealth) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::SelfHealth
+pub fn analyzer_serving_clickhouse::selfhealth::SelfHealth::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::SelfHealth
+pub struct analyzer_serving_clickhouse::selfhealth::ServerStatus
+pub analyzer_serving_clickhouse::selfhealth::ServerStatus::up: bool
+pub analyzer_serving_clickhouse::selfhealth::ServerStatus::uptime_seconds: core::option::Option<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::selfhealth::ServerStatus
+pub fn analyzer_serving_clickhouse::selfhealth::ServerStatus::clone(&self) -> analyzer_serving_clickhouse::selfhealth::ServerStatus
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::selfhealth::ServerStatus
+pub fn analyzer_serving_clickhouse::selfhealth::ServerStatus::eq(&self, &analyzer_serving_clickhouse::selfhealth::ServerStatus) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::selfhealth::ServerStatus
+pub fn analyzer_serving_clickhouse::selfhealth::ServerStatus::default() -> analyzer_serving_clickhouse::selfhealth::ServerStatus
+impl core::fmt::Debug for analyzer_serving_clickhouse::selfhealth::ServerStatus
+pub fn analyzer_serving_clickhouse::selfhealth::ServerStatus::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::selfhealth::ServerStatus
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::selfhealth::ServerStatus
+pub const analyzer_serving_clickhouse::selfhealth::DEAD_PART_RATIO_WARN: f64
+pub const analyzer_serving_clickhouse::selfhealth::DISK_FREE_FRACTION_CRITICAL: f64
+pub const analyzer_serving_clickhouse::selfhealth::DISK_FREE_FRACTION_WARN: f64
+pub const analyzer_serving_clickhouse::selfhealth::ENVELOPE_UTILISATION_WARN: f64
+pub const analyzer_serving_clickhouse::selfhealth::ENVELOPE_WINDOW_CYCLES: usize
+pub const analyzer_serving_clickhouse::selfhealth::METRIC_NAMES: &[&str]
+pub const analyzer_serving_clickhouse::selfhealth::ORPHAN_TEMP_AGE_WARN_SECONDS: f64
+pub const analyzer_serving_clickhouse::selfhealth::PARTS_PER_PARTITION_CRITICAL: f64
+pub const analyzer_serving_clickhouse::selfhealth::PARTS_PER_PARTITION_WARN: f64
+pub const analyzer_serving_clickhouse::selfhealth::RAW_TTL_OVERDUE_FACTOR: f64
+pub const analyzer_serving_clickhouse::selfhealth::TICK_LAG_WARN_CADENCES: f64
+pub fn analyzer_serving_clickhouse::selfhealth::collect(&analyzer_serving_clickhouse::engine::Engine, core::option::Option<&analyzer_lake::Lake>, &str, &analyzer_serving_clickhouse::selfhealth::Paths<'_>) -> core::result::Result<analyzer_serving_clickhouse::selfhealth::SelfHealth, analyzer_pipeline::error::Error>
+pub fn analyzer_serving_clickhouse::selfhealth::collect_unreclaimed(&analyzer_serving_clickhouse::engine::Engine) -> core::result::Result<f64, analyzer_pipeline::error::Error>
+pub fn analyzer_serving_clickhouse::selfhealth::unreachable(&str, &analyzer_serving_clickhouse::selfhealth::Paths<'_>, &str) -> analyzer_serving_clickhouse::selfhealth::SelfHealth
+pub fn analyzer_serving_clickhouse::selfhealth::write_health_artifacts(&std::path::Path, &analyzer_serving_clickhouse::selfhealth::SelfHealth) -> core::result::Result<analyzer_serving_clickhouse::selfhealth::HealthArtifacts, analyzer_pipeline::error::Error>
+pub mod analyzer_serving_clickhouse::serving
+pub struct analyzer_serving_clickhouse::serving::ClickHouse
+impl analyzer_serving_clickhouse::serving::ClickHouse
+pub fn analyzer_serving_clickhouse::serving::ClickHouse::new(&analyzer_serving_clickhouse::engine::Engine) -> core::result::Result<Self, analyzer_pipeline::error::Error>
+impl analyzer_pipeline::publish::Publish for analyzer_serving_clickhouse::serving::ClickHouse
+pub fn analyzer_serving_clickhouse::serving::ClickHouse::apply(&self, &analyzer_pipeline::publish::Head<'_>, &[analyzer_analysis::module::Table], u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::error::Error>
+pub fn analyzer_serving_clickhouse::serving::ClickHouse::install(&self, &[analyzer_analysis::module::Table]) -> core::result::Result<(), analyzer_pipeline::error::Error>
+pub fn analyzer_serving_clickhouse::serving::ClickHouse::replace(&self, &analyzer_pipeline::publish::Scope<'_>, u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::error::Error>
+pub fn analyzer_serving_clickhouse::serving::ClickHouse::settled(&self) -> core::result::Result<bool, analyzer_pipeline::error::Error>
+impl analyzer_pipeline::publish::Serving for analyzer_serving_clickhouse::serving::ClickHouse
+pub fn analyzer_serving_clickhouse::serving::ClickHouse::bind(&self, &analyzer_pipeline::execution::Namespace) -> core::result::Result<(), analyzer_pipeline::error::Error>
+pub fn analyzer_serving_clickhouse::serving::ClickHouse::bound(&self) -> core::result::Result<core::option::Option<analyzer_pipeline::execution::Namespace>, analyzer_pipeline::error::Error>
+impl core::fmt::Debug for analyzer_serving_clickhouse::serving::ClickHouse
+pub fn analyzer_serving_clickhouse::serving::ClickHouse::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub mod analyzer_serving_clickhouse::shape1
+pub enum analyzer_serving_clickhouse::shape1::RefusalCause
+pub analyzer_serving_clickhouse::shape1::RefusalCause::SupersededSemantics
+pub analyzer_serving_clickhouse::shape1::RefusalCause::UnlinkedGeneration
+impl core::clone::Clone for analyzer_serving_clickhouse::shape1::RefusalCause
+pub fn analyzer_serving_clickhouse::shape1::RefusalCause::clone(&self) -> analyzer_serving_clickhouse::shape1::RefusalCause
+impl core::cmp::Eq for analyzer_serving_clickhouse::shape1::RefusalCause
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::shape1::RefusalCause
+pub fn analyzer_serving_clickhouse::shape1::RefusalCause::eq(&self, &analyzer_serving_clickhouse::shape1::RefusalCause) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::shape1::RefusalCause
+pub fn analyzer_serving_clickhouse::shape1::RefusalCause::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::shape1::RefusalCause
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::shape1::RefusalCause
+pub enum analyzer_serving_clickhouse::shape1::SegmentBasis
+pub analyzer_serving_clickhouse::shape1::SegmentBasis::Current
+pub analyzer_serving_clickhouse::shape1::SegmentBasis::PriorParameters
+pub analyzer_serving_clickhouse::shape1::SegmentBasis::SupersededSemantics
+pub analyzer_serving_clickhouse::shape1::SegmentBasis::Unlinked
+impl analyzer_serving_clickhouse::shape1::SegmentBasis
+pub fn analyzer_serving_clickhouse::shape1::SegmentBasis::refusal(self) -> core::option::Option<analyzer_serving_clickhouse::shape1::RefusalCause>
+impl core::clone::Clone for analyzer_serving_clickhouse::shape1::SegmentBasis
+pub fn analyzer_serving_clickhouse::shape1::SegmentBasis::clone(&self) -> analyzer_serving_clickhouse::shape1::SegmentBasis
+impl core::cmp::Eq for analyzer_serving_clickhouse::shape1::SegmentBasis
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::shape1::SegmentBasis
+pub fn analyzer_serving_clickhouse::shape1::SegmentBasis::eq(&self, &analyzer_serving_clickhouse::shape1::SegmentBasis) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::shape1::SegmentBasis
+pub fn analyzer_serving_clickhouse::shape1::SegmentBasis::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::shape1::SegmentBasis
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::shape1::SegmentBasis
+pub struct analyzer_serving_clickhouse::shape1::Segment
+pub analyzer_serving_clickhouse::shape1::Segment::basis: analyzer_serving_clickhouse::shape1::SegmentBasis
+pub analyzer_serving_clickhouse::shape1::Segment::discriminator: alloc::string::String
+pub analyzer_serving_clickhouse::shape1::Segment::figures: core::option::Option<alloc::vec::Vec<analyzer_serving_clickhouse::shape1::WasteRow>>
+pub analyzer_serving_clickhouse::shape1::Segment::semantics_version: alloc::string::String
+pub analyzer_serving_clickhouse::shape1::Segment::window: analyzer_analysis::Window
+impl core::clone::Clone for analyzer_serving_clickhouse::shape1::Segment
+pub fn analyzer_serving_clickhouse::shape1::Segment::clone(&self) -> analyzer_serving_clickhouse::shape1::Segment
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::shape1::Segment
+pub fn analyzer_serving_clickhouse::shape1::Segment::eq(&self, &analyzer_serving_clickhouse::shape1::Segment) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::shape1::Segment
+pub fn analyzer_serving_clickhouse::shape1::Segment::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::shape1::Segment
+pub struct analyzer_serving_clickhouse::shape1::WasteRow
+pub analyzer_serving_clickhouse::shape1::WasteRow::bucket: alloc::string::String
+pub analyzer_serving_clickhouse::shape1::WasteRow::dims: alloc::vec::Vec<(analyzer_serving_clickhouse::Dim, alloc::string::String)>
+pub analyzer_serving_clickhouse::shape1::WasteRow::events: u64
+pub analyzer_serving_clickhouse::shape1::WasteRow::tokens: analyzer_serving_clickhouse::Covered<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::shape1::WasteRow
+pub fn analyzer_serving_clickhouse::shape1::WasteRow::clone(&self) -> analyzer_serving_clickhouse::shape1::WasteRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::shape1::WasteRow
+pub fn analyzer_serving_clickhouse::shape1::WasteRow::eq(&self, &analyzer_serving_clickhouse::shape1::WasteRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::shape1::WasteRow
+pub fn analyzer_serving_clickhouse::shape1::WasteRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::shape1::WasteRow
+pub mod analyzer_serving_clickhouse::stored
+pub struct analyzer_serving_clickhouse::stored::StoredMassRow
+pub analyzer_serving_clickhouse::stored::StoredMassRow::day: alloc::string::String
+pub analyzer_serving_clickhouse::stored::StoredMassRow::records: u64
+pub analyzer_serving_clickhouse::stored::StoredMassRow::tokens: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::stored::StoredMassRow
+pub fn analyzer_serving_clickhouse::stored::StoredMassRow::clone(&self) -> analyzer_serving_clickhouse::stored::StoredMassRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::stored::StoredMassRow
+pub fn analyzer_serving_clickhouse::stored::StoredMassRow::eq(&self, &analyzer_serving_clickhouse::stored::StoredMassRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::stored::StoredMassRow
+pub fn analyzer_serving_clickhouse::stored::StoredMassRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::stored::StoredMassRow
+pub mod analyzer_serving_clickhouse::tags
+pub struct analyzer_serving_clickhouse::tags::TagRead
+pub analyzer_serving_clickhouse::tags::TagRead::covered_ms: f64
+pub analyzer_serving_clickhouse::tags::TagRead::tags: alloc::vec::Vec<(alloc::string::String, analyzer_analysis::tags::TagFigures)>
+pub analyzer_serving_clickhouse::tags::TagRead::through_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::tags::TagRead::window_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::tags::TagRead
+pub fn analyzer_serving_clickhouse::tags::TagRead::clone(&self) -> analyzer_serving_clickhouse::tags::TagRead
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::tags::TagRead
+pub fn analyzer_serving_clickhouse::tags::TagRead::eq(&self, &analyzer_serving_clickhouse::tags::TagRead) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::tags::TagRead
+pub fn analyzer_serving_clickhouse::tags::TagRead::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::tags::TagRead
+pub mod analyzer_serving_clickhouse::whales
+pub struct analyzer_serving_clickhouse::whales::WhaleRow
+pub analyzer_serving_clickhouse::whales::WhaleRow::days_in_cut: u32
+pub analyzer_serving_clickhouse::whales::WhaleRow::dup_token_ms: f64
+pub analyzer_serving_clickhouse::whales::WhaleRow::dup_token_ms_bound: f64
+pub analyzer_serving_clickhouse::whales::WhaleRow::held_token_ms: f64
+pub analyzer_serving_clickhouse::whales::WhaleRow::identity: alloc::string::String
+pub analyzer_serving_clickhouse::whales::WhaleRow::n_tokens: i64
+impl core::clone::Clone for analyzer_serving_clickhouse::whales::WhaleRow
+pub fn analyzer_serving_clickhouse::whales::WhaleRow::clone(&self) -> analyzer_serving_clickhouse::whales::WhaleRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::whales::WhaleRow
+pub fn analyzer_serving_clickhouse::whales::WhaleRow::eq(&self, &analyzer_serving_clickhouse::whales::WhaleRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::whales::WhaleRow
+pub fn analyzer_serving_clickhouse::whales::WhaleRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::whales::WhaleRow
+pub struct analyzer_serving_clickhouse::whales::Whales
+pub analyzer_serving_clickhouse::whales::Whales::cut: u32
+pub analyzer_serving_clickhouse::whales::Whales::days_stated: u32
+pub analyzer_serving_clickhouse::whales::Whales::duplicated_identity_days: u64
+pub analyzer_serving_clickhouse::whales::Whales::rows: alloc::vec::Vec<analyzer_serving_clickhouse::whales::WhaleRow>
+pub analyzer_serving_clickhouse::whales::Whales::window_dup_token_ms: f64
+pub analyzer_serving_clickhouse::whales::Whales::window_held_token_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::whales::Whales
+pub fn analyzer_serving_clickhouse::whales::Whales::clone(&self) -> analyzer_serving_clickhouse::whales::Whales
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::whales::Whales
+pub fn analyzer_serving_clickhouse::whales::Whales::eq(&self, &analyzer_serving_clickhouse::whales::Whales) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::whales::Whales
+pub fn analyzer_serving_clickhouse::whales::Whales::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::whales::Whales
+pub enum analyzer_serving_clickhouse::CoverageBy
+pub analyzer_serving_clickhouse::CoverageBy::Fleet
+pub analyzer_serving_clickhouse::CoverageBy::Instance
+impl core::clone::Clone for analyzer_serving_clickhouse::coverage::CoverageBy
+pub fn analyzer_serving_clickhouse::coverage::CoverageBy::clone(&self) -> analyzer_serving_clickhouse::coverage::CoverageBy
+impl core::cmp::Eq for analyzer_serving_clickhouse::coverage::CoverageBy
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::coverage::CoverageBy
+pub fn analyzer_serving_clickhouse::coverage::CoverageBy::eq(&self, &analyzer_serving_clickhouse::coverage::CoverageBy) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::coverage::CoverageBy
+pub fn analyzer_serving_clickhouse::coverage::CoverageBy::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::coverage::CoverageBy
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::coverage::CoverageBy
+pub enum analyzer_serving_clickhouse::Dim
+pub analyzer_serving_clickhouse::Dim::Class
+pub analyzer_serving_clickhouse::Dim::Holder
+pub analyzer_serving_clickhouse::Dim::Instance
+pub analyzer_serving_clickhouse::Dim::Model
+pub analyzer_serving_clickhouse::Dim::Workload
+impl analyzer_serving_clickhouse::Dim
+pub fn analyzer_serving_clickhouse::Dim::columns(self) -> &'static [&'static str]
+impl core::clone::Clone for analyzer_serving_clickhouse::Dim
+pub fn analyzer_serving_clickhouse::Dim::clone(&self) -> analyzer_serving_clickhouse::Dim
+impl core::cmp::Eq for analyzer_serving_clickhouse::Dim
+impl core::cmp::Ord for analyzer_serving_clickhouse::Dim
+pub fn analyzer_serving_clickhouse::Dim::cmp(&self, &analyzer_serving_clickhouse::Dim) -> core::cmp::Ordering
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::Dim
+pub fn analyzer_serving_clickhouse::Dim::eq(&self, &analyzer_serving_clickhouse::Dim) -> bool
+impl core::cmp::PartialOrd for analyzer_serving_clickhouse::Dim
+pub fn analyzer_serving_clickhouse::Dim::partial_cmp(&self, &analyzer_serving_clickhouse::Dim) -> core::option::Option<core::cmp::Ordering>
+impl core::fmt::Debug for analyzer_serving_clickhouse::Dim
+pub fn analyzer_serving_clickhouse::Dim::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::hash::Hash for analyzer_serving_clickhouse::Dim
+pub fn analyzer_serving_clickhouse::Dim::hash<__H: core::hash::Hasher>(&self, &mut __H)
+impl core::marker::Copy for analyzer_serving_clickhouse::Dim
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::Dim
+#[non_exhaustive] pub enum analyzer_serving_clickhouse::Error
+pub analyzer_serving_clickhouse::Error::Engine(analyzer_serving_clickhouse::engine::Error)
+pub analyzer_serving_clickhouse::Error::GrainUnavailable(alloc::string::String)
+pub analyzer_serving_clickhouse::Error::Ingest(analyzer_ingest::error::Error)
+pub analyzer_serving_clickhouse::Error::Pipeline(analyzer_pipeline::error::Error)
+pub analyzer_serving_clickhouse::Error::Refused(alloc::string::String)
+pub analyzer_serving_clickhouse::Error::Row(alloc::string::String)
+pub analyzer_serving_clickhouse::Error::Source(analyzer_analysis::error::Error)
+impl core::clone::Clone for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::clone(&self) -> analyzer_serving_clickhouse::Error
+impl core::convert::From<analyzer_analysis::error::Error> for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::from(analyzer_analysis::error::Error) -> Self
+impl core::convert::From<analyzer_ingest::error::Error> for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::from(analyzer_ingest::error::Error) -> Self
+impl core::convert::From<analyzer_pipeline::error::Error> for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::from(analyzer_pipeline::error::Error) -> Self
+impl core::convert::From<analyzer_serving_clickhouse::engine::Error> for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::from(analyzer_serving_clickhouse::engine::Error) -> Self
+impl core::error::Error for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::source(&self) -> core::option::Option<&(dyn core::error::Error + 'static)>
+impl core::fmt::Debug for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_serving_clickhouse::Error
+pub fn analyzer_serving_clickhouse::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub enum analyzer_serving_clickhouse::EvidenceOf
+pub analyzer_serving_clickhouse::EvidenceOf::Block(alloc::string::String)
+pub analyzer_serving_clickhouse::EvidenceOf::Holder(analyzer_analysis::intervals::Holder)
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::EvidenceOf
+pub fn analyzer_serving_clickhouse::drill::EvidenceOf::clone(&self) -> analyzer_serving_clickhouse::drill::EvidenceOf
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::EvidenceOf
+pub fn analyzer_serving_clickhouse::drill::EvidenceOf::eq(&self, &analyzer_serving_clickhouse::drill::EvidenceOf) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::EvidenceOf
+pub fn analyzer_serving_clickhouse::drill::EvidenceOf::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::EvidenceOf
+pub enum analyzer_serving_clickhouse::Grain
+pub analyzer_serving_clickhouse::Grain::Day
+pub analyzer_serving_clickhouse::Grain::Hour
+pub analyzer_serving_clickhouse::Grain::Minute
+impl analyzer_serving_clickhouse::Grain
+pub fn analyzer_serving_clickhouse::Grain::as_str(self) -> &'static str
+pub fn analyzer_serving_clickhouse::Grain::auto(&analyzer_analysis::Window, core::option::Option<f64>, core::option::Option<f64>) -> analyzer_serving_clickhouse::Grain
+pub fn analyzer_serving_clickhouse::Grain::bucket_ms(self) -> i64
+pub fn analyzer_serving_clickhouse::Grain::class_table(self, bool) -> &'static str
+pub fn analyzer_serving_clickhouse::Grain::day_of_bucket(self) -> &'static str
+pub fn analyzer_serving_clickhouse::Grain::natural(f64) -> analyzer_serving_clickhouse::Grain
+pub fn analyzer_serving_clickhouse::Grain::table(self) -> &'static str
+pub fn analyzer_serving_clickhouse::Grain::window_predicate(self, &analyzer_analysis::Window) -> alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::Grain
+pub fn analyzer_serving_clickhouse::Grain::clone(&self) -> analyzer_serving_clickhouse::Grain
+impl core::cmp::Eq for analyzer_serving_clickhouse::Grain
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::Grain
+pub fn analyzer_serving_clickhouse::Grain::eq(&self, &analyzer_serving_clickhouse::Grain) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::Grain
+pub fn analyzer_serving_clickhouse::Grain::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::Grain
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::Grain
+pub enum analyzer_serving_clickhouse::MinuteTier
+pub analyzer_serving_clickhouse::MinuteTier::Fleet
+pub analyzer_serving_clickhouse::MinuteTier::Rank
+pub analyzer_serving_clickhouse::MinuteTier::Unavailable
+impl analyzer_serving_clickhouse::MinuteTier
+pub fn analyzer_serving_clickhouse::MinuteTier::of(&[analyzer_serving_clickhouse::Dim], &analyzer_serving_clickhouse::Scope) -> Self
+impl core::clone::Clone for analyzer_serving_clickhouse::MinuteTier
+pub fn analyzer_serving_clickhouse::MinuteTier::clone(&self) -> analyzer_serving_clickhouse::MinuteTier
+impl core::cmp::Eq for analyzer_serving_clickhouse::MinuteTier
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::MinuteTier
+pub fn analyzer_serving_clickhouse::MinuteTier::eq(&self, &analyzer_serving_clickhouse::MinuteTier) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::MinuteTier
+pub fn analyzer_serving_clickhouse::MinuteTier::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::MinuteTier
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::MinuteTier
+pub enum analyzer_serving_clickhouse::RawReach
+pub analyzer_serving_clickhouse::RawReach::Covers
+pub analyzer_serving_clickhouse::RawReach::Outside
+pub analyzer_serving_clickhouse::RawReach::Outside::raw_from_ms: core::option::Option<f64>
+impl analyzer_serving_clickhouse::drill::RawReach
+pub fn analyzer_serving_clickhouse::drill::RawReach::covers(self) -> bool
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::RawReach
+pub fn analyzer_serving_clickhouse::drill::RawReach::clone(&self) -> analyzer_serving_clickhouse::drill::RawReach
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::RawReach
+pub fn analyzer_serving_clickhouse::drill::RawReach::eq(&self, &analyzer_serving_clickhouse::drill::RawReach) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::RawReach
+pub fn analyzer_serving_clickhouse::drill::RawReach::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::drill::RawReach
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::RawReach
+pub enum analyzer_serving_clickhouse::ReadFrom
+pub analyzer_serving_clickhouse::ReadFrom::Log
+pub analyzer_serving_clickhouse::ReadFrom::Ring
+impl analyzer_serving_clickhouse::events::ReadFrom
+pub fn analyzer_serving_clickhouse::events::ReadFrom::as_str(self) -> &'static str
+impl core::clone::Clone for analyzer_serving_clickhouse::events::ReadFrom
+pub fn analyzer_serving_clickhouse::events::ReadFrom::clone(&self) -> analyzer_serving_clickhouse::events::ReadFrom
+impl core::cmp::Eq for analyzer_serving_clickhouse::events::ReadFrom
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::ReadFrom
+pub fn analyzer_serving_clickhouse::events::ReadFrom::eq(&self, &analyzer_serving_clickhouse::events::ReadFrom) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::ReadFrom
+pub fn analyzer_serving_clickhouse::events::ReadFrom::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::events::ReadFrom
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::ReadFrom
+pub enum analyzer_serving_clickhouse::RefusalCause
+pub analyzer_serving_clickhouse::RefusalCause::SupersededSemantics
+pub analyzer_serving_clickhouse::RefusalCause::UnlinkedGeneration
+impl core::clone::Clone for analyzer_serving_clickhouse::shape1::RefusalCause
+pub fn analyzer_serving_clickhouse::shape1::RefusalCause::clone(&self) -> analyzer_serving_clickhouse::shape1::RefusalCause
+impl core::cmp::Eq for analyzer_serving_clickhouse::shape1::RefusalCause
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::shape1::RefusalCause
+pub fn analyzer_serving_clickhouse::shape1::RefusalCause::eq(&self, &analyzer_serving_clickhouse::shape1::RefusalCause) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::shape1::RefusalCause
+pub fn analyzer_serving_clickhouse::shape1::RefusalCause::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::shape1::RefusalCause
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::shape1::RefusalCause
+pub enum analyzer_serving_clickhouse::SegmentBasis
+pub analyzer_serving_clickhouse::SegmentBasis::Current
+pub analyzer_serving_clickhouse::SegmentBasis::PriorParameters
+pub analyzer_serving_clickhouse::SegmentBasis::SupersededSemantics
+pub analyzer_serving_clickhouse::SegmentBasis::Unlinked
+impl analyzer_serving_clickhouse::shape1::SegmentBasis
+pub fn analyzer_serving_clickhouse::shape1::SegmentBasis::refusal(self) -> core::option::Option<analyzer_serving_clickhouse::shape1::RefusalCause>
+impl core::clone::Clone for analyzer_serving_clickhouse::shape1::SegmentBasis
+pub fn analyzer_serving_clickhouse::shape1::SegmentBasis::clone(&self) -> analyzer_serving_clickhouse::shape1::SegmentBasis
+impl core::cmp::Eq for analyzer_serving_clickhouse::shape1::SegmentBasis
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::shape1::SegmentBasis
+pub fn analyzer_serving_clickhouse::shape1::SegmentBasis::eq(&self, &analyzer_serving_clickhouse::shape1::SegmentBasis) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::shape1::SegmentBasis
+pub fn analyzer_serving_clickhouse::shape1::SegmentBasis::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::shape1::SegmentBasis
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::shape1::SegmentBasis
+pub struct analyzer_serving_clickhouse::BandLens
+pub analyzer_serving_clickhouse::BandLens::evidence: analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::BandLens::gap_unobserved: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::BandLens::gap_unobserved_events: u64
+pub analyzer_serving_clickhouse::BandLens::holders: core::option::Option<analyzer_serving_clickhouse::bands::HolderBound>
+pub analyzer_serving_clickhouse::BandLens::rows: alloc::vec::Vec<analyzer_serving_clickhouse::bands::BandRow>
+impl core::clone::Clone for analyzer_serving_clickhouse::bands::BandLens
+pub fn analyzer_serving_clickhouse::bands::BandLens::clone(&self) -> analyzer_serving_clickhouse::bands::BandLens
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::bands::BandLens
+pub fn analyzer_serving_clickhouse::bands::BandLens::eq(&self, &analyzer_serving_clickhouse::bands::BandLens) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::bands::BandLens
+pub fn analyzer_serving_clickhouse::bands::BandLens::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::bands::BandLens
+pub struct analyzer_serving_clickhouse::BandRead
+pub analyzer_serving_clickhouse::BandRead::evidence: analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::BandRead::rows: alloc::vec::Vec<analyzer_serving_clickhouse::bands::BandRow>
+impl analyzer_serving_clickhouse::bands::BandRead
+pub fn analyzer_serving_clickhouse::bands::BandRead::lens(self, core::option::Option<usize>) -> analyzer_serving_clickhouse::bands::BandLens
+impl core::clone::Clone for analyzer_serving_clickhouse::bands::BandRead
+pub fn analyzer_serving_clickhouse::bands::BandRead::clone(&self) -> analyzer_serving_clickhouse::bands::BandRead
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::bands::BandRead
+pub fn analyzer_serving_clickhouse::bands::BandRead::eq(&self, &analyzer_serving_clickhouse::bands::BandRead) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::bands::BandRead
+pub fn analyzer_serving_clickhouse::bands::BandRead::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::bands::BandRead
+pub struct analyzer_serving_clickhouse::BandRow
+pub analyzer_serving_clickhouse::BandRow::band: alloc::string::String
+pub analyzer_serving_clickhouse::BandRow::bucket: alloc::string::String
+pub analyzer_serving_clickhouse::BandRow::dims: alloc::vec::Vec<(analyzer_serving_clickhouse::Dim, alloc::string::String)>
+pub analyzer_serving_clickhouse::BandRow::events: u64
+pub analyzer_serving_clickhouse::BandRow::tokens: analyzer_serving_clickhouse::Covered<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::bands::BandRow
+pub fn analyzer_serving_clickhouse::bands::BandRow::clone(&self) -> analyzer_serving_clickhouse::bands::BandRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::bands::BandRow
+pub fn analyzer_serving_clickhouse::bands::BandRow::eq(&self, &analyzer_serving_clickhouse::bands::BandRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::bands::BandRow
+pub fn analyzer_serving_clickhouse::bands::BandRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::bands::BandRow
+pub struct analyzer_serving_clickhouse::Batch
+pub analyzer_serving_clickhouse::Batch::batch_id: alloc::string::String
+pub analyzer_serving_clickhouse::Batch::cache_span_ms: core::option::Option<(f64, f64)>
+pub analyzer_serving_clickhouse::Batch::ingested_at_ms: f64
+pub analyzer_serving_clickhouse::Batch::records: u64
+pub analyzer_serving_clickhouse::Batch::source: alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::ingest::Batch
+pub fn analyzer_serving_clickhouse::ingest::Batch::clone(&self) -> analyzer_serving_clickhouse::ingest::Batch
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::ingest::Batch
+pub fn analyzer_serving_clickhouse::ingest::Batch::eq(&self, &analyzer_serving_clickhouse::ingest::Batch) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::ingest::Batch
+pub fn analyzer_serving_clickhouse::ingest::Batch::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::ingest::Batch
+pub struct analyzer_serving_clickhouse::BlockDay
+pub analyzer_serving_clickhouse::BlockDay::blocks: alloc::vec::Vec<analyzer_serving_clickhouse::events::RankedBlock>
+pub analyzer_serving_clickhouse::BlockDay::capacity: u32
+pub analyzer_serving_clickhouse::BlockDay::cut: u32
+pub analyzer_serving_clickhouse::BlockDay::day: alloc::string::String
+pub analyzer_serving_clickhouse::BlockDay::error_bound: f64
+pub analyzer_serving_clickhouse::BlockDay::tokens: i64
+impl core::clone::Clone for analyzer_serving_clickhouse::events::BlockDay
+pub fn analyzer_serving_clickhouse::events::BlockDay::clone(&self) -> analyzer_serving_clickhouse::events::BlockDay
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::BlockDay
+pub fn analyzer_serving_clickhouse::events::BlockDay::eq(&self, &analyzer_serving_clickhouse::events::BlockDay) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::BlockDay
+pub fn analyzer_serving_clickhouse::events::BlockDay::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::BlockDay
+pub struct analyzer_serving_clickhouse::CopiesBucket
+pub analyzer_serving_clickhouse::CopiesBucket::bands_token_ms: [f64; 4]
+pub analyzer_serving_clickhouse::CopiesBucket::bucket_ms: i64
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub fn analyzer_serving_clickhouse::replication_read::CopiesBucket::clone(&self) -> analyzer_serving_clickhouse::replication_read::CopiesBucket
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub fn analyzer_serving_clickhouse::replication_read::CopiesBucket::eq(&self, &analyzer_serving_clickhouse::replication_read::CopiesBucket) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub fn analyzer_serving_clickhouse::replication_read::CopiesBucket::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::CopiesBucket
+pub struct analyzer_serving_clickhouse::CopiesData
+pub analyzer_serving_clickhouse::CopiesData::cache_group_token_ms: f64
+pub analyzer_serving_clickhouse::CopiesData::copies_token_ms: f64
+pub analyzer_serving_clickhouse::CopiesData::cross_engine_token_ms: f64
+pub analyzer_serving_clickhouse::CopiesData::dup_total_token_ms: f64
+pub analyzer_serving_clickhouse::CopiesData::emitted_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::CopiesData::fleet_profile: [f64; 4]
+pub analyzer_serving_clickhouse::CopiesData::grain: analyzer_serving_clickhouse::Grain
+pub analyzer_serving_clickhouse::CopiesData::members: alloc::vec::Vec<analyzer_serving_clickhouse::replication_read::CopiesMember>
+pub analyzer_serving_clickhouse::CopiesData::rows: alloc::vec::Vec<analyzer_serving_clickhouse::replication_read::CopiesBucket>
+pub analyzer_serving_clickhouse::CopiesData::window_dup_token_ms: f64
+pub analyzer_serving_clickhouse::CopiesData::window_held_token_ms: f64
+pub analyzer_serving_clickhouse::CopiesData::within_engine_token_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::CopiesData
+pub fn analyzer_serving_clickhouse::replication_read::CopiesData::clone(&self) -> analyzer_serving_clickhouse::replication_read::CopiesData
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::CopiesData
+pub fn analyzer_serving_clickhouse::replication_read::CopiesData::eq(&self, &analyzer_serving_clickhouse::replication_read::CopiesData) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::CopiesData
+pub fn analyzer_serving_clickhouse::replication_read::CopiesData::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::CopiesData
+pub struct analyzer_serving_clickhouse::CopiesMember
+pub analyzer_serving_clickhouse::CopiesMember::dup_token_ms: f64
+pub analyzer_serving_clickhouse::CopiesMember::profile: [f64; 4]
+pub analyzer_serving_clickhouse::CopiesMember::share: f64
+pub analyzer_serving_clickhouse::CopiesMember::workload: alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::CopiesMember
+pub fn analyzer_serving_clickhouse::replication_read::CopiesMember::clone(&self) -> analyzer_serving_clickhouse::replication_read::CopiesMember
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::CopiesMember
+pub fn analyzer_serving_clickhouse::replication_read::CopiesMember::eq(&self, &analyzer_serving_clickhouse::replication_read::CopiesMember) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::CopiesMember
+pub fn analyzer_serving_clickhouse::replication_read::CopiesMember::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::CopiesMember
+pub struct analyzer_serving_clickhouse::CoverageRow
+pub analyzer_serving_clickhouse::CoverageRow::covered_ms: f64
+pub analyzer_serving_clickhouse::CoverageRow::day: alloc::string::String
+pub analyzer_serving_clickhouse::CoverageRow::fraction: f64
+pub analyzer_serving_clickhouse::CoverageRow::instance: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::CoverageRow::instances: u64
+pub analyzer_serving_clickhouse::CoverageRow::token_mass: core::option::Option<f64>
+pub analyzer_serving_clickhouse::CoverageRow::token_weighted_fraction: core::option::Option<f64>
+pub analyzer_serving_clickhouse::CoverageRow::token_wsum: core::option::Option<f64>
+pub analyzer_serving_clickhouse::CoverageRow::window_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::coverage::CoverageRow
+pub fn analyzer_serving_clickhouse::coverage::CoverageRow::clone(&self) -> analyzer_serving_clickhouse::coverage::CoverageRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::coverage::CoverageRow
+pub fn analyzer_serving_clickhouse::coverage::CoverageRow::eq(&self, &analyzer_serving_clickhouse::coverage::CoverageRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::coverage::CoverageRow
+pub fn analyzer_serving_clickhouse::coverage::CoverageRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::coverage::CoverageRow
+pub struct analyzer_serving_clickhouse::Covered<T>
+pub analyzer_serving_clickhouse::Covered::coverage: f64
+pub analyzer_serving_clickhouse::Covered::coverage_kind: &'static str
+pub analyzer_serving_clickhouse::Covered::register: &'static str
+pub analyzer_serving_clickhouse::Covered::value: T
+impl<T: core::clone::Clone> core::clone::Clone for analyzer_serving_clickhouse::Covered<T>
+pub fn analyzer_serving_clickhouse::Covered<T>::clone(&self) -> analyzer_serving_clickhouse::Covered<T>
+impl<T: core::cmp::PartialEq> core::cmp::PartialEq for analyzer_serving_clickhouse::Covered<T>
+pub fn analyzer_serving_clickhouse::Covered<T>::eq(&self, &analyzer_serving_clickhouse::Covered<T>) -> bool
+impl<T: core::cmp::PartialEq> core::marker::StructuralPartialEq for analyzer_serving_clickhouse::Covered<T>
+impl<T: core::fmt::Debug> core::fmt::Debug for analyzer_serving_clickhouse::Covered<T>
+pub fn analyzer_serving_clickhouse::Covered<T>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_serving_clickhouse::Dao<'a>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::agent_versions(&self) -> core::result::Result<alloc::vec::Vec<alloc::string::String>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::degradation_ledger(&self, &analyzer_analysis::Window) -> core::result::Result<analyzer_analysis::degradation::Ledger, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::edges(&self) -> core::result::Result<analyzer_serving_clickhouse::raw::Edges, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::fleet_health(&self, &analyzer_analysis::Window) -> core::result::Result<analyzer_analysis::staleness::FleetHealth, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::module_availability(&self) -> core::result::Result<alloc::vec::Vec<analyzer_pipeline::executor::ModuleAvailability>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::raw_span(&self) -> core::result::Result<core::option::Option<analyzer_analysis::Window>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::revision(&self) -> core::result::Result<core::option::Option<u64>, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::bands_by(&self, &analyzer_analysis::Window, analyzer_serving_clickhouse::Grain, &[analyzer_serving_clickhouse::Dim], &analyzer_serving_clickhouse::Scope) -> core::result::Result<analyzer_serving_clickhouse::bands::BandRead, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::block_days(&self, &analyzer_analysis::Window, u32) -> core::result::Result<alloc::vec::Vec<analyzer_serving_clickhouse::events::BlockDay>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::holders_of(&self, &str, &analyzer_analysis::Window, u32, core::option::Option<&analyzer_serving_clickhouse::events::HolderEventCursor>) -> core::result::Result<analyzer_serving_clickhouse::events::EventPage<analyzer_serving_clickhouse::events::HolderEvent, analyzer_serving_clickhouse::events::HolderEventCursor>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::timeline(&self, &analyzer_analysis::intervals::Holder, &analyzer_analysis::Window, u32, core::option::Option<&analyzer_serving_clickhouse::events::TimelineCursor>) -> core::result::Result<analyzer_serving_clickhouse::events::EventPage<analyzer_serving_clickhouse::events::TimelineEvent, analyzer_serving_clickhouse::events::TimelineCursor>, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::copies(&self, &analyzer_analysis::Window, analyzer_serving_clickhouse::Grain, core::option::Option<&str>) -> core::result::Result<analyzer_serving_clickhouse::replication_read::CopiesData, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::emitted_frontier_ms(&self) -> core::result::Result<core::option::Option<f64>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::instance_duplication(&self, &analyzer_analysis::Window, &str, analyzer_serving_clickhouse::Grain) -> core::result::Result<analyzer_serving_clickhouse::replication_read::InstanceDuplication, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::replication_reach_ms(&self, analyzer_serving_clickhouse::Grain) -> core::result::Result<core::option::Option<f64>, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::copies_grain(&self, &analyzer_analysis::Window, core::option::Option<analyzer_serving_clickhouse::Grain>) -> core::result::Result<analyzer_serving_clickhouse::Grain, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::resolve_grain(&self, &analyzer_analysis::Window, core::option::Option<analyzer_serving_clickhouse::Grain>, analyzer_serving_clickhouse::MinuteTier) -> core::result::Result<analyzer_serving_clickhouse::Grain, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::coverage(&self, &analyzer_analysis::Window, analyzer_serving_clickhouse::coverage::CoverageBy) -> core::result::Result<alloc::vec::Vec<analyzer_serving_clickhouse::coverage::CoverageRow>, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::day_detail(&self, &str, core::option::Option<f64>, u32, core::option::Option<&analyzer_serving_clickhouse::holders::HolderCursor>) -> core::result::Result<analyzer_serving_clickhouse::drill::DayDetail, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::evidence(&self, &analyzer_serving_clickhouse::drill::EvidenceOf, &analyzer_analysis::Window, u32) -> core::result::Result<analyzer_serving_clickhouse::drill::Evidence, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::evidence_page(&self, &analyzer_serving_clickhouse::drill::EvidenceOf, &analyzer_analysis::Window, u32, core::option::Option<&analyzer_serving_clickhouse::drill::EvidenceCursor>) -> core::result::Result<analyzer_serving_clickhouse::drill::Evidence, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::raw_reach_of(&self, &analyzer_analysis::Window) -> core::result::Result<analyzer_serving_clickhouse::drill::RawReach, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::reach_of(&self, &analyzer_serving_clickhouse::drill::EvidenceOf, &analyzer_analysis::Window) -> core::result::Result<analyzer_serving_clickhouse::drill::RawReach, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::delivery(&self) -> core::result::Result<analyzer_serving_clickhouse::delivery::DeliveryReport, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::holders_page(&self, &analyzer_analysis::Window, core::option::Option<f64>, analyzer_serving_clickhouse::Grain, &analyzer_serving_clickhouse::holders::HolderFilters, &analyzer_serving_clickhouse::holders::Page) -> core::result::Result<analyzer_serving_clickhouse::holders::HoldersPage, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::ingest_status(&self) -> core::result::Result<analyzer_serving_clickhouse::ingest::IngestStatus, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::markers(&self, &analyzer_analysis::Window) -> core::result::Result<alloc::vec::Vec<analyzer_serving_clickhouse::markers::Marker>, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::placement(&self, &analyzer_analysis::Window, usize) -> core::result::Result<analyzer_serving_clickhouse::placement::Placement, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::roster(&self, &analyzer_analysis::Window, core::option::Option<f64>) -> core::result::Result<alloc::vec::Vec<analyzer_serving_clickhouse::roster::RunRow>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::roster_page(&self, &analyzer_analysis::Window, core::option::Option<f64>, u32, core::option::Option<(&str, &str)>) -> core::result::Result<alloc::vec::Vec<analyzer_serving_clickhouse::roster::RunRow>, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::stored_mass(&self, &analyzer_analysis::Window) -> core::result::Result<alloc::vec::Vec<analyzer_serving_clickhouse::stored::StoredMassRow>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::zero_basis(&self, &analyzer_analysis::Window) -> core::result::Result<analyzer_analysis::residual::ZeroBasis, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::tags(&self, &analyzer_analysis::Window) -> core::result::Result<analyzer_serving_clickhouse::tags::TagRead, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::waste_by(&self, &analyzer_analysis::Window, analyzer_serving_clickhouse::Grain, &[analyzer_serving_clickhouse::Dim], &analyzer_serving_clickhouse::Scope) -> core::result::Result<alloc::vec::Vec<analyzer_serving_clickhouse::shape1::WasteRow>, analyzer_serving_clickhouse::Error>
+pub fn analyzer_serving_clickhouse::Dao<'_>::waste_by_segmented(&self, &analyzer_analysis::Window, analyzer_serving_clickhouse::Grain, &[analyzer_serving_clickhouse::Dim], &analyzer_serving_clickhouse::Scope) -> core::result::Result<alloc::vec::Vec<analyzer_serving_clickhouse::shape1::Segment>, analyzer_serving_clickhouse::Error>
+impl analyzer_serving_clickhouse::Dao<'_>
+pub fn analyzer_serving_clickhouse::Dao<'_>::whales(&self, &analyzer_analysis::Window, usize) -> core::result::Result<analyzer_serving_clickhouse::whales::Whales, analyzer_serving_clickhouse::Error>
+impl<'a> analyzer_serving_clickhouse::Dao<'a>
+pub fn analyzer_serving_clickhouse::Dao<'a>::discriminator(&self) -> &analyzer_analysis::Discriminator
+pub fn analyzer_serving_clickhouse::Dao<'a>::engine(&self) -> &analyzer_serving_clickhouse::engine::Engine
+pub fn analyzer_serving_clickhouse::Dao<'a>::fleet_id(&self) -> &str
+pub fn analyzer_serving_clickhouse::Dao<'a>::new(&'a analyzer_serving_clickhouse::engine::Engine, analyzer_pipeline::parquet_source::SourceConfig, &analyzer_analysis::Params, alloc::sync::Arc<analyzer_pipeline::spine::Spine>, alloc::sync::Arc<dyn analyzer_pipeline::publish::Serving>) -> Self
+pub fn analyzer_serving_clickhouse::Dao<'a>::with_retention(self, analyzer_serving_clickhouse::engine::RetentionConfig) -> Self
+pub struct analyzer_serving_clickhouse::DayDetail
+pub analyzer_serving_clickhouse::DayDetail::by_class: alloc::vec::Vec<(alloc::string::String, analyzer_serving_clickhouse::Covered<f64>)>
+pub analyzer_serving_clickhouse::DayDetail::coverage: core::option::Option<analyzer_serving_clickhouse::Covered<f64>>
+pub analyzer_serving_clickhouse::DayDetail::day: alloc::string::String
+pub analyzer_serving_clickhouse::DayDetail::evidence: analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::DayDetail::holders: alloc::vec::Vec<analyzer_serving_clickhouse::holders::HolderRow>
+pub analyzer_serving_clickhouse::DayDetail::holders_next: core::option::Option<analyzer_serving_clickhouse::holders::HolderCursor>
+pub analyzer_serving_clickhouse::DayDetail::holders_total: usize
+pub analyzer_serving_clickhouse::DayDetail::window: analyzer_analysis::Window
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::DayDetail
+pub fn analyzer_serving_clickhouse::drill::DayDetail::clone(&self) -> analyzer_serving_clickhouse::drill::DayDetail
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::DayDetail
+pub fn analyzer_serving_clickhouse::drill::DayDetail::eq(&self, &analyzer_serving_clickhouse::drill::DayDetail) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::DayDetail
+pub fn analyzer_serving_clickhouse::drill::DayDetail::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::DayDetail
+pub struct analyzer_serving_clickhouse::DeliveryReport
+pub analyzer_serving_clickhouse::DeliveryReport::orphan_batches: u64
+pub analyzer_serving_clickhouse::DeliveryReport::rows: alloc::vec::Vec<analyzer_serving_clickhouse::delivery::DeliveryRow>
+pub analyzer_serving_clickhouse::DeliveryReport::totals: analyzer_serving_clickhouse::delivery::DeliveryTotals
+impl core::clone::Clone for analyzer_serving_clickhouse::delivery::DeliveryReport
+pub fn analyzer_serving_clickhouse::delivery::DeliveryReport::clone(&self) -> analyzer_serving_clickhouse::delivery::DeliveryReport
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::delivery::DeliveryReport
+pub fn analyzer_serving_clickhouse::delivery::DeliveryReport::eq(&self, &analyzer_serving_clickhouse::delivery::DeliveryReport) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::delivery::DeliveryReport
+pub fn analyzer_serving_clickhouse::delivery::DeliveryReport::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::delivery::DeliveryReport
+pub struct analyzer_serving_clickhouse::DeliveryRow
+pub analyzer_serving_clickhouse::DeliveryRow::first_seen_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::DeliveryRow::incarnation: alloc::string::String
+pub analyzer_serving_clickhouse::DeliveryRow::instances: alloc::vec::Vec<alloc::string::String>
+pub analyzer_serving_clickhouse::DeliveryRow::last_seen_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::DeliveryRow::records_dropped_at_source: u64
+pub analyzer_serving_clickhouse::DeliveryRow::records_oversized: u64
+pub analyzer_serving_clickhouse::DeliveryRow::records_seen: u64
+pub analyzer_serving_clickhouse::DeliveryRow::segments_captured: u64
+pub analyzer_serving_clickhouse::DeliveryRow::segments_declared_dropped: u64
+pub analyzer_serving_clickhouse::DeliveryRow::segments_expected: u64
+pub analyzer_serving_clickhouse::DeliveryRow::segments_missing_unexplained: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::delivery::DeliveryRow
+pub fn analyzer_serving_clickhouse::delivery::DeliveryRow::clone(&self) -> analyzer_serving_clickhouse::delivery::DeliveryRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::delivery::DeliveryRow
+pub fn analyzer_serving_clickhouse::delivery::DeliveryRow::eq(&self, &analyzer_serving_clickhouse::delivery::DeliveryRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::delivery::DeliveryRow
+pub fn analyzer_serving_clickhouse::delivery::DeliveryRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::delivery::DeliveryRow
+pub struct analyzer_serving_clickhouse::DeliveryTotals
+pub analyzer_serving_clickhouse::DeliveryTotals::as_of_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::DeliveryTotals::fraction: core::option::Option<f64>
+pub analyzer_serving_clickhouse::DeliveryTotals::records_dropped_at_source: u64
+pub analyzer_serving_clickhouse::DeliveryTotals::records_oversized: u64
+pub analyzer_serving_clickhouse::DeliveryTotals::records_seen: u64
+pub analyzer_serving_clickhouse::DeliveryTotals::segments_captured: u64
+pub analyzer_serving_clickhouse::DeliveryTotals::segments_declared_dropped: u64
+pub analyzer_serving_clickhouse::DeliveryTotals::segments_expected: u64
+pub analyzer_serving_clickhouse::DeliveryTotals::segments_missing_unexplained: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub fn analyzer_serving_clickhouse::delivery::DeliveryTotals::clone(&self) -> analyzer_serving_clickhouse::delivery::DeliveryTotals
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub fn analyzer_serving_clickhouse::delivery::DeliveryTotals::eq(&self, &analyzer_serving_clickhouse::delivery::DeliveryTotals) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub fn analyzer_serving_clickhouse::delivery::DeliveryTotals::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::delivery::DeliveryTotals
+pub struct analyzer_serving_clickhouse::Edges
+pub analyzer_serving_clickhouse::Edges::audited_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::Edges::classified_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::Edges::covered_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::Edges::emitted_to_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::Edges::last_tick_at_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::Edges::settled_through_day: core::option::Option<i64>
+impl core::clone::Clone for analyzer_serving_clickhouse::raw::Edges
+pub fn analyzer_serving_clickhouse::raw::Edges::clone(&self) -> analyzer_serving_clickhouse::raw::Edges
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::raw::Edges
+pub fn analyzer_serving_clickhouse::raw::Edges::eq(&self, &analyzer_serving_clickhouse::raw::Edges) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::raw::Edges
+pub fn analyzer_serving_clickhouse::raw::Edges::default() -> analyzer_serving_clickhouse::raw::Edges
+impl core::fmt::Debug for analyzer_serving_clickhouse::raw::Edges
+pub fn analyzer_serving_clickhouse::raw::Edges::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::raw::Edges
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::raw::Edges
+pub struct analyzer_serving_clickhouse::EventPage<T, C>
+pub analyzer_serving_clickhouse::EventPage::next: core::option::Option<C>
+pub analyzer_serving_clickhouse::EventPage::read_from: analyzer_serving_clickhouse::events::ReadFrom
+pub analyzer_serving_clickhouse::EventPage::rows: alloc::vec::Vec<T>
+impl<T: core::clone::Clone, C: core::clone::Clone> core::clone::Clone for analyzer_serving_clickhouse::events::EventPage<T, C>
+pub fn analyzer_serving_clickhouse::events::EventPage<T, C>::clone(&self) -> analyzer_serving_clickhouse::events::EventPage<T, C>
+impl<T: core::cmp::PartialEq, C: core::cmp::PartialEq> core::cmp::PartialEq for analyzer_serving_clickhouse::events::EventPage<T, C>
+pub fn analyzer_serving_clickhouse::events::EventPage<T, C>::eq(&self, &analyzer_serving_clickhouse::events::EventPage<T, C>) -> bool
+impl<T: core::cmp::PartialEq, C: core::cmp::PartialEq> core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::EventPage<T, C>
+impl<T: core::fmt::Debug, C: core::fmt::Debug> core::fmt::Debug for analyzer_serving_clickhouse::events::EventPage<T, C>
+pub fn analyzer_serving_clickhouse::events::EventPage<T, C>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_serving_clickhouse::Evidence
+pub analyzer_serving_clickhouse::Evidence::reach: analyzer_serving_clickhouse::drill::RawReach
+pub analyzer_serving_clickhouse::Evidence::read_from: analyzer_serving_clickhouse::events::ReadFrom
+pub analyzer_serving_clickhouse::Evidence::records: alloc::vec::Vec<analyzer_serving_clickhouse::drill::EvidenceRecord>
+pub analyzer_serving_clickhouse::Evidence::subject: analyzer_serving_clickhouse::drill::EvidenceOf
+pub analyzer_serving_clickhouse::Evidence::truncated: bool
+pub analyzer_serving_clickhouse::Evidence::window: analyzer_analysis::Window
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::Evidence
+pub fn analyzer_serving_clickhouse::drill::Evidence::clone(&self) -> analyzer_serving_clickhouse::drill::Evidence
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::Evidence
+pub fn analyzer_serving_clickhouse::drill::Evidence::eq(&self, &analyzer_serving_clickhouse::drill::Evidence) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::Evidence
+pub fn analyzer_serving_clickhouse::drill::Evidence::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::Evidence
+pub struct analyzer_serving_clickhouse::EvidenceCursor
+pub analyzer_serving_clickhouse::EvidenceCursor::at_ms: f64
+pub analyzer_serving_clickhouse::EvidenceCursor::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::EvidenceCursor::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::EvidenceCursor::key_epoch: core::option::Option<u32>
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::EvidenceCursor
+pub fn analyzer_serving_clickhouse::drill::EvidenceCursor::clone(&self) -> analyzer_serving_clickhouse::drill::EvidenceCursor
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::EvidenceCursor
+pub fn analyzer_serving_clickhouse::drill::EvidenceCursor::eq(&self, &analyzer_serving_clickhouse::drill::EvidenceCursor) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::EvidenceCursor
+pub fn analyzer_serving_clickhouse::drill::EvidenceCursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::EvidenceCursor
+pub struct analyzer_serving_clickhouse::EvidenceRecord
+pub analyzer_serving_clickhouse::EvidenceRecord::at_ms: f64
+pub analyzer_serving_clickhouse::EvidenceRecord::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::EvidenceRecord::class: alloc::string::String
+pub analyzer_serving_clickhouse::EvidenceRecord::coverage: f64
+pub analyzer_serving_clickhouse::EvidenceRecord::gap_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::EvidenceRecord::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::EvidenceRecord::key_epoch: core::option::Option<u32>
+pub analyzer_serving_clickhouse::EvidenceRecord::n_tokens: u64
+impl analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::EvidenceRecord::cursor(&self) -> analyzer_serving_clickhouse::drill::EvidenceCursor
+impl core::clone::Clone for analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::EvidenceRecord::clone(&self) -> analyzer_serving_clickhouse::drill::EvidenceRecord
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::EvidenceRecord::eq(&self, &analyzer_serving_clickhouse::drill::EvidenceRecord) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::drill::EvidenceRecord
+pub fn analyzer_serving_clickhouse::drill::EvidenceRecord::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::drill::EvidenceRecord
+pub struct analyzer_serving_clickhouse::HolderBound
+pub analyzer_serving_clickhouse::HolderBound::population: u64
+pub analyzer_serving_clickhouse::HolderBound::returned: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::bands::HolderBound
+pub fn analyzer_serving_clickhouse::bands::HolderBound::clone(&self) -> analyzer_serving_clickhouse::bands::HolderBound
+impl core::cmp::Eq for analyzer_serving_clickhouse::bands::HolderBound
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::bands::HolderBound
+pub fn analyzer_serving_clickhouse::bands::HolderBound::eq(&self, &analyzer_serving_clickhouse::bands::HolderBound) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::bands::HolderBound
+pub fn analyzer_serving_clickhouse::bands::HolderBound::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_serving_clickhouse::bands::HolderBound
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::bands::HolderBound
+pub struct analyzer_serving_clickhouse::HolderCursor
+pub analyzer_serving_clickhouse::HolderCursor::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::HolderCursor::tokens: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::HolderCursor
+pub fn analyzer_serving_clickhouse::holders::HolderCursor::clone(&self) -> analyzer_serving_clickhouse::holders::HolderCursor
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::HolderCursor
+pub fn analyzer_serving_clickhouse::holders::HolderCursor::eq(&self, &analyzer_serving_clickhouse::holders::HolderCursor) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::HolderCursor
+pub fn analyzer_serving_clickhouse::holders::HolderCursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::HolderCursor
+pub struct analyzer_serving_clickhouse::HolderEvent
+pub analyzer_serving_clickhouse::HolderEvent::at_ms: f64
+pub analyzer_serving_clickhouse::HolderEvent::class: alloc::string::String
+pub analyzer_serving_clickhouse::HolderEvent::dp_rank: u32
+pub analyzer_serving_clickhouse::HolderEvent::group_idx: u32
+pub analyzer_serving_clickhouse::HolderEvent::instance: alloc::string::String
+pub analyzer_serving_clickhouse::HolderEvent::key_epoch: core::option::Option<u32>
+pub analyzer_serving_clickhouse::HolderEvent::tokens: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::events::HolderEvent
+pub fn analyzer_serving_clickhouse::events::HolderEvent::clone(&self) -> analyzer_serving_clickhouse::events::HolderEvent
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::HolderEvent
+pub fn analyzer_serving_clickhouse::events::HolderEvent::eq(&self, &analyzer_serving_clickhouse::events::HolderEvent) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::HolderEvent
+pub fn analyzer_serving_clickhouse::events::HolderEvent::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::HolderEvent
+pub struct analyzer_serving_clickhouse::HolderEventCursor
+pub analyzer_serving_clickhouse::HolderEventCursor::at_ms: f64
+pub analyzer_serving_clickhouse::HolderEventCursor::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::HolderEventCursor::key_epoch: core::option::Option<u32>
+impl core::clone::Clone for analyzer_serving_clickhouse::events::HolderEventCursor
+pub fn analyzer_serving_clickhouse::events::HolderEventCursor::clone(&self) -> analyzer_serving_clickhouse::events::HolderEventCursor
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::HolderEventCursor
+pub fn analyzer_serving_clickhouse::events::HolderEventCursor::eq(&self, &analyzer_serving_clickhouse::events::HolderEventCursor) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::HolderEventCursor
+pub fn analyzer_serving_clickhouse::events::HolderEventCursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::HolderEventCursor
+pub struct analyzer_serving_clickhouse::HolderFilters
+pub analyzer_serving_clickhouse::HolderFilters::class: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::HolderFilters::workload: core::option::Option<alloc::string::String>
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::HolderFilters
+pub fn analyzer_serving_clickhouse::holders::HolderFilters::clone(&self) -> analyzer_serving_clickhouse::holders::HolderFilters
+impl core::cmp::Eq for analyzer_serving_clickhouse::holders::HolderFilters
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::HolderFilters
+pub fn analyzer_serving_clickhouse::holders::HolderFilters::eq(&self, &analyzer_serving_clickhouse::holders::HolderFilters) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::holders::HolderFilters
+pub fn analyzer_serving_clickhouse::holders::HolderFilters::default() -> analyzer_serving_clickhouse::holders::HolderFilters
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::HolderFilters
+pub fn analyzer_serving_clickhouse::holders::HolderFilters::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::HolderFilters
+pub struct analyzer_serving_clickhouse::HolderRow
+pub analyzer_serving_clickhouse::HolderRow::events: u64
+pub analyzer_serving_clickhouse::HolderRow::holder: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::HolderRow::model: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::HolderRow::share_of_fleet_total: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::HolderRow::state: analyzer_analysis::staleness::RunStaleness
+pub analyzer_serving_clickhouse::HolderRow::tokens: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::HolderRow::workload: core::option::Option<alloc::string::String>
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::HolderRow
+pub fn analyzer_serving_clickhouse::holders::HolderRow::clone(&self) -> analyzer_serving_clickhouse::holders::HolderRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::HolderRow
+pub fn analyzer_serving_clickhouse::holders::HolderRow::eq(&self, &analyzer_serving_clickhouse::holders::HolderRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::HolderRow
+pub fn analyzer_serving_clickhouse::holders::HolderRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::HolderRow
+pub struct analyzer_serving_clickhouse::HoldersPage
+pub analyzer_serving_clickhouse::HoldersPage::fleet_total: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::HoldersPage::next: core::option::Option<analyzer_serving_clickhouse::holders::HolderCursor>
+pub analyzer_serving_clickhouse::HoldersPage::rows: alloc::vec::Vec<analyzer_serving_clickhouse::holders::HolderRow>
+pub analyzer_serving_clickhouse::HoldersPage::total_rows: usize
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::HoldersPage
+pub fn analyzer_serving_clickhouse::holders::HoldersPage::clone(&self) -> analyzer_serving_clickhouse::holders::HoldersPage
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::HoldersPage
+pub fn analyzer_serving_clickhouse::holders::HoldersPage::eq(&self, &analyzer_serving_clickhouse::holders::HoldersPage) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::HoldersPage
+pub fn analyzer_serving_clickhouse::holders::HoldersPage::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::HoldersPage
+pub struct analyzer_serving_clickhouse::IngestStatus
+pub analyzer_serving_clickhouse::IngestStatus::batches_total: u64
+pub analyzer_serving_clickhouse::IngestStatus::last: core::option::Option<analyzer_serving_clickhouse::ingest::Batch>
+pub analyzer_serving_clickhouse::IngestStatus::records_total: u64
+pub analyzer_serving_clickhouse::IngestStatus::unknown_kinds_total: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::ingest::IngestStatus
+pub fn analyzer_serving_clickhouse::ingest::IngestStatus::clone(&self) -> analyzer_serving_clickhouse::ingest::IngestStatus
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::ingest::IngestStatus
+pub fn analyzer_serving_clickhouse::ingest::IngestStatus::eq(&self, &analyzer_serving_clickhouse::ingest::IngestStatus) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::ingest::IngestStatus
+pub fn analyzer_serving_clickhouse::ingest::IngestStatus::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::ingest::IngestStatus
+pub struct analyzer_serving_clickhouse::InstanceDupRow
+pub analyzer_serving_clickhouse::InstanceDupRow::bucket_ms: i64
+pub analyzer_serving_clickhouse::InstanceDupRow::copies_band: alloc::string::String
+pub analyzer_serving_clickhouse::InstanceDupRow::locality: alloc::string::String
+pub analyzer_serving_clickhouse::InstanceDupRow::token_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDupRow::clone(&self) -> analyzer_serving_clickhouse::replication_read::InstanceDupRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDupRow::eq(&self, &analyzer_serving_clickhouse::replication_read::InstanceDupRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDupRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::InstanceDupRow
+pub struct analyzer_serving_clickhouse::InstanceDuplication
+pub analyzer_serving_clickhouse::InstanceDuplication::copies_token_ms: f64
+pub analyzer_serving_clickhouse::InstanceDuplication::group_token_ms: f64
+pub analyzer_serving_clickhouse::InstanceDuplication::held_token_ms: f64
+pub analyzer_serving_clickhouse::InstanceDuplication::rows: alloc::vec::Vec<analyzer_serving_clickhouse::replication_read::InstanceDupRow>
+pub analyzer_serving_clickhouse::InstanceDuplication::within_token_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDuplication::clone(&self) -> analyzer_serving_clickhouse::replication_read::InstanceDuplication
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDuplication::eq(&self, &analyzer_serving_clickhouse::replication_read::InstanceDuplication) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub fn analyzer_serving_clickhouse::replication_read::InstanceDuplication::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::replication_read::InstanceDuplication
+pub struct analyzer_serving_clickhouse::Marker
+pub analyzer_serving_clickhouse::Marker::at_ms: f64
+pub analyzer_serving_clickhouse::Marker::declared_at_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::Marker::from_value: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::Marker::kind: alloc::string::String
+pub analyzer_serving_clickhouse::Marker::label: alloc::string::String
+pub analyzer_serving_clickhouse::Marker::provenance: alloc::string::String
+pub analyzer_serving_clickhouse::Marker::source: alloc::string::String
+pub analyzer_serving_clickhouse::Marker::to_value: core::option::Option<alloc::string::String>
+impl analyzer_serving_clickhouse::markers::Marker
+pub fn analyzer_serving_clickhouse::markers::Marker::breaks(&self) -> bool
+impl core::clone::Clone for analyzer_serving_clickhouse::markers::Marker
+pub fn analyzer_serving_clickhouse::markers::Marker::clone(&self) -> analyzer_serving_clickhouse::markers::Marker
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::markers::Marker
+pub fn analyzer_serving_clickhouse::markers::Marker::eq(&self, &analyzer_serving_clickhouse::markers::Marker) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::markers::Marker
+pub fn analyzer_serving_clickhouse::markers::Marker::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::markers::Marker
+pub struct analyzer_serving_clickhouse::Page
+pub analyzer_serving_clickhouse::Page::after: core::option::Option<analyzer_serving_clickhouse::holders::HolderCursor>
+pub analyzer_serving_clickhouse::Page::limit: u32
+impl core::clone::Clone for analyzer_serving_clickhouse::holders::Page
+pub fn analyzer_serving_clickhouse::holders::Page::clone(&self) -> analyzer_serving_clickhouse::holders::Page
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::holders::Page
+pub fn analyzer_serving_clickhouse::holders::Page::eq(&self, &analyzer_serving_clickhouse::holders::Page) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::holders::Page
+pub fn analyzer_serving_clickhouse::holders::Page::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::holders::Page
+pub struct analyzer_serving_clickhouse::PairRow
+pub analyzer_serving_clickhouse::PairRow::a: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::PairRow::b: analyzer_analysis::intervals::Holder
+pub analyzer_serving_clickhouse::PairRow::day: alloc::string::String
+pub analyzer_serving_clickhouse::PairRow::token_ms: analyzer_serving_clickhouse::Covered<f64>
+pub analyzer_serving_clickhouse::PairRow::workload: alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::placement::PairRow
+pub fn analyzer_serving_clickhouse::placement::PairRow::clone(&self) -> analyzer_serving_clickhouse::placement::PairRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::placement::PairRow
+pub fn analyzer_serving_clickhouse::placement::PairRow::eq(&self, &analyzer_serving_clickhouse::placement::PairRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::placement::PairRow
+pub fn analyzer_serving_clickhouse::placement::PairRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::placement::PairRow
+pub struct analyzer_serving_clickhouse::Placement
+pub analyzer_serving_clickhouse::Placement::rows: alloc::vec::Vec<analyzer_serving_clickhouse::placement::PairRow>
+pub analyzer_serving_clickhouse::Placement::truncation: core::option::Option<analyzer_serving_clickhouse::placement::Truncation>
+pub analyzer_serving_clickhouse::Placement::window_total: analyzer_serving_clickhouse::Covered<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::placement::Placement
+pub fn analyzer_serving_clickhouse::placement::Placement::clone(&self) -> analyzer_serving_clickhouse::placement::Placement
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::placement::Placement
+pub fn analyzer_serving_clickhouse::placement::Placement::eq(&self, &analyzer_serving_clickhouse::placement::Placement) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::placement::Placement
+pub fn analyzer_serving_clickhouse::placement::Placement::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::placement::Placement
+pub struct analyzer_serving_clickhouse::RankedBlock
+pub analyzer_serving_clickhouse::RankedBlock::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::RankedBlock::certain: bool
+pub analyzer_serving_clickhouse::RankedBlock::holders_at_least: u32
+pub analyzer_serving_clickhouse::RankedBlock::tokens_at_least: i64
+pub analyzer_serving_clickhouse::RankedBlock::tokens_at_most: i64
+impl core::clone::Clone for analyzer_serving_clickhouse::events::RankedBlock
+pub fn analyzer_serving_clickhouse::events::RankedBlock::clone(&self) -> analyzer_serving_clickhouse::events::RankedBlock
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::RankedBlock
+pub fn analyzer_serving_clickhouse::events::RankedBlock::eq(&self, &analyzer_serving_clickhouse::events::RankedBlock) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::RankedBlock
+pub fn analyzer_serving_clickhouse::events::RankedBlock::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::RankedBlock
+pub struct analyzer_serving_clickhouse::RunRow
+pub analyzer_serving_clickhouse::RunRow::engine_version: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::RunRow::first_seen_ms: f64
+pub analyzer_serving_clickhouse::RunRow::incarnation: alloc::string::String
+pub analyzer_serving_clickhouse::RunRow::instance: alloc::string::String
+pub analyzer_serving_clickhouse::RunRow::last_seen_ms: f64
+pub analyzer_serving_clickhouse::RunRow::model: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::RunRow::pod: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::RunRow::staleness: analyzer_analysis::staleness::RunStaleness
+pub analyzer_serving_clickhouse::RunRow::stop_observed: bool
+pub analyzer_serving_clickhouse::RunRow::threshold_ms: core::option::Option<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::roster::RunRow
+pub fn analyzer_serving_clickhouse::roster::RunRow::clone(&self) -> analyzer_serving_clickhouse::roster::RunRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::roster::RunRow
+pub fn analyzer_serving_clickhouse::roster::RunRow::eq(&self, &analyzer_serving_clickhouse::roster::RunRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::roster::RunRow
+pub fn analyzer_serving_clickhouse::roster::RunRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::roster::RunRow
+pub struct analyzer_serving_clickhouse::Scope
+pub analyzer_serving_clickhouse::Scope::holder: core::option::Option<analyzer_analysis::intervals::Holder>
+pub analyzer_serving_clickhouse::Scope::instance: core::option::Option<alloc::string::String>
+pub analyzer_serving_clickhouse::Scope::workload: core::option::Option<alloc::string::String>
+impl analyzer_serving_clickhouse::Scope
+pub fn analyzer_serving_clickhouse::Scope::is_holder_shaped(&self) -> bool
+pub fn analyzer_serving_clickhouse::Scope::predicate(&self) -> alloc::string::String
+pub fn analyzer_serving_clickhouse::Scope::predicate_on(&self, bool) -> alloc::string::String
+impl core::clone::Clone for analyzer_serving_clickhouse::Scope
+pub fn analyzer_serving_clickhouse::Scope::clone(&self) -> analyzer_serving_clickhouse::Scope
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::Scope
+pub fn analyzer_serving_clickhouse::Scope::eq(&self, &analyzer_serving_clickhouse::Scope) -> bool
+impl core::default::Default for analyzer_serving_clickhouse::Scope
+pub fn analyzer_serving_clickhouse::Scope::default() -> analyzer_serving_clickhouse::Scope
+impl core::fmt::Debug for analyzer_serving_clickhouse::Scope
+pub fn analyzer_serving_clickhouse::Scope::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::Scope
+pub struct analyzer_serving_clickhouse::Segment
+pub analyzer_serving_clickhouse::Segment::basis: analyzer_serving_clickhouse::shape1::SegmentBasis
+pub analyzer_serving_clickhouse::Segment::discriminator: alloc::string::String
+pub analyzer_serving_clickhouse::Segment::figures: core::option::Option<alloc::vec::Vec<analyzer_serving_clickhouse::shape1::WasteRow>>
+pub analyzer_serving_clickhouse::Segment::semantics_version: alloc::string::String
+pub analyzer_serving_clickhouse::Segment::window: analyzer_analysis::Window
+impl core::clone::Clone for analyzer_serving_clickhouse::shape1::Segment
+pub fn analyzer_serving_clickhouse::shape1::Segment::clone(&self) -> analyzer_serving_clickhouse::shape1::Segment
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::shape1::Segment
+pub fn analyzer_serving_clickhouse::shape1::Segment::eq(&self, &analyzer_serving_clickhouse::shape1::Segment) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::shape1::Segment
+pub fn analyzer_serving_clickhouse::shape1::Segment::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::shape1::Segment
+pub struct analyzer_serving_clickhouse::StoredMassRow
+pub analyzer_serving_clickhouse::StoredMassRow::day: alloc::string::String
+pub analyzer_serving_clickhouse::StoredMassRow::records: u64
+pub analyzer_serving_clickhouse::StoredMassRow::tokens: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::stored::StoredMassRow
+pub fn analyzer_serving_clickhouse::stored::StoredMassRow::clone(&self) -> analyzer_serving_clickhouse::stored::StoredMassRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::stored::StoredMassRow
+pub fn analyzer_serving_clickhouse::stored::StoredMassRow::eq(&self, &analyzer_serving_clickhouse::stored::StoredMassRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::stored::StoredMassRow
+pub fn analyzer_serving_clickhouse::stored::StoredMassRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::stored::StoredMassRow
+pub struct analyzer_serving_clickhouse::TagRead
+pub analyzer_serving_clickhouse::TagRead::covered_ms: f64
+pub analyzer_serving_clickhouse::TagRead::tags: alloc::vec::Vec<(alloc::string::String, analyzer_analysis::tags::TagFigures)>
+pub analyzer_serving_clickhouse::TagRead::through_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::TagRead::window_ms: f64
+impl core::clone::Clone for analyzer_serving_clickhouse::tags::TagRead
+pub fn analyzer_serving_clickhouse::tags::TagRead::clone(&self) -> analyzer_serving_clickhouse::tags::TagRead
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::tags::TagRead
+pub fn analyzer_serving_clickhouse::tags::TagRead::eq(&self, &analyzer_serving_clickhouse::tags::TagRead) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::tags::TagRead
+pub fn analyzer_serving_clickhouse::tags::TagRead::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::tags::TagRead
+pub struct analyzer_serving_clickhouse::TimelineCursor
+pub analyzer_serving_clickhouse::TimelineCursor::at_ms: f64
+pub analyzer_serving_clickhouse::TimelineCursor::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::TimelineCursor::key_epoch: core::option::Option<u32>
+impl core::clone::Clone for analyzer_serving_clickhouse::events::TimelineCursor
+pub fn analyzer_serving_clickhouse::events::TimelineCursor::clone(&self) -> analyzer_serving_clickhouse::events::TimelineCursor
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::TimelineCursor
+pub fn analyzer_serving_clickhouse::events::TimelineCursor::eq(&self, &analyzer_serving_clickhouse::events::TimelineCursor) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::TimelineCursor
+pub fn analyzer_serving_clickhouse::events::TimelineCursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::TimelineCursor
+pub struct analyzer_serving_clickhouse::TimelineEvent
+pub analyzer_serving_clickhouse::TimelineEvent::at_ms: f64
+pub analyzer_serving_clickhouse::TimelineEvent::block_id: alloc::string::String
+pub analyzer_serving_clickhouse::TimelineEvent::class: alloc::string::String
+pub analyzer_serving_clickhouse::TimelineEvent::gap_ms: core::option::Option<f64>
+pub analyzer_serving_clickhouse::TimelineEvent::key_epoch: core::option::Option<u32>
+pub analyzer_serving_clickhouse::TimelineEvent::tokens: u64
+impl core::clone::Clone for analyzer_serving_clickhouse::events::TimelineEvent
+pub fn analyzer_serving_clickhouse::events::TimelineEvent::clone(&self) -> analyzer_serving_clickhouse::events::TimelineEvent
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::events::TimelineEvent
+pub fn analyzer_serving_clickhouse::events::TimelineEvent::eq(&self, &analyzer_serving_clickhouse::events::TimelineEvent) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::events::TimelineEvent
+pub fn analyzer_serving_clickhouse::events::TimelineEvent::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::events::TimelineEvent
+pub struct analyzer_serving_clickhouse::WasteRow
+pub analyzer_serving_clickhouse::WasteRow::bucket: alloc::string::String
+pub analyzer_serving_clickhouse::WasteRow::dims: alloc::vec::Vec<(analyzer_serving_clickhouse::Dim, alloc::string::String)>
+pub analyzer_serving_clickhouse::WasteRow::events: u64
+pub analyzer_serving_clickhouse::WasteRow::tokens: analyzer_serving_clickhouse::Covered<f64>
+impl core::clone::Clone for analyzer_serving_clickhouse::shape1::WasteRow
+pub fn analyzer_serving_clickhouse::shape1::WasteRow::clone(&self) -> analyzer_serving_clickhouse::shape1::WasteRow
+impl core::cmp::PartialEq for analyzer_serving_clickhouse::shape1::WasteRow
+pub fn analyzer_serving_clickhouse::shape1::WasteRow::eq(&self, &analyzer_serving_clickhouse::shape1::WasteRow) -> bool
+impl core::fmt::Debug for analyzer_serving_clickhouse::shape1::WasteRow
+pub fn analyzer_serving_clickhouse::shape1::WasteRow::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_serving_clickhouse::shape1::WasteRow
+pub const analyzer_serving_clickhouse::AUTO_GRAIN_HOUR_POINT_BUDGET: f64
+pub const analyzer_serving_clickhouse::AUTO_GRAIN_MINUTE_POINT_BUDGET: f64
+pub const analyzer_serving_clickhouse::STAMPED_WINDOW_DAYS: i64
+pub fn analyzer_serving_clickhouse::stamped_window(i64) -> core::result::Result<analyzer_analysis::Window, analyzer_serving_clickhouse::Error>

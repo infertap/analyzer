@@ -1,0 +1,59 @@
+[package]
+name = "analyzer-pipeline"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+log = { version = "0.4", features = ["std"] }
+# The crate's error type: one enum, every variant rendering the message it replaced.
+thiserror = "2"
+# The log partitioned by block compresses with the codec the tap's Parquet segments already use.
+snap = "1"
+# The object-storage port: the derivation reads segments through the transport we own, not
+# through the engine.
+analyzer-objectstore = { path = "../objectstore" }
+# The lake's commit primitives (the head, the lineage and its lease) and the input log.
+analyzer-lake = { path = "../lake" }
+# The derivation itself: types and folds, no I/O. Every read here loads the Ordered Event IR and
+# hands it to a fold; every write serialises what a fold returned.
+analyzer-analysis = { path = "../analysis" }
+# The store-free decoder `ParquetSource` reads segments through — the source owns discovery,
+# the cache and the fetch seam, and it owns NO decode.
+analyzer-segments = { path = "../segments" }
+# The journal head, the published state's documents and the derive document are JSON.
+serde = { version = "1", features = ["derive"] }
+serde_json = "1.0"
+# The namespace's object prefix is a SHA-256 of its identity, stable across builds.
+sha2 = "0.10"
+[dev-dependencies]
+# The shared test harness: the engine fixture, planted streams and the journal faults.
+harness = { path = "../harness", package = "analyzer-harness" }
+# The harness ingests fixture segments into the input log, as the daemon does.
+analyzer-ingest = { path = "../ingest" }
+# The journal fault store (`testing::FaultyStore`), for tests that refuse a head write.
+analyzer-objectstore = { path = "../objectstore", features = ["testing"] }
+analyzer-serving-clickhouse = { path = "../serving-clickhouse", features = ["testing"] }
+serde_json = "1.0"
+# The acceptance tests WRITE Parquet — the mixed-form corpus's twins and the multi-row-group
+# fixtures the pruning and projection proofs instrument. The analyzer ships no writer; the
+# tests build their fixtures with the same crate whose reader is under test, dev-only.
+# `bytes` rides for the same reason it does in `segments`: the instrumented reader shim wraps
+# `bytes::Bytes`, the crate's one in-memory `ChunkReader`.
+parquet = { version = "59.2", default-features = false, features = ["snap"] }
+bytes = "1"
+
+# Measurements are opt-in and never run in correctness batteries.
+[[bench]]
+name = "tick"
+harness = false
+test = false

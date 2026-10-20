@@ -1,0 +1,18 @@
+{
+  "cells": [
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+7200 -> 2|16",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+7200 -> 2|16",
+    "band_rollup_daily|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 2|16",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+7200 -> 2|16",
+    "class_rollup_daily|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 2|16",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+7200 -> 2|16",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+7200 -> 2|16",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+7200 -> 2|16"
+  ],
+  "coverage": {
+    "coverage_daily|day=day+0|instance_id=i1": [
+      7559000.0,
+      86400000.0
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+# What the image build does NOT need.
+#
+# **Deliberately short.** More than the obvious is excluded at your peril: the build embeds files
+# from outside `crates/` at compile time and a missing one fails as a confusing macro error rather
+# than as a missing file. `crates/cli/src/selftest.rs` `include_str!`s the conformance telemetry
+# out of the CONTRACT SUBMODULE and the derived corpus out of `conformance/`; `storage` embeds
+# `CLICKHOUSE_VERSION` and its migration SQL. So `contract/` and `conformance/` stay.
+#
+# **The submodule must be checked out before building**, or those embeds have nothing to read:
+#   git submodule update --init --depth 1 contract/inference-events
+
+# Build output. The largest thing here by far, and never an input.
+target/
+.cargo-home/
+.rustup-home/
+
+# Git metadata. The contract submodule's FILES live in the working tree and survive this; only
+# the repository's own history is excluded.
+.git/
+.gitignore
+.dockerignore
+
+# Local tooling: `.tools/clickhouse` is a host-architecture binary fetched for local tests. The
+# image fetches and hash-verifies its OWN engine in the first stage, and letting a developer's
+# arm64 Mach-O near an amd64 image is exactly the confusion that stage exists to prevent.
+.tools/
+*.tgz
+
+# CI and prose. None of it is an input to the binary.
+.github/
+docs/
+
+# Editor and OS noise.
+.DS_Store
+.claude/

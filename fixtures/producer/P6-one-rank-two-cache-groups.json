@@ -1,0 +1,23 @@
+{
+  "claim": "one rank holding one prefix in TWO KV cache groups is two copies that no policy can remove: a hybrid-attention model partitions its layers, the engine keys its cache by hash AND group, and both copies are the architecture. It reads `group`, never `within` \u2014 calling it the engine's placement told an operator to fix something that is not broken",
+  "expect_fleet_cells": [["1", "none"], ["2", "group"]],
+  "waves": [
+    {
+      "records": [
+        { "kind": "agent_start", "at_ms": 1800000.0, "incarnation": "run-1", "canary": "k1", "heartbeat_secs": 60, "max_segment_secs": 300 },
+        { "kind": "heartbeat", "at_ms": 2160000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 10, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 2160000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 2160000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 3360000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 11, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 3360000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 3360000.0 } ] },
+        { "kind": "store", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 3600000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 8 },
+        { "kind": "store", "instance_id": "i1", "dp_rank": 0, "group_idx": 1, "block_id": "a", "content_id": "a", "at_ms": 4320000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 8 },
+        { "kind": "heartbeat", "at_ms": 4560000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 12, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 4560000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 4560000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 5760000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 13, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 5760000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 5760000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 6960000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 14, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 6960000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 6960000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 8160000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 15, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 8160000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 8160000.0 } ] },
+        { "kind": "evict", "instance_id": "i1", "dp_rank": 0, "group_idx": 1, "block_id": "a", "content_id": "a", "at_ms": 9000000.0, "incarnation": "run-1", "workload_class": "agentic" },
+        { "kind": "heartbeat", "at_ms": 9360000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 16, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 9360000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 9360000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 10560000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 17, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 10560000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 10560000.0 } ] },
+        { "kind": "evict", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 10800000.0, "incarnation": "run-1", "workload_class": "agentic" }
+      ]
+    }
+  ]
+}

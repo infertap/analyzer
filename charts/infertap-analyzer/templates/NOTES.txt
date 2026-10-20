@@ -1,0 +1,92 @@
+The InferTap analyzer {{ .Chart.AppVersion }} is installed as {{ include "infertap-analyzer.fullname" . }}.
+
+It is now reading fleet {{ .Values.fleet.id }} from {{ .Values.bucket.url }}, and will keep doing
+so unattended. The first pass runs within the hour.
+
+TO SEE IT. Three steps, and the second is the one nobody guesses:
+
+  1. Reach the console.
+{{- if .Values.ingress.enabled }}
+
+       https://{{ index .Values.ingress.hosts 0 }}/
+
+{{- else }}
+
+       kubectl --namespace {{ .Release.Namespace }} port-forward \
+         svc/{{ include "infertap-analyzer.fullname" . }} 8088:{{ .Values.service.consolePort }}
+
+     Then open http://localhost:8088. No Ingress, no certificate, no open port — the same
+     properties as an SSH tunnel, and what every operator here already does.
+{{- end }}
+
+  2. Read the viewer token. The analyzer issued one on first start and wrote it to a 0600 file;
+     it was never printed, because a pod's stdout goes to your log index where a live credential
+     should not be.
+
+       kubectl --namespace {{ .Release.Namespace }} exec \
+         {{ include "infertap-analyzer.fullname" . }}-0 -- \
+         cat /var/lib/infertap-analyzer/initial-token
+
+  3. Paste it into the sign-in screen. Your browser will offer to save it; let it. The token is
+     the standing credential and the session is what expires, so that is the difference between
+     signing in again being a click and being another `kubectl exec`.
+
+     Rotate it whenever you like — this also ends every session it opened:
+
+       kubectl --namespace {{ .Release.Namespace }} exec \
+         {{ include "infertap-analyzer.fullname" . }}-0 -- \
+         infertap-analyzer token rotate --data-dir /var/lib/infertap-analyzer --id <ID>
+
+WHAT IS IN THIS BUILD:
+
+  kubectl --namespace {{ .Release.Namespace }} exec {{ include "infertap-analyzer.fullname" . }}-0 -- infertap-analyzer version
+
+  Reports the analyzer's version, the platform, and the embedded console's version and content
+  hash — so "which console is deployed" is answerable without guessing.
+
+{{- if not .Values.persistence.enabled }}
+
+  ! persistence.enabled is FALSE. The data directory is an emptyDir, so the engine's store and
+    every derived rollup are lost when this pod restarts. Re-derivation from the bucket is
+    designed to work, but paying for it on every restart is a rig, not a deployment.
+{{- end }}
+{{- if not .Values.bucket.existingSecret }}
+
+  ! bucket.existingSecret is unset, so no credentials were passed to the analyzer. If your object
+    store needs them, ingest will fail with an S3 error at the first cycle — set it to a Secret
+    holding {{ .Values.bucket.accessKeyIdKey }} and {{ .Values.bucket.secretAccessKeyKey }}.
+{{- end }}
+{{- if .Values.ingress.enabled }}
+
+  Ingress is enabled, so the session cookie is issued with `Secure` — terminate TLS at the
+  Ingress or no browser will keep a session.
+{{- end }}
+
+IF THE POD DOES NOT START.
+
+  This chart gates on `preflight`, the same check the VM installer runs, as an initContainer. A
+  deployment that cannot work refuses to start rather than running and failing quietly later:
+
+    kubectl --namespace {{ .Release.Namespace }} logs \
+      {{ include "infertap-analyzer.fullname" . }}-0 -c preflight
+
+  That names the reason — the bucket, the credential, the volume, the clock — in the analyzer's own
+  words. `Init:Error` with nothing else wrong is almost always the bucket URL or the Secret.
+
+  **Pending, rather than Init:Error, is a sizing problem, not a configuration one.** The scheduler
+  could not place the pod, and it says so only in `describe`:
+
+    kubectl --namespace {{ .Release.Namespace }} describe pod \
+      {{ include "infertap-analyzer.fullname" . }}-0 | tail -5
+
+  Defaults request {{ .Values.resources.requests.cpu }} CPU and
+  {{ .Values.resources.requests.memory }}, which fit a 2-vCPU/8 GB node with room to spare. They
+  are a scheduling floor, not a capacity recommendation: whether this analyzer keeps up is observed
+  on /v1/health as ingest utilisation, never guessed from a values file.
+
+  **A `helm upgrade` will not rescue a pod that never became Ready.** The StatefulSet updates its
+  template but declines to roll a pod that has not started, so a corrected size looks like it did
+  nothing. Delete the pod and let it come back:
+
+    kubectl --namespace {{ .Release.Namespace }} delete pod \
+      {{ include "infertap-analyzer.fullname" . }}-0

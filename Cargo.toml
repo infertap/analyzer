@@ -1,0 +1,52 @@
+# Each crate is a boundary: ARCHITECTURE.md names what each may depend on, and the static
+# audit holds the dependency allowlist per crate.
+[workspace]
+resolver = "2"
+# The pinned model is a separately licensed upstream dependency.
+exclude = ["contract/inference-events/crates/model"]
+members = [
+    "crates/segments",
+    "crates/ingest",
+    "crates/serving-clickhouse",
+    "crates/analysis",
+    "crates/pipeline",
+    "crates/daemon",
+    "crates/api",
+    "crates/cli",
+    "crates/objectstore",
+    "crates/lake",
+    "crates/module-example",
+    "crates/harness",
+]
+
+[workspace.package]
+# The release tags' version: the analyzer and the console carry the same number, which is what an
+# operator reading `version` beside `console/PIN.toml` expects.
+version = "1.0.10"
+edition = "2021"
+rust-version = "1.97"
+# The repository's licence and identity, inherited by every crate: AGPL-3.0-only. No crate is published on its own (`publish = false` in each), so
+# these fields describe the workspace, not a registry entry.
+license = "AGPL-3.0-only"
+authors = ["InferTap <cort@infertap.ai>"]
+repository = "https://github.com/infertap/analyzer"
+homepage = "https://infertap.ai"
+description = "The InferTap analyzer: the aggregator side of the record stream — ingestion, storage, the derivation, and the read API that serves the console."
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+# Every public item says what it is (2026-09-17, the tap's rule). The files that predate the
+# rule carry `#![allow(missing_docs)]` with their count, ratcheted by the static audit
+# (`missing_docs_debt_is_listed`): a new file cannot opt out, and a listed one burns down.
+missing_docs = "warn"
+
+[workspace.lints.clippy]
+all = "warn"
+pedantic = "warn"
+
+# Cargo's macOS default (unpacked) retains per-build debug objects in debug/deps.
+# Pack symbols instead: keep full debugging and incremental compilation without
+# accumulating those loose objects on every edit. The test profile inherits this.
+# See docs/testing.md, "Build cache", for the reproduction and link-time tradeoff.
+[profile.dev]
+split-debuginfo = "packed"

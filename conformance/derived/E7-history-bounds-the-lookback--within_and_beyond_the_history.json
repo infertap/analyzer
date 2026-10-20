@@ -1,0 +1,143 @@
+{
+  "classification": {
+    "bucket_counts": {
+      "cold": 1,
+      "indeterminate": 1
+    },
+    "eviction_waste_tokens": 0,
+    "post_clear_tokens": 0,
+    "residencies": [],
+    "stores": [
+      {
+        "at_ms": 3000000.0,
+        "block": "pA",
+        "class": "indeterminate",
+        "gap_ms": null,
+        "holder": [
+          "i1",
+          0,
+          0
+        ],
+        "key_epoch": null,
+        "n_tokens": 4
+      },
+      {
+        "at_ms": 5000000.0,
+        "block": "pB",
+        "class": "cold",
+        "gap_ms": null,
+        "holder": [
+          "i1",
+          0,
+          0
+        ],
+        "key_epoch": null,
+        "n_tokens": 4
+      }
+    ]
+  },
+  "coverage": {
+    "fraction": 0.0,
+    "per_day": [
+      {
+        "covered_ms": 0.0,
+        "day_ms": 0.0,
+        "source": "i1",
+        "window_ms": 2000002.0
+      }
+    ],
+    "per_source_covered_ms": [
+      [
+        "i1",
+        0.0
+      ]
+    ]
+  },
+  "degradation_ledger": [
+    {
+      "bracket": [
+        10000.0,
+        70000.0
+      ],
+      "cause": "DropWindow { dropped: 2, oversized: 0 }",
+      "engine_extent": null,
+      "incidents": 1,
+      "scope": "Instance(\"i1\")"
+    }
+  ],
+  "evict_audit": "AuditOutcome { instances: [] }",
+  "intervals": [
+    {
+      "block": "pA",
+      "close_ms": null,
+      "close_reason": "None",
+      "holder": [
+        "i1",
+        0,
+        0
+      ],
+      "key_epoch": null,
+      "open_ms": 3000000.0,
+      "readmits": 0,
+      "tier": "GPU"
+    },
+    {
+      "block": "pB",
+      "close_ms": null,
+      "close_reason": "None",
+      "holder": [
+        "i1",
+        0,
+        0
+      ],
+      "key_epoch": null,
+      "open_ms": 5000000.0,
+      "readmits": 0,
+      "tier": "GPU"
+    }
+  ],
+  "liveness": {
+    "fleet_health": "FleetHealth { expected_departures: 0, unexplained_departures: 0, observed_idle_or_stalled: [\"i1\"], agents: 1, instances: 1 }",
+    "run_verdicts": [
+      [
+        "",
+        "NoBasis"
+      ]
+    ]
+  },
+  "meaning": {
+    "delta_skew_ms": 1000.0,
+    "discriminator": "s1000x3600000",
+    "examined_history_ms": 3600000.0,
+    "semantics_version": "js-7",
+    "staleness_grace_ms": 1800000.0
+  },
+  "narrowing": "GapSpan { narrowed: false, start_ms: None, end_ms: None }",
+  "reuse": {
+    "declaration": "Unlabelled",
+    "first_insertion": {
+      "countable": false,
+      "records": null,
+      "tokens": null
+    },
+    "recompute": {
+      "countable": true,
+      "records": 0,
+      "tokens": 0
+    },
+    "unqualified": {
+      "countable": false,
+      "records": null,
+      "tokens": null
+    }
+  },
+  "tree": {
+    "dangling_edges": 0,
+    "nodes": [
+      "pA",
+      "pB"
+    ],
+    "observed_edges": [],
+    "parent_conflicts": 0
+  }
+}

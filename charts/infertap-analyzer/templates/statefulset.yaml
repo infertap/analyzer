@@ -1,0 +1,180 @@
+{{- include "infertap-analyzer.validate" . -}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "infertap-analyzer.fullname" . }}
+  labels:
+    {{- include "infertap-analyzer.labels" . | nindent 4 }}
+spec:
+  # **ONE REPLICA, AND THE CHART OFFERS NO KNOB FOR IT.**
+  #
+  # This is not a scaling limit that we have not got round to lifting. The analyzer claims its
+  # host, supervises an engine inside its data directory, and measures the filesystem under it —
+  # so one analyzer per host is structural. `replicas: 2` is two daemons
+  # contending for one volume: with ReadWriteOnce the second pod never schedules, which is the
+  # LUCKY failure; on ReadWriteMany it is two engines over one store.
+  #
+  # A fleet that needs more capacity is the envelope conversation — observed on /v1/health as
+  # ingest utilisation, and answered by splitting the fleet across analyzers — never a replica
+  # count.
+  replicas: 1
+  serviceName: {{ include "infertap-analyzer.fullname" . }}-headless
+  selector:
+    matchLabels:
+      {{- include "infertap-analyzer.selectorLabels" . | nindent 6 }}
+  # The store is one pod's, so a rolling update would have the new pod waiting on a volume the old
+  # one still holds. Stop, then start.
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{- include "infertap-analyzer.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}{{ toYaml . | nindent 8 }}{{- end }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      # Named explicitly so the provider chain can find an IRSA / Workload Identity token. Left
+      # unset, the pod would run as `default`, and "no static credential" would silently mean "the
+      # node's instance profile".
+      serviceAccountName: {{ include "infertap-analyzer.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      # The daemon stops between cycles. This mirrors the systemd unit's TimeoutStopSec=1800, the
+      # same worst case stated to the same effect. Below it, SIGKILL lands mid-tick and the next
+      # start takes the crash-recovery path, which is survivable by design and not the ordered one.
+      terminationGracePeriodSeconds: 1800
+      {{- if .Values.preflight.enabled }}
+      # **The same gate the VM path has.** `install.sh` refuses to finish when preflight refuses, so
+      # the chart runs it too: a wrong bucket URL, a bad credential, an unwritable volume or a
+      # skewed clock stops the pod with a named reason rather than leaving it quietly broken.
+      #
+      # An initContainer is the honest shape for it: the pod does not start, `kubectl logs` carries
+      # OUR diagnosis rather than a scheduler string, and the failure is the analyzer's own words.
+      initContainers:
+        - name: preflight
+          image: {{ include "infertap-analyzer.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          # Not `run`, so the entrypoint's --api-addr/--metrics-addr append is skipped by its own
+          # `[ "$1" != "run" ]` guard. Preflight would reject those flags outright.
+          args:
+            - preflight
+            - --data-dir
+            - /var/lib/infertap-analyzer
+            - --bucket-url
+            - {{ .Values.bucket.url | quote }}
+            {{- with .Values.bucket.prefix }}
+            - --bucket-prefix
+            - {{ . | quote }}
+            {{- end }}
+            - --clickhouse
+            - /usr/local/lib/infertap-analyzer/clickhouse
+          env:
+            {{- include "infertap-analyzer.bucketEnv" . | nindent 12 }}
+          # Deliberately NOT the analyzer's own requests. Preflight starts the engine briefly and
+          # writes one small object; sizing it like the service would make the gate itself a
+          # scheduling obstacle, which is the failure this whole block exists to remove.
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/infertap-analyzer
+      {{- end }}
+      containers:
+        - name: analyzer
+          image: {{ include "infertap-analyzer.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          args:
+            - run
+            - --fleet-id
+            - {{ .Values.fleet.id | quote }}
+            - --bucket-url
+            - {{ .Values.bucket.url | quote }}
+            {{- with .Values.bucket.prefix }}
+            - --bucket-prefix
+            - {{ . | quote }}
+            {{- end }}
+            - --data-dir
+            - /var/lib/infertap-analyzer
+            - --clickhouse
+            - /usr/local/lib/infertap-analyzer/clickhouse
+            {{- if .Values.ingress.enabled }}
+            # **Set here so it cannot disagree with the Ingress.** An Ingress means the browser
+            # reaches the console over HTTPS, which is exactly when the session cookie must carry
+            # `Secure` — and F1 is why it is not on by default: Safari discards a Secure cookie
+            # over plaintext, which is what a port-forward is.
+            - --api-cookie-secure
+            - "on"
+            {{- end }}
+            {{- with .Values.extraArgs }}{{ toYaml . | nindent 12 }}{{- end }}
+          # The entrypoint appends --api-addr and --metrics-addr bound to 0.0.0.0 when the args do
+          # not state them. Loopback is the binary's default and correct on a VM; inside a network
+          # namespace it means a Service finds nothing listening, with no error anywhere.
+          env:
+            {{- include "infertap-analyzer.bucketEnv" . | nindent 12 }}
+          ports:
+            - name: console
+              containerPort: 8088
+            - name: metrics
+              containerPort: 9363
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/infertap-analyzer
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if not .Values.persistence.enabled }}
+      volumes:
+        - name: data
+          emptyDir: {}
+      {{- end }}
+  {{- if .Values.persistence.enabled }}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          {{- toYaml .Values.persistence.accessModes | nindent 10 }}
+        {{- if .Values.persistence.storageClassName }}
+        storageClassName: {{ .Values.persistence.storageClassName }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size | quote }}
+  {{- end }}

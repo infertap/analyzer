@@ -1,0 +1,90 @@
+# Is our pinned contract still the current one?
+#
+# A stale pin is the one drift in this system that fails on the ABSENCE of action. Everything
+# else — an unregistered constant, a corpus disagreement, a license change — breaks a build
+# because someone did something. Forgetting to bump a submodule does nothing, and CI runs on
+# doing things, so nothing fires. The consumer keeps testing against the corpora it vendored
+# months ago and passes cleanly.
+#
+# Two deliberate choices about how this fires.
+#
+# It compares a CONTRACT HASH, not a commit. Comparing commits would flag us stale on every
+# unrelated push to the tap — a typo, a lint, a packaging tweak — and a check that cries wolf is
+# muted inside a week, which is worse than not having it. The hash covers `conformance/` and
+# moves exactly once per real contract change.
+#
+# It runs on a SCHEDULE, not per-PR. Drift arrives with time rather than with our commits, so a
+# per-PR check would block work that has nothing to do with the contract while adding no
+# earlier warning. Daily surfaces it within a day, which is well inside the window where
+# bumping the pin is a deliberate act rather than an emergency.
+#
+# Bumping remains manual and deliberate: fetch, check out the new tag, update contract/PIN.md,
+# and re-run the conformance suite against the new corpora. That last part is the half that
+# already works, and it is the half that must not be automated.
+#
+name: contract-drift
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 7 * * *"
+
+jobs:
+  pin-freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: check out the contract submodule
+        # The contract is the PUBLIC spec repo (inference-events); no credential needed.
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 contract/inference-events
+          test -f contract/inference-events/conformance/CONTRACT_HASH || {
+            echo "::error::the submodule checked out but carries no CONTRACT_HASH — the pin" \
+                 "points at the wrong commit."
+            exit 1
+          }
+
+      - name: compare the pinned contract against upstream
+        run: |
+          set -euo pipefail
+
+          VENDORED="contract/inference-events/conformance/CONTRACT_HASH"
+          if [ ! -f "$VENDORED" ]; then
+            echo "::error::no CONTRACT_HASH in the vendored contract at $VENDORED."
+            echo "The pin predates the contract-hash mechanism; bump it."
+            exit 1
+          fi
+
+          URL="$(git config -f .gitmodules submodule.contract/inference-events.url)"
+          git clone --quiet --depth 1 --filter=blob:none --sparse "$URL" /tmp/upstream
+          git -C /tmp/upstream sparse-checkout set conformance
+
+          UP="/tmp/upstream/conformance/CONTRACT_HASH"
+          if [ ! -f "$UP" ]; then
+            echo "::error::upstream has no conformance/CONTRACT_HASH."
+            echo "Either the remote is not the contract repo, or the tap has not published one."
+            exit 1
+          fi
+
+          ours="$(cat "$VENDORED")"
+          theirs="$(cat "$UP")"
+          echo "pinned:   $ours"
+          echo "upstream: $theirs"
+
+          if [ "$ours" != "$theirs" ]; then
+            echo "::error::the pinned contract is STALE. Upstream's corpora have moved."
+            echo "Bump contract/inference-events, update contract/PIN.md, and re-run the conformance"
+            echo "suite against the new corpora — the run against the NEW corpora is the point;"
+            echo "moving the gitlink alone proves nothing."
+            exit 1
+          fi
+          echo "pin is current"
+
+      - name: the vendored corpora match the hash they ship with
+        run: |
+          set -euo pipefail
+          # Catches a fixture edited in place inside the submodule — which would otherwise let
+          # a failing conformance test be "fixed" by changing the contract it tests against.
+          python3 contract/inference-events/tools/contract-hash.py --check

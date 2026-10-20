@@ -1,0 +1,1222 @@
+pub mod analyzer_pipeline
+pub use analyzer_pipeline::Lake
+pub use analyzer_pipeline::ledger
+pub use analyzer_pipeline::lineage
+pub mod analyzer_pipeline::adapter
+pub enum analyzer_pipeline::adapter::Cadence
+pub analyzer_pipeline::adapter::Cadence::Day
+pub analyzer_pipeline::adapter::Cadence::Window
+impl core::clone::Clone for analyzer_pipeline::adapter::Cadence
+pub fn analyzer_pipeline::adapter::Cadence::clone(&self) -> analyzer_pipeline::adapter::Cadence
+impl core::cmp::Eq for analyzer_pipeline::adapter::Cadence
+impl core::cmp::PartialEq for analyzer_pipeline::adapter::Cadence
+pub fn analyzer_pipeline::adapter::Cadence::eq(&self, &analyzer_pipeline::adapter::Cadence) -> bool
+impl core::fmt::Debug for analyzer_pipeline::adapter::Cadence
+pub fn analyzer_pipeline::adapter::Cadence::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::adapter::Cadence
+impl core::marker::StructuralPartialEq for analyzer_pipeline::adapter::Cadence
+pub struct analyzer_pipeline::adapter::Context<'a>
+pub analyzer_pipeline::adapter::Context::fleet: &'a str
+pub analyzer_pipeline::adapter::Context::input: analyzer_analysis::Window
+pub analyzer_pipeline::adapter::Context::output: analyzer_analysis::Window
+pub analyzer_pipeline::adapter::Context::params: &'a analyzer_analysis::Params
+pub analyzer_pipeline::adapter::Context::source: &'a dyn analyzer_analysis::events::EventSource
+pub struct analyzer_pipeline::adapter::CoverageOutput
+impl analyzer_pipeline::adapter::CoverageOutput
+pub fn analyzer_pipeline::adapter::CoverageOutput::coverage(&self) -> &analyzer_analysis::completeness::Coverage
+pub struct analyzer_pipeline::adapter::Dependencies<'a>
+impl analyzer_pipeline::adapter::Dependencies<'_>
+pub fn analyzer_pipeline::adapter::Dependencies<'_>::coverage(&self) -> core::result::Result<&analyzer_pipeline::adapter::CoverageOutput, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::adapter::Dependencies<'_>::require<A: analyzer_pipeline::adapter::Adapter>(&self) -> core::result::Result<&<A as analyzer_pipeline::adapter::Adapter>::Output, analyzer_pipeline::Error>
+pub struct analyzer_pipeline::adapter::Registration
+impl analyzer_pipeline::adapter::Registration
+pub fn analyzer_pipeline::adapter::Registration::of<A: analyzer_pipeline::adapter::Adapter>() -> Self
+impl core::clone::Clone for analyzer_pipeline::adapter::Registration
+pub fn analyzer_pipeline::adapter::Registration::clone(&self) -> analyzer_pipeline::adapter::Registration
+impl core::cmp::Eq for analyzer_pipeline::adapter::Registration
+impl core::cmp::PartialEq for analyzer_pipeline::adapter::Registration
+pub fn analyzer_pipeline::adapter::Registration::eq(&self, &Self) -> bool
+impl core::fmt::Debug for analyzer_pipeline::adapter::Registration
+pub fn analyzer_pipeline::adapter::Registration::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub const analyzer_pipeline::adapter::CORE: &[&str]
+pub trait analyzer_pipeline::adapter::Adapter: 'static
+pub type analyzer_pipeline::adapter::Adapter::Definition: analyzer_analysis::module::DerivationModule
+pub type analyzer_pipeline::adapter::Adapter::Output: 'static
+pub const analyzer_pipeline::adapter::Adapter::CADENCE: analyzer_pipeline::adapter::Cadence
+pub const analyzer_pipeline::adapter::Adapter::TABLES: &'static [analyzer_analysis::module::Table]
+pub fn analyzer_pipeline::adapter::Adapter::reconstruct(&analyzer_pipeline::adapter::Context<'_>, &analyzer_pipeline::adapter::Dependencies<'_>) -> core::result::Result<Self::Output, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::adapter::Adapter::rows(&analyzer_pipeline::adapter::Context<'_>, &Self::Output) -> alloc::vec::Vec<analyzer_analysis::module::Row>
+pub fn analyzer_pipeline::adapter::install<A: analyzer_pipeline::adapter::Adapter>(&dyn analyzer_pipeline::publish::Serving) -> core::result::Result<(), analyzer_pipeline::Error>
+pub mod analyzer_pipeline::arrivals
+pub fn analyzer_pipeline::arrivals::classifying_model(&analyzer_lake::Lake, &analyzer_analysis::Window, &analyzer_analysis::Params) -> core::result::Result<analyzer_analysis::completeness::UncertaintyModel, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::arrivals::classifying_model_through(&analyzer_lake::Lake, &analyzer_analysis::Window, &analyzer_analysis::Params, core::option::Option<u64>) -> core::result::Result<analyzer_analysis::completeness::UncertaintyModel, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::arrivals::lifecycle_bank_read(&analyzer_lake::Lake, f64, f64) -> core::result::Result<(alloc::vec::Vec<alloc::string::String>, std::collections::hash::set::HashSet<alloc::string::String>), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::arrivals::lifecycle_window_keys(&analyzer_lake::Lake, f64, f64) -> core::result::Result<core::option::Option<std::collections::hash::set::HashSet<alloc::string::String>>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::arrivals::opens_from_arrivals(&analyzer_lake::Lake) -> core::result::Result<core::option::Option<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::arrivals::opens_of<'a>(impl core::iter::traits::collect::IntoIterator<Item = &'a analyzer_lake::ledger::SegmentArrival>) -> core::option::Option<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>>
+pub fn analyzer_pipeline::arrivals::select_meeting(alloc::vec::Vec<analyzer_lake::ledger::SegmentArrival>, &analyzer_analysis::Window) -> alloc::vec::Vec<analyzer_lake::ledger::SegmentArrival>
+pub fn analyzer_pipeline::arrivals::window_model_from_arrivals(&analyzer_lake::Lake, &analyzer_analysis::Window, &analyzer_analysis::Params) -> core::result::Result<core::option::Option<analyzer_analysis::completeness::UncertaintyModel>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::arrivals::window_model_from_segments(&analyzer_lake::Lake, alloc::vec::Vec<analyzer_lake::ledger::SegmentArrival>, &analyzer_analysis::Window, &analyzer_analysis::Params) -> core::result::Result<core::option::Option<analyzer_analysis::completeness::UncertaintyModel>, analyzer_pipeline::Error>
+pub mod analyzer_pipeline::degradation_io
+pub fn analyzer_pipeline::degradation_io::absence_register(&dyn analyzer_analysis::events::EventSource, &str, (f64, f64), &analyzer_analysis::Params) -> core::result::Result<analyzer_analysis::degradation::AbsenceRegister, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::degradation_io::ledger(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window, &analyzer_analysis::completeness::UncertaintyModel, &[analyzer_analysis::events::LifecycleEvent]) -> core::result::Result<analyzer_analysis::degradation::Ledger, analyzer_pipeline::Error>
+pub mod analyzer_pipeline::derived
+pub fn analyzer_pipeline::derived::derive(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<serde_json::value::Value, analyzer_pipeline::Error>
+pub mod analyzer_pipeline::execution
+pub enum analyzer_pipeline::execution::Partition
+pub analyzer_pipeline::execution::Partition::WholeFleet
+impl core::clone::Clone for analyzer_pipeline::execution::Partition
+pub fn analyzer_pipeline::execution::Partition::clone(&self) -> analyzer_pipeline::execution::Partition
+impl core::cmp::Eq for analyzer_pipeline::execution::Partition
+impl core::cmp::PartialEq for analyzer_pipeline::execution::Partition
+pub fn analyzer_pipeline::execution::Partition::eq(&self, &analyzer_pipeline::execution::Partition) -> bool
+impl core::fmt::Debug for analyzer_pipeline::execution::Partition
+pub fn analyzer_pipeline::execution::Partition::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::execution::Partition
+impl core::marker::StructuralPartialEq for analyzer_pipeline::execution::Partition
+impl serde_core::ser::Serialize for analyzer_pipeline::execution::Partition
+pub fn analyzer_pipeline::execution::Partition::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::execution::Partition
+pub fn analyzer_pipeline::execution::Partition::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::execution::Namespace
+impl analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::execution::Namespace::fleet(&self) -> &str
+pub fn analyzer_pipeline::execution::Namespace::from_identity(&str) -> core::result::Result<Self, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::execution::Namespace::identity(&self) -> alloc::string::String
+pub fn analyzer_pipeline::execution::Namespace::new(impl core::convert::Into<alloc::string::String>, impl core::convert::Into<alloc::string::String>) -> core::result::Result<Self, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::execution::Namespace::object_prefix(&self) -> alloc::string::String
+pub fn analyzer_pipeline::execution::Namespace::prepare(&self, &dyn analyzer_pipeline::publish::Serving, &analyzer_pipeline::spine::Spine) -> core::result::Result<(), analyzer_pipeline::Error>
+impl core::clone::Clone for analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::execution::Namespace::clone(&self) -> analyzer_pipeline::execution::Namespace
+impl core::cmp::Eq for analyzer_pipeline::execution::Namespace
+impl core::cmp::PartialEq for analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::execution::Namespace::eq(&self, &analyzer_pipeline::execution::Namespace) -> bool
+impl core::fmt::Debug for analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::execution::Namespace::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::execution::Namespace
+impl serde_core::ser::Serialize for analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::execution::Namespace::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::execution::Namespace::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::execution::Writer(_)
+impl analyzer_pipeline::execution::Writer
+pub fn analyzer_pipeline::execution::Writer::acquire(&analyzer_lake::Lake) -> core::result::Result<Self, analyzer_pipeline::Error>
+impl core::ops::drop::Drop for analyzer_pipeline::execution::Writer
+pub fn analyzer_pipeline::execution::Writer::drop(&mut self)
+pub fn analyzer_pipeline::execution::is_writing(&analyzer_lake::Lake) -> bool
+pub fn analyzer_pipeline::execution::revision(&dyn analyzer_pipeline::publish::Serving, &analyzer_pipeline::spine::Spine) -> core::result::Result<core::option::Option<u64>, analyzer_pipeline::Error>
+pub mod analyzer_pipeline::executor
+pub struct analyzer_pipeline::executor::Advance
+pub analyzer_pipeline::executor::Advance::audit: analyzer_pipeline::keyed::Audit
+pub analyzer_pipeline::executor::Advance::audit_edge: analyzer_pipeline::keyed::AuditEdge
+pub analyzer_pipeline::executor::Advance::classified_to_ms: core::option::Option<f64>
+pub analyzer_pipeline::executor::Advance::coverage_restated: u64
+pub analyzer_pipeline::executor::Advance::covered_to_ms: core::option::Option<f64>
+pub analyzer_pipeline::executor::Advance::emitted_to_ms: core::option::Option<f64>
+pub analyzer_pipeline::executor::Advance::evicts: analyzer_analysis::differential::AuditOutcome
+pub analyzer_pipeline::executor::Advance::late: analyzer_pipeline::keyed::Late
+pub analyzer_pipeline::executor::Advance::pending: usize
+pub analyzer_pipeline::executor::Advance::placement_late: analyzer_pipeline::keyed::Late
+pub analyzer_pipeline::executor::Advance::publication: u64
+pub analyzer_pipeline::executor::Advance::republished: bool
+pub analyzer_pipeline::executor::Advance::settled_days: alloc::vec::Vec<i64>
+pub analyzer_pipeline::executor::Advance::stores: u64
+impl core::clone::Clone for analyzer_pipeline::executor::Advance
+pub fn analyzer_pipeline::executor::Advance::clone(&self) -> analyzer_pipeline::executor::Advance
+impl core::cmp::PartialEq for analyzer_pipeline::executor::Advance
+pub fn analyzer_pipeline::executor::Advance::eq(&self, &analyzer_pipeline::executor::Advance) -> bool
+impl core::default::Default for analyzer_pipeline::executor::Advance
+pub fn analyzer_pipeline::executor::Advance::default() -> analyzer_pipeline::executor::Advance
+impl core::fmt::Debug for analyzer_pipeline::executor::Advance
+pub fn analyzer_pipeline::executor::Advance::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::executor::Advance
+pub struct analyzer_pipeline::executor::Executor<'a>
+impl<'a> analyzer_pipeline::executor::Executor<'a>
+pub fn analyzer_pipeline::executor::Executor<'a>::advance(&self, &dyn analyzer_pipeline::source::FillSource) -> core::result::Result<analyzer_pipeline::executor::Advance, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::availability(&self) -> core::result::Result<alloc::vec::Vec<analyzer_pipeline::executor::ModuleAvailability>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::lake(&self) -> analyzer_lake::Lake
+pub fn analyzer_pipeline::executor::Executor<'a>::maintain_input_log(&self, u32, u32) -> core::result::Result<analyzer_pipeline::inputs::Maintained, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::namespace(&self) -> &analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::executor::Executor<'a>::open(alloc::sync::Arc<analyzer_pipeline::spine::Spine>, &analyzer_analysis::Params, alloc::sync::Arc<dyn analyzer_pipeline::publish::Serving>) -> core::result::Result<Self, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::publish_inputs(&self) -> core::result::Result<u64, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::retire_published(&self, u32) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::revision(&self) -> core::result::Result<core::option::Option<u64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::spine(&self) -> &alloc::sync::Arc<analyzer_pipeline::spine::Spine>
+pub fn analyzer_pipeline::executor::Executor<'a>::with_lanes(self, usize) -> Self
+pub fn analyzer_pipeline::executor::Executor<'a>::with_lent(self, &'a std::sync::poison::mutex::Mutex<analyzer_pipeline::executor::Lent>) -> Self
+pub fn analyzer_pipeline::executor::Executor<'a>::with_modules(self, analyzer_pipeline::modules::ModuleSet) -> Self
+pub struct analyzer_pipeline::executor::Lent
+impl core::default::Default for analyzer_pipeline::executor::Lent
+pub fn analyzer_pipeline::executor::Lent::default() -> analyzer_pipeline::executor::Lent
+pub struct analyzer_pipeline::executor::ModuleAvailability
+pub analyzer_pipeline::executor::ModuleAvailability::definition: analyzer_analysis::module::ModuleSpec
+pub analyzer_pipeline::executor::ModuleAvailability::enabled: bool
+pub analyzer_pipeline::executor::ModuleAvailability::revision: core::option::Option<u64>
+pub analyzer_pipeline::executor::ModuleAvailability::stated_from_day: core::option::Option<i64>
+pub analyzer_pipeline::executor::ModuleAvailability::stated_through_day: core::option::Option<i64>
+impl core::clone::Clone for analyzer_pipeline::executor::ModuleAvailability
+pub fn analyzer_pipeline::executor::ModuleAvailability::clone(&self) -> analyzer_pipeline::executor::ModuleAvailability
+impl core::cmp::Eq for analyzer_pipeline::executor::ModuleAvailability
+impl core::cmp::PartialEq for analyzer_pipeline::executor::ModuleAvailability
+pub fn analyzer_pipeline::executor::ModuleAvailability::eq(&self, &analyzer_pipeline::executor::ModuleAvailability) -> bool
+impl core::fmt::Debug for analyzer_pipeline::executor::ModuleAvailability
+pub fn analyzer_pipeline::executor::ModuleAvailability::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::executor::ModuleAvailability
+pub mod analyzer_pipeline::facts
+pub fn analyzer_pipeline::facts::full_span(&analyzer_lake::Lake) -> core::result::Result<core::option::Option<analyzer_analysis::Window>, analyzer_pipeline::Error>
+pub mod analyzer_pipeline::inputs
+pub struct analyzer_pipeline::inputs::Maintained
+pub analyzer_pipeline::inputs::Maintained::compacted: alloc::vec::Vec<i64>
+pub analyzer_pipeline::inputs::Maintained::retired: alloc::vec::Vec<i64>
+impl core::clone::Clone for analyzer_pipeline::inputs::Maintained
+pub fn analyzer_pipeline::inputs::Maintained::clone(&self) -> analyzer_pipeline::inputs::Maintained
+impl core::cmp::Eq for analyzer_pipeline::inputs::Maintained
+impl core::cmp::PartialEq for analyzer_pipeline::inputs::Maintained
+pub fn analyzer_pipeline::inputs::Maintained::eq(&self, &analyzer_pipeline::inputs::Maintained) -> bool
+impl core::default::Default for analyzer_pipeline::inputs::Maintained
+pub fn analyzer_pipeline::inputs::Maintained::default() -> analyzer_pipeline::inputs::Maintained
+impl core::fmt::Debug for analyzer_pipeline::inputs::Maintained
+pub fn analyzer_pipeline::inputs::Maintained::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::inputs::Maintained
+pub const analyzer_pipeline::inputs::FACTS_ROLLUP_DAILY: analyzer_analysis::module::Table
+pub const analyzer_pipeline::inputs::INPUT_BATCHES: analyzer_analysis::module::Table
+pub const analyzer_pipeline::inputs::INPUT_DROPS: analyzer_analysis::module::Table
+pub const analyzer_pipeline::inputs::INPUT_KEY_SPACES: analyzer_analysis::module::Table
+pub const analyzer_pipeline::inputs::INPUT_SEGMENTS: analyzer_analysis::module::Table
+pub const analyzer_pipeline::inputs::INPUT_TABLES: [analyzer_analysis::module::Table; 5]
+pub fn analyzer_pipeline::inputs::rows_of(&analyzer_lake::ledger::BatchRecord) -> alloc::vec::Vec<analyzer_analysis::module::Row>
+pub mod analyzer_pipeline::keyed
+pub enum analyzer_pipeline::keyed::Emission
+pub analyzer_pipeline::keyed::Emission::Immediate
+pub analyzer_pipeline::keyed::Emission::Watermarked
+pub analyzer_pipeline::keyed::Emission::Watermarked::delay_ms: f64
+impl core::clone::Clone for analyzer_pipeline::keyed::Emission
+pub fn analyzer_pipeline::keyed::Emission::clone(&self) -> analyzer_pipeline::keyed::Emission
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Emission
+pub fn analyzer_pipeline::keyed::Emission::eq(&self, &analyzer_pipeline::keyed::Emission) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::Emission
+pub fn analyzer_pipeline::keyed::Emission::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::keyed::Emission
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Emission
+pub enum analyzer_pipeline::keyed::EmissionPolicy
+pub analyzer_pipeline::keyed::EmissionPolicy::Immediate
+pub analyzer_pipeline::keyed::EmissionPolicy::Watermarked
+impl analyzer_pipeline::keyed::EmissionPolicy
+pub fn analyzer_pipeline::keyed::EmissionPolicy::resolve(self, f64) -> analyzer_pipeline::keyed::Emission
+impl core::clone::Clone for analyzer_pipeline::keyed::EmissionPolicy
+pub fn analyzer_pipeline::keyed::EmissionPolicy::clone(&self) -> analyzer_pipeline::keyed::EmissionPolicy
+impl core::cmp::Eq for analyzer_pipeline::keyed::EmissionPolicy
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::EmissionPolicy
+pub fn analyzer_pipeline::keyed::EmissionPolicy::eq(&self, &analyzer_pipeline::keyed::EmissionPolicy) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::EmissionPolicy
+pub fn analyzer_pipeline::keyed::EmissionPolicy::default() -> analyzer_pipeline::keyed::EmissionPolicy
+impl core::fmt::Debug for analyzer_pipeline::keyed::EmissionPolicy
+pub fn analyzer_pipeline::keyed::EmissionPolicy::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::keyed::EmissionPolicy
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::EmissionPolicy
+pub enum analyzer_pipeline::keyed::MissingSegment
+pub analyzer_pipeline::keyed::MissingSegment::ReleaseAfter
+pub analyzer_pipeline::keyed::MissingSegment::ReleaseAfter::grace_ms: f64
+pub analyzer_pipeline::keyed::MissingSegment::Wait
+impl core::clone::Clone for analyzer_pipeline::keyed::MissingSegment
+pub fn analyzer_pipeline::keyed::MissingSegment::clone(&self) -> analyzer_pipeline::keyed::MissingSegment
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::MissingSegment
+pub fn analyzer_pipeline::keyed::MissingSegment::eq(&self, &analyzer_pipeline::keyed::MissingSegment) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::MissingSegment
+pub fn analyzer_pipeline::keyed::MissingSegment::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::keyed::MissingSegment
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::MissingSegment
+pub enum analyzer_pipeline::keyed::Order
+pub analyzer_pipeline::keyed::Order::InOrder
+pub analyzer_pipeline::keyed::Order::Late
+pub analyzer_pipeline::keyed::Order::Unsequenced
+impl core::clone::Clone for analyzer_pipeline::keyed::Order
+pub fn analyzer_pipeline::keyed::Order::clone(&self) -> analyzer_pipeline::keyed::Order
+impl core::cmp::Eq for analyzer_pipeline::keyed::Order
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Order
+pub fn analyzer_pipeline::keyed::Order::eq(&self, &analyzer_pipeline::keyed::Order) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::Order
+pub fn analyzer_pipeline::keyed::Order::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::keyed::Order
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Order
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::Order
+pub fn analyzer_pipeline::keyed::Order::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::Order
+pub fn analyzer_pipeline::keyed::Order::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub enum analyzer_pipeline::keyed::Watermark
+pub analyzer_pipeline::keyed::Watermark::At(f64)
+pub analyzer_pipeline::keyed::Watermark::Provable
+pub analyzer_pipeline::keyed::Watermark::ProvableOr(f64)
+impl core::clone::Clone for analyzer_pipeline::keyed::Watermark
+pub fn analyzer_pipeline::keyed::Watermark::clone(&self) -> analyzer_pipeline::keyed::Watermark
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Watermark
+pub fn analyzer_pipeline::keyed::Watermark::eq(&self, &analyzer_pipeline::keyed::Watermark) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::Watermark
+pub fn analyzer_pipeline::keyed::Watermark::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::keyed::Watermark
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Watermark
+pub struct analyzer_pipeline::keyed::Audit
+pub analyzer_pipeline::keyed::Audit::blocks: u64
+pub analyzer_pipeline::keyed::Audit::disagreements: alloc::vec::Vec<analyzer_pipeline::keyed::Disagreement>
+pub analyzer_pipeline::keyed::Audit::stores: u64
+impl core::clone::Clone for analyzer_pipeline::keyed::Audit
+pub fn analyzer_pipeline::keyed::Audit::clone(&self) -> analyzer_pipeline::keyed::Audit
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Audit
+pub fn analyzer_pipeline::keyed::Audit::eq(&self, &analyzer_pipeline::keyed::Audit) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::Audit
+pub fn analyzer_pipeline::keyed::Audit::default() -> analyzer_pipeline::keyed::Audit
+impl core::fmt::Debug for analyzer_pipeline::keyed::Audit
+pub fn analyzer_pipeline::keyed::Audit::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Audit
+pub struct analyzer_pipeline::keyed::AuditEdge
+pub analyzer_pipeline::keyed::AuditEdge::audited_to_ms: core::option::Option<f64>
+pub analyzer_pipeline::keyed::AuditEdge::disagreed_at_ms: core::option::Option<f64>
+impl analyzer_pipeline::keyed::AuditEdge
+pub fn analyzer_pipeline::keyed::AuditEdge::after(self, analyzer_analysis::Window, &analyzer_pipeline::keyed::Audit) -> Self
+impl core::clone::Clone for analyzer_pipeline::keyed::AuditEdge
+pub fn analyzer_pipeline::keyed::AuditEdge::clone(&self) -> analyzer_pipeline::keyed::AuditEdge
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::AuditEdge
+pub fn analyzer_pipeline::keyed::AuditEdge::eq(&self, &analyzer_pipeline::keyed::AuditEdge) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::AuditEdge
+pub fn analyzer_pipeline::keyed::AuditEdge::default() -> analyzer_pipeline::keyed::AuditEdge
+impl core::fmt::Debug for analyzer_pipeline::keyed::AuditEdge
+pub fn analyzer_pipeline::keyed::AuditEdge::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::keyed::AuditEdge
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::AuditEdge
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::AuditEdge
+pub fn analyzer_pipeline::keyed::AuditEdge::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::AuditEdge
+pub fn analyzer_pipeline::keyed::AuditEdge::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::keyed::Batch
+pub analyzer_pipeline::keyed::Batch::blocks: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::classes: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::coverage: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::days: alloc::vec::Vec<analyzer_pipeline::keyed::SettledDay>
+pub analyzer_pipeline::keyed::Batch::declarations: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::placement: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::restated: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::roster: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::spans: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::tags: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::Batch::whales: alloc::vec::Vec<analyzer_analysis::module::Row>
+impl analyzer_pipeline::keyed::Batch
+pub fn analyzer_pipeline::keyed::Batch::families(&self) -> [(&'static [analyzer_analysis::module::Table], &[analyzer_analysis::module::Row]); 10]
+pub fn analyzer_pipeline::keyed::Batch::is_empty(&self) -> bool
+impl core::clone::Clone for analyzer_pipeline::keyed::Batch
+pub fn analyzer_pipeline::keyed::Batch::clone(&self) -> analyzer_pipeline::keyed::Batch
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Batch
+pub fn analyzer_pipeline::keyed::Batch::eq(&self, &analyzer_pipeline::keyed::Batch) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::Batch
+pub fn analyzer_pipeline::keyed::Batch::default() -> analyzer_pipeline::keyed::Batch
+impl core::fmt::Debug for analyzer_pipeline::keyed::Batch
+pub fn analyzer_pipeline::keyed::Batch::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Batch
+pub struct analyzer_pipeline::keyed::Changes
+pub analyzer_pipeline::keyed::Changes::frontiers: alloc::vec::Vec<(analyzer_pipeline::keyed::IdentityKey, core::option::Option<alloc::vec::Vec<analyzer_analysis::classify::Frontier>>)>
+impl core::default::Default for analyzer_pipeline::keyed::Changes
+pub fn analyzer_pipeline::keyed::Changes::default() -> analyzer_pipeline::keyed::Changes
+impl core::fmt::Debug for analyzer_pipeline::keyed::Changes
+pub fn analyzer_pipeline::keyed::Changes::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::CoverageFeed
+impl analyzer_pipeline::keyed::CoverageFeed
+pub fn analyzer_pipeline::keyed::CoverageFeed::position(&self) -> u64
+pub fn analyzer_pipeline::keyed::CoverageFeed::restored(alloc::collections::btree::map::BTreeMap<alloc::string::String, analyzer_pipeline::keyed::StatedSource>, u64) -> Self
+pub fn analyzer_pipeline::keyed::CoverageFeed::sources(&self) -> &alloc::collections::btree::map::BTreeMap<alloc::string::String, analyzer_pipeline::keyed::StatedSource>
+impl core::clone::Clone for analyzer_pipeline::keyed::CoverageFeed
+pub fn analyzer_pipeline::keyed::CoverageFeed::clone(&self) -> analyzer_pipeline::keyed::CoverageFeed
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::CoverageFeed
+pub fn analyzer_pipeline::keyed::CoverageFeed::eq(&self, &analyzer_pipeline::keyed::CoverageFeed) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::CoverageFeed
+pub fn analyzer_pipeline::keyed::CoverageFeed::default() -> analyzer_pipeline::keyed::CoverageFeed
+impl core::fmt::Debug for analyzer_pipeline::keyed::CoverageFeed
+pub fn analyzer_pipeline::keyed::CoverageFeed::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::CoverageFeed
+pub struct analyzer_pipeline::keyed::Delivery
+pub analyzer_pipeline::keyed::Delivery::batch_id: alloc::string::String
+pub analyzer_pipeline::keyed::Delivery::first_at_ms: core::option::Option<f64>
+pub analyzer_pipeline::keyed::Delivery::input_position: u64
+pub analyzer_pipeline::keyed::Delivery::last_at_ms: core::option::Option<f64>
+pub analyzer_pipeline::keyed::Delivery::object_key: alloc::string::String
+pub analyzer_pipeline::keyed::Delivery::order: analyzer_pipeline::keyed::Order
+impl core::clone::Clone for analyzer_pipeline::keyed::Delivery
+pub fn analyzer_pipeline::keyed::Delivery::clone(&self) -> analyzer_pipeline::keyed::Delivery
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Delivery
+pub fn analyzer_pipeline::keyed::Delivery::eq(&self, &analyzer_pipeline::keyed::Delivery) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::Delivery
+pub fn analyzer_pipeline::keyed::Delivery::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Delivery
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::Delivery
+pub fn analyzer_pipeline::keyed::Delivery::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::Delivery
+pub fn analyzer_pipeline::keyed::Delivery::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::keyed::Disagreement
+pub analyzer_pipeline::keyed::Disagreement::at_ms: f64
+pub analyzer_pipeline::keyed::Disagreement::block: alloc::string::String
+pub analyzer_pipeline::keyed::Disagreement::holder: analyzer_analysis::intervals::Holder
+pub analyzer_pipeline::keyed::Disagreement::refolded: core::option::Option<analyzer_pipeline::keyed::Statement>
+pub analyzer_pipeline::keyed::Disagreement::stated: core::option::Option<analyzer_pipeline::keyed::Statement>
+impl core::clone::Clone for analyzer_pipeline::keyed::Disagreement
+pub fn analyzer_pipeline::keyed::Disagreement::clone(&self) -> analyzer_pipeline::keyed::Disagreement
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Disagreement
+pub fn analyzer_pipeline::keyed::Disagreement::eq(&self, &analyzer_pipeline::keyed::Disagreement) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::Disagreement
+pub fn analyzer_pipeline::keyed::Disagreement::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_pipeline::keyed::Disagreement
+pub fn analyzer_pipeline::keyed::Disagreement::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Disagreement
+pub struct analyzer_pipeline::keyed::Driver<P>
+impl analyzer_pipeline::keyed::Driver<analyzer_pipeline::keyed::Seeds>
+pub fn analyzer_pipeline::keyed::Driver<analyzer_pipeline::keyed::Seeds>::maintain(&self, &analyzer_lake::Lake, &analyzer_pipeline::keyed::Store) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Driver<analyzer_pipeline::keyed::Seeds>::open(&analyzer_lake::Lake, &analyzer_analysis::Params, analyzer_pipeline::keyed::RepeatCompute, analyzer_pipeline::keyed::PlacementCompute<analyzer_pipeline::keyed::Seeds>) -> core::result::Result<(Self, analyzer_pipeline::keyed::Store), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Driver<analyzer_pipeline::keyed::Seeds>::save(&mut self, &analyzer_lake::Lake, &mut analyzer_pipeline::keyed::Store, u64) -> core::result::Result<analyzer_pipeline::keyed::Batch, analyzer_pipeline::Error>
+impl<P> analyzer_pipeline::keyed::Driver<P> where P: analyzer_pipeline::keyed::KeyedState<alloc::string::String, analyzer_analysis::dup_cells::IdentityState> + core::marker::Send
+pub fn analyzer_pipeline::keyed::Driver<P>::audit(&self) -> analyzer_pipeline::keyed::AuditEdge
+pub fn analyzer_pipeline::keyed::Driver<P>::blocks(&self) -> &analyzer_analysis::block_mass::BlockMass
+pub fn analyzer_pipeline::keyed::Driver<P>::classes(&self) -> &analyzer_pipeline::keyed::Held<analyzer_analysis::emitted::cells::Cells>
+pub fn analyzer_pipeline::keyed::Driver<P>::covered(&self) -> &analyzer_pipeline::keyed::Held<analyzer_analysis::coverage_sums::CoverageSums>
+pub fn analyzer_pipeline::keyed::Driver<P>::covered_to_ms(&self) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::Driver<P>::drain(&mut self) -> analyzer_pipeline::keyed::Batch
+pub fn analyzer_pipeline::keyed::Driver<P>::generations(&self) -> &[analyzer_pipeline::keyed::Generation]
+pub fn analyzer_pipeline::keyed::Driver<P>::intake(&self) -> &analyzer_pipeline::keyed::Intake
+pub fn analyzer_pipeline::keyed::Driver<P>::module_spans(&self) -> &alloc::collections::btree::map::BTreeMap<alloc::string::String, i64>
+pub fn analyzer_pipeline::keyed::Driver<P>::new(analyzer_pipeline::keyed::RepeatCompute, analyzer_pipeline::keyed::PlacementCompute<P>) -> Self
+pub fn analyzer_pipeline::keyed::Driver<P>::pair_basis(&self) -> &analyzer_analysis::instance_spans::InstanceSpans
+pub fn analyzer_pipeline::keyed::Driver<P>::placed(&self) -> &analyzer_pipeline::keyed::Held<analyzer_analysis::dup_cells::DupCells>
+pub fn analyzer_pipeline::keyed::Driver<P>::placement(&self) -> &analyzer_pipeline::keyed::PlacementCompute<P>
+pub fn analyzer_pipeline::keyed::Driver<P>::position(&self) -> &analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Driver<P>::repeat(&self) -> &analyzer_pipeline::keyed::RepeatCompute
+pub fn analyzer_pipeline::keyed::Driver<P>::restated(&self) -> &analyzer_analysis::restated::Restated
+pub fn analyzer_pipeline::keyed::Driver<P>::ring(&self) -> &analyzer_pipeline::keyed::HolderRing
+pub fn analyzer_pipeline::keyed::Driver<P>::roster(&self) -> &analyzer_pipeline::keyed::RosterFeed
+pub fn analyzer_pipeline::keyed::Driver<P>::settled_through_day(&self) -> core::option::Option<i64>
+pub fn analyzer_pipeline::keyed::Driver<P>::state_modules<'n>(&mut self, impl core::iter::traits::collect::IntoIterator<Item = &'n str>, &[i64])
+pub fn analyzer_pipeline::keyed::Driver<P>::tag_cells(&self) -> &analyzer_analysis::tags::TagCells
+pub fn analyzer_pipeline::keyed::Driver<P>::tags(&self) -> &analyzer_pipeline::keyed::TagFeed
+pub fn analyzer_pipeline::keyed::Driver<P>::tick(&mut self, &analyzer_lake::Lake, &dyn analyzer_pipeline::keyed::Source, &analyzer_analysis::Params, analyzer_pipeline::keyed::Watermark) -> core::result::Result<analyzer_pipeline::keyed::TickRun, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Driver<P>::with_block_mass(self, usize, usize) -> Self
+pub fn analyzer_pipeline::keyed::Driver<P>::with_evict_sample(self, u64) -> Self
+pub fn analyzer_pipeline::keyed::Driver<P>::with_layout(self, analyzer_pipeline::keyed::SpineLayout) -> Self
+pub fn analyzer_pipeline::keyed::Driver<P>::with_settle_delay(self, f64) -> Self
+pub struct analyzer_pipeline::keyed::FillReader<'a>
+impl<'a> analyzer_pipeline::keyed::FillReader<'a>
+pub fn analyzer_pipeline::keyed::FillReader<'a>::new(&'a dyn analyzer_pipeline::source::FillSource, &'a str) -> Self
+impl analyzer_pipeline::keyed::SegmentReader for analyzer_pipeline::keyed::FillReader<'_>
+pub fn analyzer_pipeline::keyed::FillReader<'_>::read(&self, &analyzer_pipeline::keyed::Delivery) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::Event>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::FillReader<'_>::read_all(&self, &[&analyzer_pipeline::keyed::Delivery]) -> core::result::Result<alloc::vec::Vec<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_pipeline::Error>
+pub struct analyzer_pipeline::keyed::Generation
+pub analyzer_pipeline::keyed::Generation::discriminator: alloc::string::String
+pub analyzer_pipeline::keyed::Generation::first_day: i64
+pub analyzer_pipeline::keyed::Generation::last_day: i64
+pub analyzer_pipeline::keyed::Generation::semantics_version: alloc::string::String
+impl core::clone::Clone for analyzer_pipeline::keyed::Generation
+pub fn analyzer_pipeline::keyed::Generation::clone(&self) -> analyzer_pipeline::keyed::Generation
+impl core::cmp::Eq for analyzer_pipeline::keyed::Generation
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Generation
+pub fn analyzer_pipeline::keyed::Generation::eq(&self, &analyzer_pipeline::keyed::Generation) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::Generation
+pub fn analyzer_pipeline::keyed::Generation::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Generation
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::Generation
+pub fn analyzer_pipeline::keyed::Generation::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::Generation
+pub fn analyzer_pipeline::keyed::Generation::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::keyed::Held<P>
+impl analyzer_pipeline::keyed::Held<analyzer_analysis::coverage_sums::CoverageSums>
+pub fn analyzer_pipeline::keyed::Held<analyzer_analysis::coverage_sums::CoverageSums>::restate(&mut self, &str, analyzer_analysis::Window, &analyzer_analysis::coverage_sums::CoverageSums) -> alloc::collections::btree::set::BTreeSet<i64>
+impl analyzer_pipeline::keyed::Held<analyzer_analysis::dup_cells::DupCells>
+pub fn analyzer_pipeline::keyed::Held<analyzer_analysis::dup_cells::DupCells>::correct(&mut self, &analyzer_analysis::dup_cells::DupCells, &analyzer_analysis::dup_cells::DupCells)
+impl analyzer_pipeline::keyed::Held<analyzer_analysis::emitted::cells::Cells>
+pub fn analyzer_pipeline::keyed::Held<analyzer_analysis::emitted::cells::Cells>::correct(&mut self, &[analyzer_analysis::emitted::ClassifiedFact], &[analyzer_analysis::emitted::ClassifiedFact])
+impl analyzer_pipeline::keyed::Held<analyzer_analysis::instance_spans::InstanceSpans>
+pub fn analyzer_pipeline::keyed::Held<analyzer_analysis::instance_spans::InstanceSpans>::restate(&mut self, &str, analyzer_analysis::Window, &analyzer_analysis::instance_spans::InstanceSpans) -> alloc::collections::btree::set::BTreeSet<i64>
+impl analyzer_pipeline::keyed::Held<analyzer_analysis::tags::TagCells>
+pub fn analyzer_pipeline::keyed::Held<analyzer_analysis::tags::TagCells>::correct(&mut self, &[analyzer_analysis::emitted::ClassifiedFact], &[analyzer_analysis::emitted::ClassifiedFact], &analyzer_analysis::tags::TagIndex, f64)
+pub fn analyzer_pipeline::keyed::Held<analyzer_analysis::tags::TagCells>::restate(&mut self, &[analyzer_analysis::emitted::ClassifiedFact], (&analyzer_analysis::tags::TagIndex, &analyzer_analysis::tags::TagIndex), f64)
+impl<P: analyzer_analysis::module::Persisted + analyzer_analysis::module::Mergeable> analyzer_pipeline::keyed::Held<P>
+pub fn analyzer_pipeline::keyed::Held<P>::add(&mut self, P)
+pub fn analyzer_pipeline::keyed::Held<P>::cells(&self) -> &P
+pub fn analyzer_pipeline::keyed::Held<P>::drain(&mut self) -> alloc::vec::Vec<analyzer_analysis::module::Row>
+pub fn analyzer_pipeline::keyed::Held<P>::restore(&analyzer_lake::Lake) -> core::result::Result<Self, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Held<P>::retire_before(&mut self, i64)
+impl<P: core::default::Default> core::default::Default for analyzer_pipeline::keyed::Held<P>
+pub fn analyzer_pipeline::keyed::Held<P>::default() -> analyzer_pipeline::keyed::Held<P>
+impl<P: core::fmt::Debug> core::fmt::Debug for analyzer_pipeline::keyed::Held<P>
+pub fn analyzer_pipeline::keyed::Held<P>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::HolderRing
+impl analyzer_pipeline::keyed::HolderRing
+pub fn analyzer_pipeline::keyed::HolderRing::add(&mut self, &[analyzer_analysis::emitted::ClassifiedFact])
+pub fn analyzer_pipeline::keyed::HolderRing::drain(&mut self) -> alloc::vec::Vec<(analyzer_analysis::intervals::Holder, alloc::vec::Vec<analyzer_analysis::emitted::ClassifiedFact>)>
+pub fn analyzer_pipeline::keyed::HolderRing::holders(&self) -> impl core::iter::traits::iterator::Iterator<Item = (&analyzer_analysis::intervals::Holder, &alloc::collections::vec_deque::VecDeque<analyzer_analysis::emitted::ClassifiedFact>)>
+pub fn analyzer_pipeline::keyed::HolderRing::new(usize) -> Self
+pub fn analyzer_pipeline::keyed::HolderRing::of(&self, &analyzer_analysis::intervals::Holder) -> core::option::Option<&alloc::collections::vec_deque::VecDeque<analyzer_analysis::emitted::ClassifiedFact>>
+pub fn analyzer_pipeline::keyed::HolderRing::restate(&mut self, &[analyzer_analysis::emitted::ClassifiedFact], &[analyzer_analysis::emitted::ClassifiedFact])
+pub fn analyzer_pipeline::keyed::HolderRing::restored(usize, impl core::iter::traits::collect::IntoIterator<Item = (analyzer_analysis::intervals::Holder, alloc::vec::Vec<analyzer_analysis::emitted::ClassifiedFact>)>) -> Self
+impl core::clone::Clone for analyzer_pipeline::keyed::HolderRing
+pub fn analyzer_pipeline::keyed::HolderRing::clone(&self) -> analyzer_pipeline::keyed::HolderRing
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::HolderRing
+pub fn analyzer_pipeline::keyed::HolderRing::eq(&self, &analyzer_pipeline::keyed::HolderRing) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::HolderRing
+pub fn analyzer_pipeline::keyed::HolderRing::default() -> analyzer_pipeline::keyed::HolderRing
+impl core::fmt::Debug for analyzer_pipeline::keyed::HolderRing
+pub fn analyzer_pipeline::keyed::HolderRing::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::HolderRing
+pub struct analyzer_pipeline::keyed::Hook<'a>
+pub analyzer_pipeline::keyed::Hook::fleet: &'a str
+pub analyzer_pipeline::keyed::Hook::lake: &'a analyzer_lake::Lake
+pub analyzer_pipeline::keyed::Hook::modules: &'a analyzer_pipeline::modules::ModuleSet
+pub analyzer_pipeline::keyed::Hook::params: &'a analyzer_analysis::Params
+pub analyzer_pipeline::keyed::Hook::publish: &'a dyn analyzer_pipeline::publish::Publish
+pub analyzer_pipeline::keyed::Hook::source: &'a dyn analyzer_analysis::events::EventSource
+impl analyzer_pipeline::keyed::Hook<'_>
+pub fn analyzer_pipeline::keyed::Hook<'_>::state(&self, &[analyzer_pipeline::keyed::SettledDay], &[analyzer_pipeline::keyed::Generation], u64) -> core::result::Result<(), analyzer_pipeline::Error>
+pub struct analyzer_pipeline::keyed::Intake
+impl analyzer_pipeline::keyed::Intake
+pub fn analyzer_pipeline::keyed::Intake::first_at_ms(&self) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::Intake::forget_before(&mut self, f64)
+pub fn analyzer_pipeline::keyed::Intake::pending(&self) -> usize
+pub fn analyzer_pipeline::keyed::Intake::position(&self) -> &analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Intake::read(&mut self, &dyn analyzer_pipeline::keyed::Source, f64, f64) -> core::result::Result<analyzer_pipeline::keyed::Read, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Intake::read_windows(&mut self, &dyn analyzer_pipeline::keyed::Source, &[(f64, f64)]) -> core::result::Result<alloc::vec::Vec<analyzer_pipeline::keyed::Read>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Intake::take(&mut self, &dyn analyzer_pipeline::keyed::Source) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Intake::take_fresh(&mut self) -> alloc::vec::Vec<analyzer_analysis::events::Event>
+pub fn analyzer_pipeline::keyed::Intake::watermark(&self, &dyn analyzer_pipeline::keyed::Source) -> core::option::Option<f64>
+impl core::clone::Clone for analyzer_pipeline::keyed::Intake
+pub fn analyzer_pipeline::keyed::Intake::clone(&self) -> analyzer_pipeline::keyed::Intake
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Intake
+pub fn analyzer_pipeline::keyed::Intake::eq(&self, &analyzer_pipeline::keyed::Intake) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::Intake
+pub fn analyzer_pipeline::keyed::Intake::default() -> analyzer_pipeline::keyed::Intake
+impl core::fmt::Debug for analyzer_pipeline::keyed::Intake
+pub fn analyzer_pipeline::keyed::Intake::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Intake
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::Intake
+pub fn analyzer_pipeline::keyed::Intake::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::Intake
+pub fn analyzer_pipeline::keyed::Intake::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::keyed::Late
+pub analyzer_pipeline::keyed::Late::closers: u64
+pub analyzer_pipeline::keyed::Late::corrected: u64
+pub analyzer_pipeline::keyed::Late::records: u64
+pub analyzer_pipeline::keyed::Late::too_late: u64
+impl core::clone::Clone for analyzer_pipeline::keyed::Late
+pub fn analyzer_pipeline::keyed::Late::clone(&self) -> analyzer_pipeline::keyed::Late
+impl core::cmp::Eq for analyzer_pipeline::keyed::Late
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Late
+pub fn analyzer_pipeline::keyed::Late::eq(&self, &analyzer_pipeline::keyed::Late) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::Late
+pub fn analyzer_pipeline::keyed::Late::default() -> analyzer_pipeline::keyed::Late
+impl core::fmt::Debug for analyzer_pipeline::keyed::Late
+pub fn analyzer_pipeline::keyed::Late::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::keyed::Late
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Late
+pub struct analyzer_pipeline::keyed::PlacementCompute<S>
+impl<S> analyzer_pipeline::keyed::PlacementCompute<S> where S: analyzer_pipeline::keyed::KeyedState<alloc::string::String, analyzer_analysis::dup_cells::IdentityState> + core::marker::Send
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::accept(&mut self, alloc::vec::Vec<analyzer_analysis::events::Event>) -> u64
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::advance(&mut self, f64, &analyzer_analysis::Params, &[(alloc::string::String, f64)]) -> analyzer_pipeline::keyed::PlacementTick
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::data_to_ms(&self) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::emitted_from_ms(&self) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::emitted_to_ms(&self) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::new(usize, analyzer_pipeline::keyed::Emission, impl core::ops::function::Fn() -> S) -> Self
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::replace_identity(&mut self, &str, analyzer_analysis::dup_cells::IdentityState, (&alloc::collections::btree::map::BTreeMap<i64, analyzer_analysis::dup_cells::WhaleSum>, &alloc::collections::btree::map::BTreeMap<i64, analyzer_analysis::dup_cells::WhaleSum>))
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::restored(self, impl core::iter::traits::collect::IntoIterator<Item = (alloc::string::String, analyzer_analysis::dup_cells::IdentityState)>, (core::option::Option<f64>, core::option::Option<f64>, core::option::Option<f64>)) -> Self
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::retire_whales_before(&mut self, i64)
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::seeds_of(&self, &str) -> core::option::Option<&analyzer_analysis::dup_cells::IdentityState>
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::states(&self) -> impl core::iter::traits::iterator::Iterator<Item = (&alloc::string::String, &analyzer_analysis::dup_cells::IdentityState)>
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::take_changes(&mut self) -> alloc::vec::Vec<(alloc::string::String, core::option::Option<analyzer_analysis::dup_cells::IdentityState>)>
+pub fn analyzer_pipeline::keyed::PlacementCompute<S>::whale_totals(&self, i64) -> alloc::vec::Vec<(alloc::string::String, analyzer_analysis::dup_cells::WhaleSum)>
+pub struct analyzer_pipeline::keyed::PlacementRefold
+pub analyzer_pipeline::keyed::PlacementRefold::cells: analyzer_analysis::dup_cells::DupCells
+pub analyzer_pipeline::keyed::PlacementRefold::state: analyzer_analysis::dup_cells::IdentityState
+impl core::default::Default for analyzer_pipeline::keyed::PlacementRefold
+pub fn analyzer_pipeline::keyed::PlacementRefold::default() -> analyzer_pipeline::keyed::PlacementRefold
+impl core::fmt::Debug for analyzer_pipeline::keyed::PlacementRefold
+pub fn analyzer_pipeline::keyed::PlacementRefold::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::PlacementTick
+pub analyzer_pipeline::keyed::PlacementTick::cells: analyzer_analysis::dup_cells::DupCells
+pub analyzer_pipeline::keyed::PlacementTick::emitted: core::option::Option<analyzer_analysis::Window>
+pub analyzer_pipeline::keyed::PlacementTick::identities: u64
+pub analyzer_pipeline::keyed::PlacementTick::repair_days: alloc::collections::btree::set::BTreeSet<i64>
+impl core::default::Default for analyzer_pipeline::keyed::PlacementTick
+pub fn analyzer_pipeline::keyed::PlacementTick::default() -> analyzer_pipeline::keyed::PlacementTick
+impl core::fmt::Debug for analyzer_pipeline::keyed::PlacementTick
+pub fn analyzer_pipeline::keyed::PlacementTick::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::Position
+impl analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Position::committed(&self) -> u64
+pub fn analyzer_pipeline::keyed::Position::held(&self) -> usize
+impl core::clone::Clone for analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Position::clone(&self) -> analyzer_pipeline::keyed::Position
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Position::eq(&self, &analyzer_pipeline::keyed::Position) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Position::default() -> analyzer_pipeline::keyed::Position
+impl core::fmt::Debug for analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Position::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Position
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Position::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::Position
+pub fn analyzer_pipeline::keyed::Position::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::keyed::RamState<K: core::cmp::Eq + core::hash::Hash, V>
+impl<'de, K, V> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::RamState<K, V> where K: serde_core::de::Deserialize<'de> + core::cmp::Eq + core::hash::Hash, V: serde_core::de::Deserialize<'de>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+impl<K, V> serde_core::ser::Serialize for analyzer_pipeline::keyed::RamState<K, V> where K: serde_core::ser::Serialize + core::cmp::Eq + core::hash::Hash, V: serde_core::ser::Serialize
+pub fn analyzer_pipeline::keyed::RamState<K, V>::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<K: core::clone::Clone + core::cmp::Eq + core::hash::Hash, V: core::clone::Clone> core::clone::Clone for analyzer_pipeline::keyed::RamState<K, V>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::clone(&self) -> analyzer_pipeline::keyed::RamState<K, V>
+impl<K: core::cmp::Eq + core::hash::Hash, V> analyzer_pipeline::keyed::KeyedState<K, V> for analyzer_pipeline::keyed::RamState<K, V>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::get(&self, &K) -> core::option::Option<&V>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::is_empty(&self) -> bool
+pub fn analyzer_pipeline::keyed::RamState<K, V>::len(&self) -> usize
+pub fn analyzer_pipeline::keyed::RamState<K, V>::put(&mut self, K, V)
+pub fn analyzer_pipeline::keyed::RamState<K, V>::remove(&mut self, &K)
+pub fn analyzer_pipeline::keyed::RamState<K, V>::scan(&self) -> alloc::boxed::Box<(dyn core::iter::traits::iterator::Iterator<Item = (&K, &V)> + '_)>
+impl<K: core::cmp::Eq + core::hash::Hash, V> core::default::Default for analyzer_pipeline::keyed::RamState<K, V>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::default() -> Self
+impl<K: core::cmp::PartialEq + core::cmp::Eq + core::hash::Hash, V: core::cmp::PartialEq> core::cmp::PartialEq for analyzer_pipeline::keyed::RamState<K, V>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::eq(&self, &analyzer_pipeline::keyed::RamState<K, V>) -> bool
+impl<K: core::cmp::PartialEq + core::cmp::Eq + core::hash::Hash, V: core::cmp::PartialEq> core::marker::StructuralPartialEq for analyzer_pipeline::keyed::RamState<K, V>
+impl<K: core::fmt::Debug + core::cmp::Eq + core::hash::Hash, V: core::fmt::Debug> core::fmt::Debug for analyzer_pipeline::keyed::RamState<K, V>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::Read
+pub analyzer_pipeline::keyed::Read::behind: alloc::vec::Vec<analyzer_analysis::events::Event>
+pub analyzer_pipeline::keyed::Read::records: alloc::vec::Vec<analyzer_analysis::events::Event>
+impl core::default::Default for analyzer_pipeline::keyed::Read
+pub fn analyzer_pipeline::keyed::Read::default() -> analyzer_pipeline::keyed::Read
+impl core::fmt::Debug for analyzer_pipeline::keyed::Read
+pub fn analyzer_pipeline::keyed::Read::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::Refold
+pub analyzer_pipeline::keyed::Refold::carried: alloc::vec::Vec<(f64, alloc::vec::Vec<(analyzer_pipeline::keyed::IdentityKey, alloc::vec::Vec<analyzer_analysis::classify::Frontier>)>)>
+pub analyzer_pipeline::keyed::Refold::facts: alloc::vec::Vec<analyzer_analysis::emitted::ClassifiedFact>
+pub analyzer_pipeline::keyed::Refold::frontiers: alloc::collections::btree::map::BTreeMap<analyzer_pipeline::keyed::IdentityKey, alloc::vec::Vec<analyzer_analysis::classify::Frontier>>
+impl core::default::Default for analyzer_pipeline::keyed::Refold
+pub fn analyzer_pipeline::keyed::Refold::default() -> analyzer_pipeline::keyed::Refold
+impl core::fmt::Debug for analyzer_pipeline::keyed::Refold
+pub fn analyzer_pipeline::keyed::Refold::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::RepeatCompute
+impl analyzer_pipeline::keyed::RepeatCompute
+pub fn analyzer_pipeline::keyed::RepeatCompute::accept(&mut self, alloc::vec::Vec<analyzer_analysis::events::Event>) -> u64
+pub fn analyzer_pipeline::keyed::RepeatCompute::advance(&mut self, core::option::Option<f64>, &analyzer_pipeline::keyed::RepeatContext<'_>) -> analyzer_pipeline::keyed::Tick
+pub fn analyzer_pipeline::keyed::RepeatCompute::advance_carrying<E>(&mut self, core::option::Option<f64>, &analyzer_pipeline::keyed::RepeatContext<'_>, impl core::ops::function::FnMut(&Self, f64) -> core::result::Result<(), E>) -> core::result::Result<analyzer_pipeline::keyed::Tick, E>
+pub fn analyzer_pipeline::keyed::RepeatCompute::blocks_on(&self, &str) -> alloc::vec::Vec<alloc::string::String>
+pub fn analyzer_pipeline::keyed::RepeatCompute::bound(&self, core::option::Option<f64>) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::RepeatCompute::carried(&self, usize, f64, f64) -> impl core::iter::traits::iterator::Iterator<Item = (analyzer_pipeline::keyed::IdentityKey, alloc::vec::Vec<analyzer_analysis::classify::Frontier>)> + '_
+pub fn analyzer_pipeline::keyed::RepeatCompute::classified_to_ms(&self) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::RepeatCompute::earliest_ms(&self) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::RepeatCompute::lanes(&self) -> usize
+pub fn analyzer_pipeline::keyed::RepeatCompute::new(usize, analyzer_pipeline::keyed::Emission) -> Self
+pub fn analyzer_pipeline::keyed::RepeatCompute::replace_identity(&mut self, &str, impl core::iter::traits::collect::IntoIterator<Item = (analyzer_pipeline::keyed::IdentityKey, alloc::vec::Vec<analyzer_analysis::classify::Frontier>)>)
+pub fn analyzer_pipeline::keyed::RepeatCompute::restored(self, impl core::iter::traits::collect::IntoIterator<Item = (analyzer_pipeline::keyed::IdentityKey, alloc::vec::Vec<analyzer_analysis::classify::Frontier>)>, core::option::Option<f64>) -> Self
+pub fn analyzer_pipeline::keyed::RepeatCompute::states(&self) -> impl core::iter::traits::iterator::Iterator<Item = (analyzer_pipeline::keyed::IdentityKey, alloc::vec::Vec<analyzer_analysis::classify::Frontier>)> + '_
+pub fn analyzer_pipeline::keyed::RepeatCompute::take_changes(&mut self) -> analyzer_pipeline::keyed::Changes
+pub struct analyzer_pipeline::keyed::RepeatContext<'a>
+pub analyzer_pipeline::keyed::RepeatContext::coverage: f64
+pub analyzer_pipeline::keyed::RepeatContext::meaning: &'a analyzer_analysis::emitted::Meaning
+pub analyzer_pipeline::keyed::RepeatContext::model: &'a analyzer_analysis::completeness::UncertaintyModel
+pub analyzer_pipeline::keyed::RepeatContext::models: &'a alloc::collections::btree::map::BTreeMap<(alloc::string::String, alloc::string::String), alloc::string::String>
+pub analyzer_pipeline::keyed::RepeatContext::params: &'a analyzer_analysis::Params
+pub struct analyzer_pipeline::keyed::Restated
+pub analyzer_pipeline::keyed::Restated::before: core::option::Option<analyzer_analysis::tags::TagInterval>
+pub analyzer_pipeline::keyed::Restated::declaration_id: alloc::string::String
+pub analyzer_pipeline::keyed::Restated::now: analyzer_analysis::tags::TagInterval
+impl core::clone::Clone for analyzer_pipeline::keyed::Restated
+pub fn analyzer_pipeline::keyed::Restated::clone(&self) -> analyzer_pipeline::keyed::Restated
+impl core::fmt::Debug for analyzer_pipeline::keyed::Restated
+pub fn analyzer_pipeline::keyed::Restated::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::Restored
+pub analyzer_pipeline::keyed::Restored::audit: analyzer_pipeline::keyed::AuditEdge
+pub analyzer_pipeline::keyed::Restored::blocks: alloc::vec::Vec<(i64, alloc::vec::Vec<u8>)>
+pub analyzer_pipeline::keyed::Restored::coverage: analyzer_pipeline::keyed::CoverageFeed
+pub analyzer_pipeline::keyed::Restored::covered_to_ms: core::option::Option<f64>
+pub analyzer_pipeline::keyed::Restored::generations: alloc::vec::Vec<analyzer_pipeline::keyed::Generation>
+pub analyzer_pipeline::keyed::Restored::intake: analyzer_pipeline::keyed::Intake
+pub analyzer_pipeline::keyed::Restored::module_spans: alloc::collections::btree::map::BTreeMap<alloc::string::String, i64>
+pub analyzer_pipeline::keyed::Restored::open_from_day: core::option::Option<i64>
+pub analyzer_pipeline::keyed::Restored::placement: analyzer_pipeline::keyed::PlacementCompute<analyzer_pipeline::keyed::Seeds>
+pub analyzer_pipeline::keyed::Restored::repeat: analyzer_pipeline::keyed::RepeatCompute
+pub analyzer_pipeline::keyed::Restored::rings: alloc::vec::Vec<(analyzer_analysis::intervals::Holder, alloc::vec::Vec<analyzer_analysis::emitted::ClassifiedFact>)>
+pub analyzer_pipeline::keyed::Restored::roster: analyzer_pipeline::keyed::RosterFeed
+pub analyzer_pipeline::keyed::Restored::settled_through_day: core::option::Option<i64>
+pub analyzer_pipeline::keyed::Restored::tags: analyzer_pipeline::keyed::TagFeed
+pub analyzer_pipeline::keyed::Restored::whales: alloc::vec::Vec<(i64, alloc::vec::Vec<u8>)>
+pub struct analyzer_pipeline::keyed::RosterChanges
+pub analyzer_pipeline::keyed::RosterChanges::rows: alloc::vec::Vec<analyzer_analysis::module::Row>
+pub analyzer_pipeline::keyed::RosterChanges::runs: alloc::vec::Vec<(alloc::string::String, analyzer_analysis::roster::Run)>
+impl core::default::Default for analyzer_pipeline::keyed::RosterChanges
+pub fn analyzer_pipeline::keyed::RosterChanges::default() -> analyzer_pipeline::keyed::RosterChanges
+impl core::fmt::Debug for analyzer_pipeline::keyed::RosterChanges
+pub fn analyzer_pipeline::keyed::RosterChanges::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::RosterFeed
+impl analyzer_pipeline::keyed::RosterFeed
+pub fn analyzer_pipeline::keyed::RosterFeed::cells(&self) -> &analyzer_analysis::roster::RosterCells
+pub fn analyzer_pipeline::keyed::RosterFeed::drain(&mut self) -> analyzer_pipeline::keyed::RosterChanges
+pub fn analyzer_pipeline::keyed::RosterFeed::position(&self) -> u64
+pub fn analyzer_pipeline::keyed::RosterFeed::restored(alloc::collections::btree::map::BTreeMap<alloc::string::String, analyzer_analysis::roster::Run>, u64) -> Self
+pub fn analyzer_pipeline::keyed::RosterFeed::tick(&mut self, &analyzer_lake::Lake) -> core::result::Result<(), analyzer_pipeline::Error>
+impl core::default::Default for analyzer_pipeline::keyed::RosterFeed
+pub fn analyzer_pipeline::keyed::RosterFeed::default() -> analyzer_pipeline::keyed::RosterFeed
+impl core::fmt::Debug for analyzer_pipeline::keyed::RosterFeed
+pub fn analyzer_pipeline::keyed::RosterFeed::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::SegmentSource<'a>
+impl<'a> analyzer_pipeline::keyed::SegmentSource<'a>
+pub fn analyzer_pipeline::keyed::SegmentSource<'a>::new(&'a analyzer_lake::Lake, &'a dyn analyzer_pipeline::keyed::SegmentReader) -> Self
+pub fn analyzer_pipeline::keyed::SegmentSource<'a>::with_missing(self, analyzer_pipeline::keyed::MissingSegment, f64) -> Self
+impl analyzer_pipeline::keyed::Source for analyzer_pipeline::keyed::SegmentSource<'_>
+pub fn analyzer_pipeline::keyed::SegmentSource<'_>::deliver(&self, &analyzer_pipeline::keyed::Position, &mut dyn core::ops::function::FnMut(analyzer_pipeline::keyed::Delivery) -> core::result::Result<(), analyzer_pipeline::Error>) -> core::result::Result<analyzer_pipeline::keyed::Position, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::SegmentSource<'_>::records(&self, &analyzer_pipeline::keyed::Delivery) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::Event>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::SegmentSource<'_>::records_of(&self, &[&analyzer_pipeline::keyed::Delivery]) -> core::result::Result<alloc::vec::Vec<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::SegmentSource<'_>::watermark(&self, &analyzer_pipeline::keyed::Position) -> core::option::Option<f64>
+pub struct analyzer_pipeline::keyed::SettledDay
+pub analyzer_pipeline::keyed::SettledDay::coverage: alloc::vec::Vec<analyzer_pipeline::keyed::SourceDay>
+pub analyzer_pipeline::keyed::SettledDay::day: i64
+impl analyzer_pipeline::keyed::SettledDay
+pub fn analyzer_pipeline::keyed::SettledDay::coverage(&self) -> analyzer_analysis::completeness::Coverage
+pub fn analyzer_pipeline::keyed::SettledDay::of(i64, &analyzer_analysis::coverage_sums::CoverageSums) -> Self
+impl core::clone::Clone for analyzer_pipeline::keyed::SettledDay
+pub fn analyzer_pipeline::keyed::SettledDay::clone(&self) -> analyzer_pipeline::keyed::SettledDay
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::SettledDay
+pub fn analyzer_pipeline::keyed::SettledDay::eq(&self, &analyzer_pipeline::keyed::SettledDay) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::SettledDay
+pub fn analyzer_pipeline::keyed::SettledDay::default() -> analyzer_pipeline::keyed::SettledDay
+impl core::fmt::Debug for analyzer_pipeline::keyed::SettledDay
+pub fn analyzer_pipeline::keyed::SettledDay::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::SettledDay
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::SettledDay
+pub fn analyzer_pipeline::keyed::SettledDay::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::SettledDay
+pub fn analyzer_pipeline::keyed::SettledDay::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::keyed::SourceDay
+pub analyzer_pipeline::keyed::SourceDay::covered_ms: f64
+pub analyzer_pipeline::keyed::SourceDay::source: alloc::string::String
+pub analyzer_pipeline::keyed::SourceDay::window_ms: f64
+impl core::clone::Clone for analyzer_pipeline::keyed::SourceDay
+pub fn analyzer_pipeline::keyed::SourceDay::clone(&self) -> analyzer_pipeline::keyed::SourceDay
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::SourceDay
+pub fn analyzer_pipeline::keyed::SourceDay::eq(&self, &analyzer_pipeline::keyed::SourceDay) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::SourceDay
+pub fn analyzer_pipeline::keyed::SourceDay::default() -> analyzer_pipeline::keyed::SourceDay
+impl core::fmt::Debug for analyzer_pipeline::keyed::SourceDay
+pub fn analyzer_pipeline::keyed::SourceDay::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::SourceDay
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::SourceDay
+pub fn analyzer_pipeline::keyed::SourceDay::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::SourceDay
+pub fn analyzer_pipeline::keyed::SourceDay::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::keyed::SpineLayout
+pub analyzer_pipeline::keyed::SpineLayout::partitions: u32
+pub analyzer_pipeline::keyed::SpineLayout::retention_days: u32
+impl analyzer_pipeline::keyed::SpineLayout
+pub fn analyzer_pipeline::keyed::SpineLayout::carry_of(self, &str) -> u32
+pub fn analyzer_pipeline::keyed::SpineLayout::closers(self) -> u32
+pub fn analyzer_pipeline::keyed::SpineLayout::partition_of(self, &str) -> u32
+impl core::clone::Clone for analyzer_pipeline::keyed::SpineLayout
+pub fn analyzer_pipeline::keyed::SpineLayout::clone(&self) -> analyzer_pipeline::keyed::SpineLayout
+impl core::cmp::Eq for analyzer_pipeline::keyed::SpineLayout
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::SpineLayout
+pub fn analyzer_pipeline::keyed::SpineLayout::eq(&self, &analyzer_pipeline::keyed::SpineLayout) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::SpineLayout
+pub fn analyzer_pipeline::keyed::SpineLayout::default() -> Self
+impl core::fmt::Debug for analyzer_pipeline::keyed::SpineLayout
+pub fn analyzer_pipeline::keyed::SpineLayout::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::keyed::SpineLayout
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::SpineLayout
+pub struct analyzer_pipeline::keyed::StatedSource
+pub analyzer_pipeline::keyed::StatedSource::last_evidence_ms: f64
+pub analyzer_pipeline::keyed::StatedSource::stated_from_ms: f64
+impl core::clone::Clone for analyzer_pipeline::keyed::StatedSource
+pub fn analyzer_pipeline::keyed::StatedSource::clone(&self) -> analyzer_pipeline::keyed::StatedSource
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::StatedSource
+pub fn analyzer_pipeline::keyed::StatedSource::eq(&self, &analyzer_pipeline::keyed::StatedSource) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::StatedSource
+pub fn analyzer_pipeline::keyed::StatedSource::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::StatedSource
+impl serde_core::ser::Serialize for analyzer_pipeline::keyed::StatedSource
+pub fn analyzer_pipeline::keyed::StatedSource::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_pipeline::keyed::StatedSource
+pub fn analyzer_pipeline::keyed::StatedSource::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_pipeline::keyed::Statement
+pub analyzer_pipeline::keyed::Statement::class: alloc::string::String
+pub analyzer_pipeline::keyed::Statement::gap_ms: core::option::Option<f64>
+pub analyzer_pipeline::keyed::Statement::n_tokens: i64
+impl core::clone::Clone for analyzer_pipeline::keyed::Statement
+pub fn analyzer_pipeline::keyed::Statement::clone(&self) -> analyzer_pipeline::keyed::Statement
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Statement
+pub fn analyzer_pipeline::keyed::Statement::eq(&self, &analyzer_pipeline::keyed::Statement) -> bool
+impl core::fmt::Debug for analyzer_pipeline::keyed::Statement
+pub fn analyzer_pipeline::keyed::Statement::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Statement
+pub struct analyzer_pipeline::keyed::Store
+impl analyzer_pipeline::keyed::Store
+pub fn analyzer_pipeline::keyed::Store::current(&self, &analyzer_lake::Lake) -> core::result::Result<bool, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Store::models(&analyzer_lake::Lake) -> core::result::Result<analyzer_pipeline::keyed::Models, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Store::module_spans(&analyzer_lake::Lake) -> core::result::Result<alloc::collections::btree::map::BTreeMap<alloc::string::String, i64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Store::outbox(&self, &analyzer_lake::Lake) -> core::result::Result<analyzer_pipeline::keyed::Batch, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Store::publication(&self) -> u64
+pub fn analyzer_pipeline::keyed::Store::settled_through_day(&analyzer_lake::Lake) -> core::result::Result<core::option::Option<i64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Store::tick(&self) -> u64
+impl analyzer_pipeline::keyed::Store
+pub fn analyzer_pipeline::keyed::Store::reset(&analyzer_lake::Lake) -> core::result::Result<(), analyzer_pipeline::Error>
+impl core::clone::Clone for analyzer_pipeline::keyed::Store
+pub fn analyzer_pipeline::keyed::Store::clone(&self) -> analyzer_pipeline::keyed::Store
+impl core::cmp::PartialEq for analyzer_pipeline::keyed::Store
+pub fn analyzer_pipeline::keyed::Store::eq(&self, &analyzer_pipeline::keyed::Store) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::Store
+pub fn analyzer_pipeline::keyed::Store::default() -> analyzer_pipeline::keyed::Store
+impl core::fmt::Debug for analyzer_pipeline::keyed::Store
+pub fn analyzer_pipeline::keyed::Store::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::keyed::Store
+pub struct analyzer_pipeline::keyed::TagFeed
+impl analyzer_pipeline::keyed::TagFeed
+pub fn analyzer_pipeline::keyed::TagFeed::drain_rows(&mut self) -> alloc::vec::Vec<analyzer_analysis::module::Row>
+pub fn analyzer_pipeline::keyed::TagFeed::index(&self) -> &analyzer_analysis::tags::TagIndex
+pub fn analyzer_pipeline::keyed::TagFeed::position(&self) -> u64
+pub fn analyzer_pipeline::keyed::TagFeed::restored(impl core::iter::traits::collect::IntoIterator<Item = (alloc::string::String, analyzer_analysis::tags::TagInterval)>, u64) -> Self
+pub fn analyzer_pipeline::keyed::TagFeed::tick(&mut self, &analyzer_lake::Lake) -> core::result::Result<alloc::vec::Vec<analyzer_pipeline::keyed::Restated>, analyzer_pipeline::Error>
+impl core::default::Default for analyzer_pipeline::keyed::TagFeed
+pub fn analyzer_pipeline::keyed::TagFeed::default() -> analyzer_pipeline::keyed::TagFeed
+impl core::fmt::Debug for analyzer_pipeline::keyed::TagFeed
+pub fn analyzer_pipeline::keyed::TagFeed::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::Tick
+pub analyzer_pipeline::keyed::Tick::cells: analyzer_analysis::class_band::ClassBandCells
+pub analyzer_pipeline::keyed::Tick::classified_to_ms: core::option::Option<f64>
+impl core::default::Default for analyzer_pipeline::keyed::Tick
+pub fn analyzer_pipeline::keyed::Tick::default() -> analyzer_pipeline::keyed::Tick
+impl core::fmt::Debug for analyzer_pipeline::keyed::Tick
+pub fn analyzer_pipeline::keyed::Tick::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::TickRun
+pub analyzer_pipeline::keyed::TickRun::audit: analyzer_pipeline::keyed::Audit
+pub analyzer_pipeline::keyed::TickRun::cells: analyzer_analysis::class_band::ClassBandCells
+pub analyzer_pipeline::keyed::TickRun::classified_to_ms: core::option::Option<f64>
+pub analyzer_pipeline::keyed::TickRun::coverage_restated: u64
+pub analyzer_pipeline::keyed::TickRun::evicts: analyzer_analysis::differential::AuditOutcome
+pub analyzer_pipeline::keyed::TickRun::late: analyzer_pipeline::keyed::Late
+pub analyzer_pipeline::keyed::TickRun::pending: usize
+pub analyzer_pipeline::keyed::TickRun::placement: analyzer_pipeline::keyed::PlacementTick
+pub analyzer_pipeline::keyed::TickRun::placement_late: analyzer_pipeline::keyed::Late
+pub analyzer_pipeline::keyed::TickRun::settled_days: alloc::vec::Vec<i64>
+impl core::fmt::Debug for analyzer_pipeline::keyed::TickRun
+pub fn analyzer_pipeline::keyed::TickRun::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::keyed::Written
+impl analyzer_pipeline::keyed::Written
+pub fn analyzer_pipeline::keyed::Written::absorb(&mut self, Self)
+impl analyzer_pipeline::keyed::Written
+pub fn analyzer_pipeline::keyed::Written::holds(&self, i64) -> bool
+impl core::default::Default for analyzer_pipeline::keyed::Written
+pub fn analyzer_pipeline::keyed::Written::default() -> analyzer_pipeline::keyed::Written
+impl core::fmt::Debug for analyzer_pipeline::keyed::Written
+pub fn analyzer_pipeline::keyed::Written::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub const analyzer_pipeline::keyed::BLOCK_CAPACITY: usize
+pub const analyzer_pipeline::keyed::BLOCK_CUT: usize
+pub const analyzer_pipeline::keyed::EVICT_SAMPLE_MODULUS: u64
+pub const analyzer_pipeline::keyed::RING_CAPACITY: usize
+pub const analyzer_pipeline::keyed::SAMPLES_PER_TICK: usize
+pub trait analyzer_pipeline::keyed::KeyedState<K, V>
+pub fn analyzer_pipeline::keyed::KeyedState::get(&self, &K) -> core::option::Option<&V>
+pub fn analyzer_pipeline::keyed::KeyedState::is_empty(&self) -> bool
+pub fn analyzer_pipeline::keyed::KeyedState::len(&self) -> usize
+pub fn analyzer_pipeline::keyed::KeyedState::put(&mut self, K, V)
+pub fn analyzer_pipeline::keyed::KeyedState::remove(&mut self, &K)
+pub fn analyzer_pipeline::keyed::KeyedState::scan(&self) -> alloc::boxed::Box<(dyn core::iter::traits::iterator::Iterator<Item = (&K, &V)> + '_)>
+impl<K: core::cmp::Eq + core::hash::Hash, V> analyzer_pipeline::keyed::KeyedState<K, V> for analyzer_pipeline::keyed::RamState<K, V>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::get(&self, &K) -> core::option::Option<&V>
+pub fn analyzer_pipeline::keyed::RamState<K, V>::is_empty(&self) -> bool
+pub fn analyzer_pipeline::keyed::RamState<K, V>::len(&self) -> usize
+pub fn analyzer_pipeline::keyed::RamState<K, V>::put(&mut self, K, V)
+pub fn analyzer_pipeline::keyed::RamState<K, V>::remove(&mut self, &K)
+pub fn analyzer_pipeline::keyed::RamState<K, V>::scan(&self) -> alloc::boxed::Box<(dyn core::iter::traits::iterator::Iterator<Item = (&K, &V)> + '_)>
+pub trait analyzer_pipeline::keyed::SegmentReader
+pub fn analyzer_pipeline::keyed::SegmentReader::read(&self, &analyzer_pipeline::keyed::Delivery) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::Event>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::SegmentReader::read_all(&self, &[&analyzer_pipeline::keyed::Delivery]) -> core::result::Result<alloc::vec::Vec<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_pipeline::Error>
+impl analyzer_pipeline::keyed::SegmentReader for analyzer_pipeline::keyed::FillReader<'_>
+pub fn analyzer_pipeline::keyed::FillReader<'_>::read(&self, &analyzer_pipeline::keyed::Delivery) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::Event>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::FillReader<'_>::read_all(&self, &[&analyzer_pipeline::keyed::Delivery]) -> core::result::Result<alloc::vec::Vec<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_pipeline::Error>
+pub trait analyzer_pipeline::keyed::Source
+pub fn analyzer_pipeline::keyed::Source::deliver(&self, &analyzer_pipeline::keyed::Position, &mut dyn core::ops::function::FnMut(analyzer_pipeline::keyed::Delivery) -> core::result::Result<(), analyzer_pipeline::Error>) -> core::result::Result<analyzer_pipeline::keyed::Position, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Source::records(&self, &analyzer_pipeline::keyed::Delivery) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::Event>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Source::records_of(&self, &[&analyzer_pipeline::keyed::Delivery]) -> core::result::Result<alloc::vec::Vec<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::Source::watermark(&self, &analyzer_pipeline::keyed::Position) -> core::option::Option<f64>
+impl analyzer_pipeline::keyed::Source for analyzer_pipeline::keyed::SegmentSource<'_>
+pub fn analyzer_pipeline::keyed::SegmentSource<'_>::deliver(&self, &analyzer_pipeline::keyed::Position, &mut dyn core::ops::function::FnMut(analyzer_pipeline::keyed::Delivery) -> core::result::Result<(), analyzer_pipeline::Error>) -> core::result::Result<analyzer_pipeline::keyed::Position, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::SegmentSource<'_>::records(&self, &analyzer_pipeline::keyed::Delivery) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::Event>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::SegmentSource<'_>::records_of(&self, &[&analyzer_pipeline::keyed::Delivery]) -> core::result::Result<alloc::vec::Vec<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::SegmentSource<'_>::watermark(&self, &analyzer_pipeline::keyed::Position) -> core::option::Option<f64>
+pub fn analyzer_pipeline::keyed::audit(&analyzer_lake::Lake, (&[analyzer_analysis::emitted::ClassifiedFact], analyzer_analysis::Window), &[alloc::string::String], (&analyzer_analysis::Params, &analyzer_pipeline::keyed::Models), &analyzer_pipeline::keyed::Written) -> core::result::Result<analyzer_pipeline::keyed::Audit, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::block_history(&analyzer_lake::Lake, &str, analyzer_analysis::Window, &analyzer_pipeline::keyed::Written) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::Event>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::collect_held_garbage(&analyzer_lake::Lake, f64) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::compact(&analyzer_lake::Lake, i64, f64) -> core::result::Result<bool, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::held_from_hour(&analyzer_lake::Lake) -> core::result::Result<core::option::Option<i64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::hour_of(f64) -> i64
+pub fn analyzer_pipeline::keyed::hours_with_ticks(&analyzer_lake::Lake) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::placement_from(f64, f64) -> f64
+pub fn analyzer_pipeline::keyed::refold_block(&analyzer_lake::Lake, &str, analyzer_analysis::Window, (&analyzer_analysis::Params, &analyzer_pipeline::keyed::Models), &analyzer_pipeline::keyed::Written) -> core::result::Result<analyzer_pipeline::keyed::Refold, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::refold_placement(&analyzer_lake::Lake, &str, (analyzer_analysis::Window, f64, f64), (&analyzer_analysis::Params, i64), &[(alloc::string::String, f64)], &dyn core::ops::function::Fn(&analyzer_analysis::events::Event) -> bool, &analyzer_pipeline::keyed::Written) -> core::result::Result<analyzer_pipeline::keyed::PlacementRefold, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::retire_before(&analyzer_lake::Lake, i64, f64) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::ring_of(&analyzer_lake::Lake, &analyzer_analysis::intervals::Holder) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::emitted::ClassifiedFact>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::keyed::sample(&[analyzer_analysis::emitted::ClassifiedFact], f64, &alloc::collections::btree::set::BTreeSet<alloc::string::String>) -> alloc::vec::Vec<alloc::string::String>
+pub type analyzer_pipeline::keyed::IdentityKey = (alloc::string::String, core::option::Option<u32>)
+pub type analyzer_pipeline::keyed::Models = alloc::collections::btree::map::BTreeMap<(alloc::string::String, alloc::string::String), alloc::string::String>
+pub type analyzer_pipeline::keyed::Seeds = analyzer_pipeline::keyed::RamState<alloc::string::String, analyzer_analysis::dup_cells::IdentityState>
+pub mod analyzer_pipeline::memo
+pub struct analyzer_pipeline::memo::MemoSource<'a, S: ?core::marker::Sized + analyzer_analysis::events::EventSource>
+impl<'a, S: ?core::marker::Sized + analyzer_analysis::events::EventSource> analyzer_pipeline::memo::MemoSource<'a, S>
+pub fn analyzer_pipeline::memo::MemoSource<'a, S>::new(&'a S) -> Self
+impl<S: ?core::marker::Sized + analyzer_analysis::events::EventSource> analyzer_analysis::events::EventSource for analyzer_pipeline::memo::MemoSource<'_, S>
+pub fn analyzer_pipeline::memo::MemoSource<'_, S>::cache_events(&self, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::sync::Arc<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::memo::MemoSource<'_, S>::lifecycle_declarations(&self, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::memo::MemoSource<'_, S>::lifecycle_events(&self, &str, f64, f64) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::memo::MemoSource<'_, S>::segment_opens_at_retention_horizon(&self, &str) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+impl<S: ?core::marker::Sized + analyzer_pipeline::source::FillSource> analyzer_pipeline::source::FillSource for analyzer_pipeline::memo::MemoSource<'_, S>
+pub fn analyzer_pipeline::memo::MemoSource<'_, S>::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>
+pub mod analyzer_pipeline::modules
+pub struct analyzer_pipeline::modules::ModuleSet
+impl analyzer_pipeline::modules::ModuleSet
+pub fn analyzer_pipeline::modules::ModuleSet::all() -> Self
+pub fn analyzer_pipeline::modules::ModuleSet::from_registrations(&[analyzer_pipeline::adapter::Registration], &[&str]) -> core::result::Result<Self, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::modules::ModuleSet::has(&self, &str) -> bool
+pub fn analyzer_pipeline::modules::ModuleSet::order(&self) -> &[&'static str]
+pub fn analyzer_pipeline::modules::ModuleSet::without(&[&str]) -> core::result::Result<Self, analyzer_analysis::error::Error>
+impl core::clone::Clone for analyzer_pipeline::modules::ModuleSet
+pub fn analyzer_pipeline::modules::ModuleSet::clone(&self) -> analyzer_pipeline::modules::ModuleSet
+impl core::cmp::Eq for analyzer_pipeline::modules::ModuleSet
+impl core::cmp::PartialEq for analyzer_pipeline::modules::ModuleSet
+pub fn analyzer_pipeline::modules::ModuleSet::eq(&self, &analyzer_pipeline::modules::ModuleSet) -> bool
+impl core::default::Default for analyzer_pipeline::modules::ModuleSet
+pub fn analyzer_pipeline::modules::ModuleSet::default() -> analyzer_pipeline::modules::ModuleSet
+impl core::fmt::Debug for analyzer_pipeline::modules::ModuleSet
+pub fn analyzer_pipeline::modules::ModuleSet::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::modules::ModuleSet
+pub fn analyzer_pipeline::modules::registrations() -> alloc::vec::Vec<analyzer_pipeline::adapter::Registration>
+pub mod analyzer_pipeline::parquet_source
+pub use analyzer_pipeline::parquet_source::LIFECYCLE_KINDS
+pub enum analyzer_pipeline::parquet_source::SegmentTransport
+pub analyzer_pipeline::parquet_source::SegmentTransport::Collection
+pub analyzer_pipeline::parquet_source::SegmentTransport::Collection::store: alloc::sync::Arc<(dyn analyzer_objectstore::ObjectStore + core::marker::Send + core::marker::Sync)>
+pub analyzer_pipeline::parquet_source::SegmentTransport::Directory
+pub analyzer_pipeline::parquet_source::SegmentTransport::Directory::root: std::path::PathBuf
+impl core::clone::Clone for analyzer_pipeline::parquet_source::SegmentTransport
+pub fn analyzer_pipeline::parquet_source::SegmentTransport::clone(&self) -> analyzer_pipeline::parquet_source::SegmentTransport
+impl core::fmt::Debug for analyzer_pipeline::parquet_source::SegmentTransport
+pub fn analyzer_pipeline::parquet_source::SegmentTransport::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::parquet_source::FsStore
+impl analyzer_pipeline::parquet_source::FsStore
+pub fn analyzer_pipeline::parquet_source::FsStore::new(impl core::convert::Into<std::path::PathBuf>) -> Self
+impl analyzer_pipeline::parquet_source::SegmentStore for analyzer_pipeline::parquet_source::FsStore
+pub fn analyzer_pipeline::parquet_source::FsStore::fetch(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::parquet_source::FsStore::list(&self, &str) -> core::result::Result<alloc::vec::Vec<alloc::string::String>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::parquet_source::FsStore::sibling(&self) -> core::option::Option<alloc::boxed::Box<dyn analyzer_pipeline::parquet_source::SegmentStore>>
+pub struct analyzer_pipeline::parquet_source::HorizonHours(_)
+impl analyzer_pipeline::parquet_source::HorizonHours
+pub fn analyzer_pipeline::parquet_source::HorizonHours::fixed(i64) -> Self
+pub fn analyzer_pipeline::parquet_source::HorizonHours::hours(&self) -> i64
+pub fn analyzer_pipeline::parquet_source::HorizonHours::set(&self, i64)
+impl core::clone::Clone for analyzer_pipeline::parquet_source::HorizonHours
+pub fn analyzer_pipeline::parquet_source::HorizonHours::clone(&self) -> analyzer_pipeline::parquet_source::HorizonHours
+impl core::fmt::Debug for analyzer_pipeline::parquet_source::HorizonHours
+pub fn analyzer_pipeline::parquet_source::HorizonHours::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::parquet_source::ParquetSource<S>
+impl<S: analyzer_pipeline::parquet_source::SegmentStore> analyzer_pipeline::parquet_source::ParquetSource<S>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::admitting_corpus_forms(self) -> Self
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::new(S, impl core::convert::Into<std::path::PathBuf>, impl core::convert::Into<alloc::string::String>, i64) -> Self
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::quarantined(&self) -> u64
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::with_cache_budget(self, u64) -> Self
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::with_lifecycle_bank(self, alloc::boxed::Box<(dyn core::ops::function::Fn(f64, f64) -> core::result::Result<(alloc::vec::Vec<alloc::string::String>, std::collections::hash::set::HashSet<alloc::string::String>), analyzer_pipeline::Error> + core::marker::Send + core::marker::Sync)>) -> Self
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::with_lifecycle_scope(self, alloc::boxed::Box<(dyn core::ops::function::Fn(f64, f64) -> core::result::Result<core::option::Option<std::collections::hash::set::HashSet<alloc::string::String>>, analyzer_pipeline::Error> + core::marker::Send + core::marker::Sync)>) -> Self
+impl<S: analyzer_pipeline::parquet_source::SegmentStore> analyzer_analysis::events::EventSource for analyzer_pipeline::parquet_source::ParquetSource<S>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::cache_events(&self, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::sync::Arc<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::lifecycle_declarations(&self, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::lifecycle_events(&self, &str, f64, f64) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::segment_opens_at_retention_horizon(&self, &str) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+impl<S: analyzer_pipeline::parquet_source::SegmentStore> analyzer_pipeline::source::FillSource for analyzer_pipeline::parquet_source::ParquetSource<S>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>
+pub struct analyzer_pipeline::parquet_source::SourceConfig
+pub analyzer_pipeline::parquet_source::SourceConfig::admit_corpus_forms: bool
+pub analyzer_pipeline::parquet_source::SourceConfig::cache_budget_bytes: u64
+pub analyzer_pipeline::parquet_source::SourceConfig::cache_dir: std::path::PathBuf
+pub analyzer_pipeline::parquet_source::SourceConfig::horizon_hours: analyzer_pipeline::parquet_source::HorizonHours
+pub analyzer_pipeline::parquet_source::SourceConfig::key_prefix: alloc::string::String
+pub analyzer_pipeline::parquet_source::SourceConfig::transport: analyzer_pipeline::parquet_source::SegmentTransport
+impl analyzer_pipeline::parquet_source::SourceConfig
+pub fn analyzer_pipeline::parquet_source::SourceConfig::source(&self) -> analyzer_pipeline::parquet_source::ParquetSource<alloc::boxed::Box<dyn analyzer_pipeline::parquet_source::SegmentStore>>
+impl core::clone::Clone for analyzer_pipeline::parquet_source::SourceConfig
+pub fn analyzer_pipeline::parquet_source::SourceConfig::clone(&self) -> analyzer_pipeline::parquet_source::SourceConfig
+impl core::fmt::Debug for analyzer_pipeline::parquet_source::SourceConfig
+pub fn analyzer_pipeline::parquet_source::SourceConfig::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub const analyzer_pipeline::parquet_source::DEFAULT_SEGMENT_CACHE_BYTES: u64
+pub trait analyzer_pipeline::parquet_source::SegmentStore: core::marker::Send + core::marker::Sync
+pub fn analyzer_pipeline::parquet_source::SegmentStore::fetch(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::parquet_source::SegmentStore::list(&self, &str) -> core::result::Result<alloc::vec::Vec<alloc::string::String>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::parquet_source::SegmentStore::sibling(&self) -> core::option::Option<alloc::boxed::Box<dyn analyzer_pipeline::parquet_source::SegmentStore>>
+impl analyzer_pipeline::parquet_source::SegmentStore for alloc::boxed::Box<(dyn analyzer_pipeline::parquet_source::SegmentStore + '_)>
+pub fn alloc::boxed::Box<(dyn analyzer_pipeline::parquet_source::SegmentStore + '_)>::fetch(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_pipeline::Error>
+pub fn alloc::boxed::Box<(dyn analyzer_pipeline::parquet_source::SegmentStore + '_)>::list(&self, &str) -> core::result::Result<alloc::vec::Vec<alloc::string::String>, analyzer_pipeline::Error>
+pub fn alloc::boxed::Box<(dyn analyzer_pipeline::parquet_source::SegmentStore + '_)>::sibling(&self) -> core::option::Option<alloc::boxed::Box<dyn analyzer_pipeline::parquet_source::SegmentStore>>
+impl analyzer_pipeline::parquet_source::SegmentStore for analyzer_pipeline::parquet_source::FsStore
+pub fn analyzer_pipeline::parquet_source::FsStore::fetch(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::parquet_source::FsStore::list(&self, &str) -> core::result::Result<alloc::vec::Vec<alloc::string::String>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::parquet_source::FsStore::sibling(&self) -> core::option::Option<alloc::boxed::Box<dyn analyzer_pipeline::parquet_source::SegmentStore>>
+pub fn analyzer_pipeline::parquet_source::cache_event_of(&serde_json::value::Value, core::option::Option<alloc::string::String>) -> core::result::Result<core::option::Option<analyzer_analysis::events::Event>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::parquet_source::horizon_reaching(f64) -> i64
+pub fn analyzer_pipeline::parquet_source::lifecycle_event_of(&serde_json::value::Value) -> core::result::Result<core::option::Option<analyzer_analysis::events::LifecycleEvent>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::parquet_source::segment_cache_dir(&std::path::Path) -> std::path::PathBuf
+pub fn analyzer_pipeline::parquet_source::sort_lifecycle(&mut [analyzer_analysis::events::LifecycleEvent])
+pub mod analyzer_pipeline::publish
+pub enum analyzer_pipeline::publish::Status
+pub analyzer_pipeline::publish::Status::AuditDisagreedAtMs(f64)
+pub analyzer_pipeline::publish::Status::AuditedToMs(f64)
+pub analyzer_pipeline::publish::Status::ClassifiedToMs(f64)
+pub analyzer_pipeline::publish::Status::CoveredToMs(f64)
+pub analyzer_pipeline::publish::Status::EmittedToMs(f64)
+pub analyzer_pipeline::publish::Status::LastTickAtMs(f64)
+pub analyzer_pipeline::publish::Status::SettledThroughDay(i64)
+impl analyzer_pipeline::publish::Status
+pub fn analyzer_pipeline::publish::Status::fact(&self) -> &'static str
+pub fn analyzer_pipeline::publish::Status::row(&self) -> analyzer_analysis::module::Row
+impl core::clone::Clone for analyzer_pipeline::publish::Status
+pub fn analyzer_pipeline::publish::Status::clone(&self) -> analyzer_pipeline::publish::Status
+impl core::cmp::PartialEq for analyzer_pipeline::publish::Status
+pub fn analyzer_pipeline::publish::Status::eq(&self, &analyzer_pipeline::publish::Status) -> bool
+impl core::fmt::Debug for analyzer_pipeline::publish::Status
+pub fn analyzer_pipeline::publish::Status::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::publish::Status
+impl core::marker::StructuralPartialEq for analyzer_pipeline::publish::Status
+pub struct analyzer_pipeline::publish::Head<'a>
+pub analyzer_pipeline::publish::Head::fleet_id: &'a str
+pub analyzer_pipeline::publish::Head::meaning: &'a analyzer_analysis::emitted::Meaning
+impl<'a> core::clone::Clone for analyzer_pipeline::publish::Head<'a>
+pub fn analyzer_pipeline::publish::Head<'a>::clone(&self) -> analyzer_pipeline::publish::Head<'a>
+impl<'a> core::fmt::Debug for analyzer_pipeline::publish::Head<'a>
+pub fn analyzer_pipeline::publish::Head<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_pipeline::publish::Head<'a>
+pub struct analyzer_pipeline::publish::Scope<'a>
+pub analyzer_pipeline::publish::Scope::days: &'a [i64]
+pub analyzer_pipeline::publish::Scope::head: analyzer_pipeline::publish::Head<'a>
+pub analyzer_pipeline::publish::Scope::tables: &'a [analyzer_analysis::module::Table]
+impl<'a> core::clone::Clone for analyzer_pipeline::publish::Scope<'a>
+pub fn analyzer_pipeline::publish::Scope<'a>::clone(&self) -> analyzer_pipeline::publish::Scope<'a>
+impl<'a> core::fmt::Debug for analyzer_pipeline::publish::Scope<'a>
+pub fn analyzer_pipeline::publish::Scope<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_pipeline::publish::Scope<'a>
+pub struct analyzer_pipeline::publish::Written
+pub analyzer_pipeline::publish::Written::bytes: u64
+pub analyzer_pipeline::publish::Written::rows: u64
+impl core::clone::Clone for analyzer_pipeline::publish::Written
+pub fn analyzer_pipeline::publish::Written::clone(&self) -> analyzer_pipeline::publish::Written
+impl core::cmp::Eq for analyzer_pipeline::publish::Written
+impl core::cmp::PartialEq for analyzer_pipeline::publish::Written
+pub fn analyzer_pipeline::publish::Written::eq(&self, &analyzer_pipeline::publish::Written) -> bool
+impl core::default::Default for analyzer_pipeline::publish::Written
+pub fn analyzer_pipeline::publish::Written::default() -> analyzer_pipeline::publish::Written
+impl core::fmt::Debug for analyzer_pipeline::publish::Written
+pub fn analyzer_pipeline::publish::Written::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::publish::Written
+impl core::marker::StructuralPartialEq for analyzer_pipeline::publish::Written
+pub const analyzer_pipeline::publish::DERIVATION_STATUS: analyzer_analysis::module::Table
+pub trait analyzer_pipeline::publish::Publish: core::marker::Send + core::marker::Sync
+pub fn analyzer_pipeline::publish::Publish::apply(&self, &analyzer_pipeline::publish::Head<'_>, &[analyzer_analysis::module::Table], u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::publish::Publish::install(&self, &[analyzer_analysis::module::Table]) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::publish::Publish::replace(&self, &analyzer_pipeline::publish::Scope<'_>, u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::publish::Publish::settled(&self) -> core::result::Result<bool, analyzer_pipeline::Error>
+impl analyzer_pipeline::publish::Publish for analyzer_pipeline::state::LakePublish
+pub fn analyzer_pipeline::state::LakePublish::apply(&self, &analyzer_pipeline::publish::Head<'_>, &[analyzer_analysis::module::Table], u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::LakePublish::install(&self, &[analyzer_analysis::module::Table]) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::LakePublish::replace(&self, &analyzer_pipeline::publish::Scope<'_>, u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::LakePublish::settled(&self) -> core::result::Result<bool, analyzer_pipeline::Error>
+impl analyzer_pipeline::publish::Publish for analyzer_pipeline::state::Published<'_>
+pub fn analyzer_pipeline::state::Published<'_>::apply(&self, &analyzer_pipeline::publish::Head<'_>, &[analyzer_analysis::module::Table], u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::Published<'_>::install(&self, &[analyzer_analysis::module::Table]) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::Published<'_>::replace(&self, &analyzer_pipeline::publish::Scope<'_>, u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::Published<'_>::settled(&self) -> core::result::Result<bool, analyzer_pipeline::Error>
+pub trait analyzer_pipeline::publish::Serving: analyzer_pipeline::publish::Publish
+pub fn analyzer_pipeline::publish::Serving::bind(&self, &analyzer_pipeline::execution::Namespace) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::publish::Serving::bound(&self) -> core::result::Result<core::option::Option<analyzer_pipeline::execution::Namespace>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::publish::status(&dyn analyzer_pipeline::publish::Publish, &analyzer_pipeline::publish::Head<'_>, u64, analyzer_pipeline::publish::Status) -> core::result::Result<(), analyzer_pipeline::Error>
+pub mod analyzer_pipeline::read
+pub fn analyzer_pipeline::read::agent_versions(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::vec::Vec<alloc::string::String>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::audit(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<analyzer_analysis::differential::AuditOutcome, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::block_tree(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<analyzer_analysis::tree::BlockTree, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::classify(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window, &analyzer_analysis::Params) -> core::result::Result<analyzer_analysis::classify::Classification, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::declaration(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<analyzer_analysis::reuse::Declaration, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::fleet_health(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<analyzer_analysis::staleness::FleetHealth, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::gap_span(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<analyzer_analysis::narrowing::GapSpan, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::residency_intervals(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::intervals::Interval>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::reuse_figures(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<(analyzer_analysis::reuse::Figure, analyzer_analysis::reuse::Figure, analyzer_analysis::reuse::Figure), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::run_verdicts(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::collections::btree::map::BTreeMap<alloc::string::String, analyzer_analysis::staleness::RunStaleness>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::read::uncertainty_model(&dyn analyzer_analysis::events::EventSource, &str, &analyzer_analysis::Window, &analyzer_analysis::Params) -> core::result::Result<analyzer_analysis::completeness::UncertaintyModel, analyzer_pipeline::Error>
+pub mod analyzer_pipeline::reset
+pub struct analyzer_pipeline::reset::Reset
+pub analyzer_pipeline::reset::Reset::directories: alloc::vec::Vec<std::path::PathBuf>
+pub analyzer_pipeline::reset::Reset::objects: usize
+impl core::clone::Clone for analyzer_pipeline::reset::Reset
+pub fn analyzer_pipeline::reset::Reset::clone(&self) -> analyzer_pipeline::reset::Reset
+impl core::cmp::Eq for analyzer_pipeline::reset::Reset
+impl core::cmp::PartialEq for analyzer_pipeline::reset::Reset
+pub fn analyzer_pipeline::reset::Reset::eq(&self, &analyzer_pipeline::reset::Reset) -> bool
+impl core::default::Default for analyzer_pipeline::reset::Reset
+pub fn analyzer_pipeline::reset::Reset::default() -> analyzer_pipeline::reset::Reset
+impl core::fmt::Debug for analyzer_pipeline::reset::Reset
+pub fn analyzer_pipeline::reset::Reset::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_pipeline::reset::Reset
+pub const analyzer_pipeline::reset::LOCAL_DERIVED: &[&str]
+pub fn analyzer_pipeline::reset::reset_derived(&analyzer_pipeline::spine::Spine, &std::path::Path) -> core::result::Result<analyzer_pipeline::reset::Reset, analyzer_pipeline::Error>
+pub mod analyzer_pipeline::source
+pub enum analyzer_pipeline::source::InputSelection
+pub analyzer_pipeline::source::InputSelection::WholeBatches
+pub analyzer_pipeline::source::InputSelection::Window(analyzer_analysis::Window)
+impl analyzer_pipeline::source::InputSelection
+pub fn analyzer_pipeline::source::InputSelection::bounds(self) -> core::option::Option<(f64, f64)>
+pub fn analyzer_pipeline::source::InputSelection::contains(self, f64) -> bool
+pub fn analyzer_pipeline::source::InputSelection::validate(self) -> core::result::Result<(), analyzer_analysis::error::Error>
+impl core::clone::Clone for analyzer_pipeline::source::InputSelection
+pub fn analyzer_pipeline::source::InputSelection::clone(&self) -> analyzer_pipeline::source::InputSelection
+impl core::cmp::PartialEq for analyzer_pipeline::source::InputSelection
+pub fn analyzer_pipeline::source::InputSelection::eq(&self, &analyzer_pipeline::source::InputSelection) -> bool
+impl core::fmt::Debug for analyzer_pipeline::source::InputSelection
+pub fn analyzer_pipeline::source::InputSelection::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_pipeline::source::InputSelection
+impl core::marker::StructuralPartialEq for analyzer_pipeline::source::InputSelection
+pub struct analyzer_pipeline::source::FillExclusion
+pub analyzer_pipeline::source::FillExclusion::batch_ids: std::collections::hash::set::HashSet<alloc::string::String>
+pub analyzer_pipeline::source::FillExclusion::object_keys: std::collections::hash::set::HashSet<alloc::string::String>
+pub analyzer_pipeline::source::FillExclusion::only_keys: core::option::Option<std::collections::hash::set::HashSet<alloc::string::String>>
+impl core::default::Default for analyzer_pipeline::source::FillExclusion
+pub fn analyzer_pipeline::source::FillExclusion::default() -> analyzer_pipeline::source::FillExclusion
+pub trait analyzer_pipeline::source::FillSource: analyzer_analysis::events::EventSource
+pub fn analyzer_pipeline::source::FillSource::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>
+impl<S: ?core::marker::Sized + analyzer_pipeline::source::FillSource> analyzer_pipeline::source::FillSource for analyzer_pipeline::memo::MemoSource<'_, S>
+pub fn analyzer_pipeline::memo::MemoSource<'_, S>::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>
+impl<S: analyzer_pipeline::parquet_source::SegmentStore> analyzer_pipeline::source::FillSource for analyzer_pipeline::parquet_source::ParquetSource<S>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>
+pub type analyzer_pipeline::source::SegmentSink<'a> = (dyn core::ops::function::FnMut(alloc::vec::Vec<analyzer_analysis::events::Event>, &str) -> core::result::Result<(), analyzer_analysis::error::Error> + 'a)
+pub mod analyzer_pipeline::spine
+pub struct analyzer_pipeline::spine::Spine
+impl analyzer_pipeline::spine::Spine
+pub fn analyzer_pipeline::spine::Spine::lake(&self) -> analyzer_lake::Lake
+pub fn analyzer_pipeline::spine::Spine::lineage(&self) -> &analyzer_lake::lineage::Lineage
+pub fn analyzer_pipeline::spine::Spine::namespace(&self) -> &analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::spine::Spine::new(alloc::sync::Arc<(dyn analyzer_objectstore::ObjectStore + core::marker::Send + core::marker::Sync)>, &str, &analyzer_pipeline::execution::Namespace, analyzer_lake::lineage::Lineage) -> Self
+pub fn analyzer_pipeline::spine::Spine::store(&self) -> &dyn analyzer_objectstore::ObjectStore
+pub fn analyzer_pipeline::spine::Spine::with_object_cache(self, &std::path::Path, u64) -> core::result::Result<Self, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::spine::Spine::with_working_state(self, &std::path::Path, usize) -> core::result::Result<Self, analyzer_pipeline::Error>
+impl core::clone::Clone for analyzer_pipeline::spine::Spine
+pub fn analyzer_pipeline::spine::Spine::clone(&self) -> analyzer_pipeline::spine::Spine
+impl core::fmt::Debug for analyzer_pipeline::spine::Spine
+pub fn analyzer_pipeline::spine::Spine::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub const analyzer_pipeline::spine::WORKING_STATE: &str
+pub fn analyzer_pipeline::spine::identity_of(&analyzer_analysis::events::Event) -> core::option::Option<&str>
+pub fn analyzer_pipeline::spine::local(&std::path::Path, &analyzer_pipeline::execution::Namespace) -> core::result::Result<analyzer_pipeline::spine::Spine, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::spine::stripe_of(core::option::Option<&str>) -> usize
+pub mod analyzer_pipeline::state
+pub struct analyzer_pipeline::state::LakePublish
+impl analyzer_pipeline::state::LakePublish
+pub fn analyzer_pipeline::state::LakePublish::drop_day(&self, &analyzer_analysis::module::Table, &analyzer_analysis::emitted::Meaning, i64) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::LakePublish::of(&analyzer_lake::Lake) -> core::result::Result<Self, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::LakePublish::read(&self, &analyzer_analysis::module::Table, &analyzer_analysis::emitted::Meaning, core::option::Option<i64>) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::module::Row>, analyzer_pipeline::Error>
+impl analyzer_pipeline::publish::Publish for analyzer_pipeline::state::LakePublish
+pub fn analyzer_pipeline::state::LakePublish::apply(&self, &analyzer_pipeline::publish::Head<'_>, &[analyzer_analysis::module::Table], u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::LakePublish::install(&self, &[analyzer_analysis::module::Table]) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::LakePublish::replace(&self, &analyzer_pipeline::publish::Scope<'_>, u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::LakePublish::settled(&self) -> core::result::Result<bool, analyzer_pipeline::Error>
+pub struct analyzer_pipeline::state::Published<'s>
+impl<'s> analyzer_pipeline::state::Published<'s>
+pub fn analyzer_pipeline::state::Published<'s>::lake(&self) -> &analyzer_pipeline::state::LakePublish
+pub fn analyzer_pipeline::state::Published<'s>::to(&analyzer_lake::Lake, &'s dyn analyzer_pipeline::publish::Serving) -> core::result::Result<Self, analyzer_pipeline::Error>
+impl analyzer_pipeline::publish::Publish for analyzer_pipeline::state::Published<'_>
+pub fn analyzer_pipeline::state::Published<'_>::apply(&self, &analyzer_pipeline::publish::Head<'_>, &[analyzer_analysis::module::Table], u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::Published<'_>::install(&self, &[analyzer_analysis::module::Table]) -> core::result::Result<(), analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::Published<'_>::replace(&self, &analyzer_pipeline::publish::Scope<'_>, u64, &[analyzer_analysis::module::Row]) -> core::result::Result<analyzer_pipeline::publish::Written, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::Published<'_>::settled(&self) -> core::result::Result<bool, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::state::read_back<P: analyzer_analysis::module::Persisted>(&analyzer_pipeline::state::LakePublish, &analyzer_analysis::emitted::Meaning, &mut P, &[i64]) -> core::result::Result<u64, analyzer_pipeline::Error>
+#[non_exhaustive] pub enum analyzer_pipeline::Error
+pub analyzer_pipeline::Error::Derivation(alloc::string::String)
+pub analyzer_pipeline::Error::Fenced
+pub analyzer_pipeline::Error::Fenced::lineage: alloc::string::String
+pub analyzer_pipeline::Error::Fenced::reason: alloc::string::String
+pub analyzer_pipeline::Error::IncompatibleState
+pub analyzer_pipeline::Error::Row(alloc::string::String)
+pub analyzer_pipeline::Error::Segment(analyzer_segments::error::Error)
+pub analyzer_pipeline::Error::Serving(alloc::sync::Arc<(dyn core::error::Error + core::marker::Send + core::marker::Sync + 'static)>)
+pub analyzer_pipeline::Error::Source(analyzer_analysis::error::Error)
+pub analyzer_pipeline::Error::Spine(alloc::string::String)
+pub analyzer_pipeline::Error::Store(analyzer_objectstore::Error)
+pub analyzer_pipeline::Error::UnavailableHistory
+pub analyzer_pipeline::Error::UnavailableHistory::day: i64
+impl core::clone::Clone for analyzer_pipeline::Error
+pub fn analyzer_pipeline::Error::clone(&self) -> analyzer_pipeline::Error
+impl core::convert::From<analyzer_analysis::error::Error> for analyzer_pipeline::Error
+pub fn analyzer_pipeline::Error::from(analyzer_analysis::error::Error) -> Self
+impl core::convert::From<analyzer_lake::Error> for analyzer_pipeline::Error
+pub fn analyzer_pipeline::Error::from(analyzer_lake::Error) -> Self
+impl core::convert::From<analyzer_objectstore::Error> for analyzer_pipeline::Error
+pub fn analyzer_pipeline::Error::from(analyzer_objectstore::Error) -> Self
+impl core::convert::From<analyzer_pipeline::Error> for analyzer_analysis::error::Error
+pub fn analyzer_analysis::error::Error::from(analyzer_pipeline::Error) -> Self
+impl core::convert::From<analyzer_segments::error::Error> for analyzer_pipeline::Error
+pub fn analyzer_pipeline::Error::from(analyzer_segments::error::Error) -> Self
+impl core::error::Error for analyzer_pipeline::Error
+pub fn analyzer_pipeline::Error::source(&self) -> core::option::Option<&(dyn core::error::Error + 'static)>
+impl core::fmt::Debug for analyzer_pipeline::Error
+pub fn analyzer_pipeline::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_pipeline::Error
+pub fn analyzer_pipeline::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::Executor<'a>
+impl<'a> analyzer_pipeline::executor::Executor<'a>
+pub fn analyzer_pipeline::executor::Executor<'a>::advance(&self, &dyn analyzer_pipeline::source::FillSource) -> core::result::Result<analyzer_pipeline::executor::Advance, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::availability(&self) -> core::result::Result<alloc::vec::Vec<analyzer_pipeline::executor::ModuleAvailability>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::lake(&self) -> analyzer_lake::Lake
+pub fn analyzer_pipeline::executor::Executor<'a>::maintain_input_log(&self, u32, u32) -> core::result::Result<analyzer_pipeline::inputs::Maintained, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::namespace(&self) -> &analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::executor::Executor<'a>::open(alloc::sync::Arc<analyzer_pipeline::spine::Spine>, &analyzer_analysis::Params, alloc::sync::Arc<dyn analyzer_pipeline::publish::Serving>) -> core::result::Result<Self, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::publish_inputs(&self) -> core::result::Result<u64, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::retire_published(&self, u32) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::revision(&self) -> core::result::Result<core::option::Option<u64>, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::executor::Executor<'a>::spine(&self) -> &alloc::sync::Arc<analyzer_pipeline::spine::Spine>
+pub fn analyzer_pipeline::executor::Executor<'a>::with_lanes(self, usize) -> Self
+pub fn analyzer_pipeline::executor::Executor<'a>::with_lent(self, &'a std::sync::poison::mutex::Mutex<analyzer_pipeline::executor::Lent>) -> Self
+pub fn analyzer_pipeline::executor::Executor<'a>::with_modules(self, analyzer_pipeline::modules::ModuleSet) -> Self
+pub struct analyzer_pipeline::ParquetSource<S>
+impl<S: analyzer_pipeline::parquet_source::SegmentStore> analyzer_pipeline::parquet_source::ParquetSource<S>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::admitting_corpus_forms(self) -> Self
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::new(S, impl core::convert::Into<std::path::PathBuf>, impl core::convert::Into<alloc::string::String>, i64) -> Self
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::quarantined(&self) -> u64
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::with_cache_budget(self, u64) -> Self
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::with_lifecycle_bank(self, alloc::boxed::Box<(dyn core::ops::function::Fn(f64, f64) -> core::result::Result<(alloc::vec::Vec<alloc::string::String>, std::collections::hash::set::HashSet<alloc::string::String>), analyzer_pipeline::Error> + core::marker::Send + core::marker::Sync)>) -> Self
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::with_lifecycle_scope(self, alloc::boxed::Box<(dyn core::ops::function::Fn(f64, f64) -> core::result::Result<core::option::Option<std::collections::hash::set::HashSet<alloc::string::String>>, analyzer_pipeline::Error> + core::marker::Send + core::marker::Sync)>) -> Self
+impl<S: analyzer_pipeline::parquet_source::SegmentStore> analyzer_analysis::events::EventSource for analyzer_pipeline::parquet_source::ParquetSource<S>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::cache_events(&self, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::sync::Arc<alloc::vec::Vec<analyzer_analysis::events::Event>>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::lifecycle_declarations(&self, &str, &analyzer_analysis::Window) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::lifecycle_events(&self, &str, f64, f64) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::segment_opens_at_retention_horizon(&self, &str) -> core::result::Result<alloc::vec::Vec<analyzer_analysis::events::LifecycleEvent>, analyzer_analysis::error::Error>
+impl<S: analyzer_pipeline::parquet_source::SegmentStore> analyzer_pipeline::source::FillSource for analyzer_pipeline::parquet_source::ParquetSource<S>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>
+pub struct analyzer_pipeline::SourceConfig
+pub analyzer_pipeline::SourceConfig::admit_corpus_forms: bool
+pub analyzer_pipeline::SourceConfig::cache_budget_bytes: u64
+pub analyzer_pipeline::SourceConfig::cache_dir: std::path::PathBuf
+pub analyzer_pipeline::SourceConfig::horizon_hours: analyzer_pipeline::parquet_source::HorizonHours
+pub analyzer_pipeline::SourceConfig::key_prefix: alloc::string::String
+pub analyzer_pipeline::SourceConfig::transport: analyzer_pipeline::parquet_source::SegmentTransport
+impl analyzer_pipeline::parquet_source::SourceConfig
+pub fn analyzer_pipeline::parquet_source::SourceConfig::source(&self) -> analyzer_pipeline::parquet_source::ParquetSource<alloc::boxed::Box<dyn analyzer_pipeline::parquet_source::SegmentStore>>
+impl core::clone::Clone for analyzer_pipeline::parquet_source::SourceConfig
+pub fn analyzer_pipeline::parquet_source::SourceConfig::clone(&self) -> analyzer_pipeline::parquet_source::SourceConfig
+impl core::fmt::Debug for analyzer_pipeline::parquet_source::SourceConfig
+pub fn analyzer_pipeline::parquet_source::SourceConfig::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_pipeline::Spine
+impl analyzer_pipeline::spine::Spine
+pub fn analyzer_pipeline::spine::Spine::lake(&self) -> analyzer_lake::Lake
+pub fn analyzer_pipeline::spine::Spine::lineage(&self) -> &analyzer_lake::lineage::Lineage
+pub fn analyzer_pipeline::spine::Spine::namespace(&self) -> &analyzer_pipeline::execution::Namespace
+pub fn analyzer_pipeline::spine::Spine::new(alloc::sync::Arc<(dyn analyzer_objectstore::ObjectStore + core::marker::Send + core::marker::Sync)>, &str, &analyzer_pipeline::execution::Namespace, analyzer_lake::lineage::Lineage) -> Self
+pub fn analyzer_pipeline::spine::Spine::store(&self) -> &dyn analyzer_objectstore::ObjectStore
+pub fn analyzer_pipeline::spine::Spine::with_object_cache(self, &std::path::Path, u64) -> core::result::Result<Self, analyzer_pipeline::Error>
+pub fn analyzer_pipeline::spine::Spine::with_working_state(self, &std::path::Path, usize) -> core::result::Result<Self, analyzer_pipeline::Error>
+impl core::clone::Clone for analyzer_pipeline::spine::Spine
+pub fn analyzer_pipeline::spine::Spine::clone(&self) -> analyzer_pipeline::spine::Spine
+impl core::fmt::Debug for analyzer_pipeline::spine::Spine
+pub fn analyzer_pipeline::spine::Spine::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub trait analyzer_pipeline::FillSource: analyzer_analysis::events::EventSource
+pub fn analyzer_pipeline::FillSource::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>
+impl<S: ?core::marker::Sized + analyzer_pipeline::source::FillSource> analyzer_pipeline::source::FillSource for analyzer_pipeline::memo::MemoSource<'_, S>
+pub fn analyzer_pipeline::memo::MemoSource<'_, S>::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>
+impl<S: analyzer_pipeline::parquet_source::SegmentStore> analyzer_pipeline::source::FillSource for analyzer_pipeline::parquet_source::ParquetSource<S>
+pub fn analyzer_pipeline::parquet_source::ParquetSource<S>::stream_cache_events_into(&self, &str, analyzer_pipeline::source::InputSelection, &analyzer_pipeline::source::FillExclusion, &mut analyzer_pipeline::source::SegmentSink<'_>) -> core::result::Result<alloc::vec::Vec<(alloc::string::String, alloc::string::String)>, analyzer_analysis::error::Error>

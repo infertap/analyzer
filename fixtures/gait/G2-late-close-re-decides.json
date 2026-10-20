@@ -1,0 +1,86 @@
+{
+  "claim": "a late close, shipped after the store it precedes, flips that store's class at the tick that receives it: the identity slice re-classifies the touched identity whole-day and its earlier statement cancels by key",
+  "waves": [
+    {
+      "expect_sliced": false,
+      "records": [
+        {
+          "kind": "agent_start",
+          "at_ms": 1800000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 2160000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 2160000.0
+            }
+          ]
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "p",
+          "content_id": "p",
+          "at_ms": 10800000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic",
+          "n_tokens": 8
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 11160000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 11160000.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expect_sliced": true,
+      "records": [
+        {
+          "kind": "evict",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "p",
+          "content_id": "p",
+          "at_ms": 10440000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic"
+        }
+      ]
+    }
+  ]
+}

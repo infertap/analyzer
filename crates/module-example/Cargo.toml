@@ -1,0 +1,31 @@
+[package]
+name = "analyzer-module-example"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# Only the public fold and execution boundaries. No storage: the framework owns the tables.
+analyzer-analysis = { path = "../analysis" }
+analyzer-pipeline = { path = "../pipeline" }
+
+[dev-dependencies]
+# The shared test harness, through its public API alone.
+harness = { path = "../harness", package = "analyzer-harness" }
+# The bucket layout the shared pipeline test helpers read (`dated`).
+analyzer-lake = { path = "../lake" }
+# Reuse the repository's public-API ingestion fixture builder, never private pipeline code.
+analyzer-serving-clickhouse = { path = "../serving-clickhouse", features = ["testing"] }
+analyzer-ingest = { path = "../ingest" }
+analyzer-objectstore = { path = "../objectstore", features = ["testing"] }
+analyzer-segments = { path = "../segments" }
+serde_json = "1.0"

@@ -1,0 +1,95 @@
+{
+ "fixture_version": "v1",
+ "source": "classification-semantics.md \u00a74: a clear decides post_clear over ETR",
+ "params": {},
+ "cases": [
+  {
+   "name": "primary_post_clear",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 100000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "q",
+     "at_ms": 110000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "clear",
+     "instance_id": "i1",
+     "scope": "all",
+     "tier": "GPU",
+     "at_ms": 120000
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 130000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s_final"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s_final": "post_clear"
+    },
+    "eviction_waste_tokens": 0,
+    "post_clear_tokens": 4
+   }
+  },
+  {
+   "name": "pair_ETR",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 100000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "q",
+     "at_ms": 110000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 120000,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 130000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s_final"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s_final": "ETR"
+    },
+    "eviction_waste_tokens": 4,
+    "post_clear_tokens": 0
+   }
+  }
+ ]
+}

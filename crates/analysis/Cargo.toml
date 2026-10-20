@@ -1,0 +1,23 @@
+[package]
+name = "analyzer-analysis"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# **Empty, and that is the assertion.** This crate is a derivation: typed events in, figures
+# out. It reads nothing, writes nothing, and spawns nothing. The store boundary, the
+# serialisation of emitted rows, and the pass that orchestrates both live in
+# `analyzer-pipeline`, which depends on this one and not the reverse.
+#
+# A dependency added here is a claim that the derivation needs the world. Weigh it that way.
+

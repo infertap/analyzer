@@ -1,0 +1,139 @@
+{
+  "claim": "a late scope clear closes a residency whose identity never appears in any later wave: the dormant identity is in the clear's touched set (its instance's open rows) and the identity slice closes it",
+  "waves": [
+    {
+      "expect_sliced": false,
+      "records": [
+        {
+          "kind": "agent_start",
+          "at_ms": 1800000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 2160000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 2160000.0
+            }
+          ]
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "s",
+          "content_id": "s",
+          "at_ms": 3600000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic",
+          "n_tokens": 4
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 5400000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 5400000.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expect_sliced": true,
+      "records": [
+        {
+          "kind": "heartbeat",
+          "at_ms": 10800000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 10800000.0
+            }
+          ]
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "x",
+          "content_id": "x",
+          "at_ms": 12600000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic",
+          "n_tokens": 8
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 12960000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 12960000.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expect_sliced": true,
+      "records": [
+        {
+          "kind": "clear",
+          "instance_id": "i1",
+          "scope": "all",
+          "at_ms": 7200000.0,
+          "incarnation": "run-1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "infertap-analyzer.fullname" . }}
+  labels:
+    {{- include "infertap-analyzer.labels" . | nindent 4 }}
+    {{- with .Values.serviceMonitor.labels }}{{ toYaml . | nindent 4 }}{{- end }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "infertap-analyzer.selectorLabels" . | nindent 6 }}
+  endpoints:
+    # `/metrics` is unauthenticated on its own listener and its own bind, and its 503-on-stale is
+    # the same signal the probes use. A scrape failure and a dead sampler are one condition.
+    - port: metrics
+      interval: {{ .Values.serviceMonitor.interval }}
+{{- end }}

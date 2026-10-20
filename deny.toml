@@ -1,0 +1,69 @@
+# cargo-deny for the analyzer workspace. Dependencies start empty (the static-audit
+# allowlist is the ratchet); this config is the supply-chain floor they land onto.
+[licenses]
+# Unicode-3.0 added with D2 (2026-07-26): the official ClickHouse client depends on
+# `url`, whose IDNA support pulls the ICU4X crates (icu_normalizer, icu_properties,
+# zerovec, tinystr, litemap, writeable, potential_utf). The Unicode License v3 is
+# OSI-approved and permissive with no copyleft or source-disclosure obligation, which is
+# what this floor exists to guarantee for a binary-vended product. Deliberate addition,
+# not a widening: the list still admits nothing viral.
+# BSD-3-Clause added with the read API (2026-08-04): `subtle`, the constant-time comparison
+# the viewer token is verified with. OSI-approved and permissive with no copyleft or
+# source-disclosure obligation, which is what this floor exists to guarantee for a
+# binary-vended product. ONE entry, not two — `ISC` was added alongside it on the assumption
+# that `tower-http`'s file service would bring it, and `cargo deny` reported the allowance as
+# unmatched. An unencountered licence on this list is a speculative widening of the floor, so
+# it came back off: the list admits what is actually here and nothing else.
+# CC0-1.0 added with the Parquet decode (2026-08-13), for `tiny-keccak` alone: a BUILD-TIME
+# dep of ahash's compile-time RNG (parquet -> hashbrown -> ahash -> const-random). Public-domain
+# dedication, no obligation of any kind, and nothing of it ships in the binary. Exit: prune when
+# the parquet tree drops const-random or this entry stops matching anything — the same entry,
+# for the same crate, for the same reason, as the tap's.
+# ISC and CDLA-Permissive-2.0 added 2026-08-17 with the object-store client, and both are
+# REQUIRED terms rather than choosable ones — the distinction this floor turns on:
+#
+#   untrusted            ISC                      (bare, no alternative)
+#   aws-lc-sys           ISC AND (Apache-2.0 OR ISC) AND Apache-2.0 AND MIT AND BSD-3-Clause AND …
+#   webpki-root-certs    CDLA-Permissive-2.0      (bare; it is the Mozilla root-certificate DATA)
+#
+# ISC is BSD-shaped and permissive. CDLA-Permissive-2.0 is a DATA licence with no copyleft and no
+# source-disclosure obligation, which is what this floor exists to guarantee for a binary-vended
+# product. **ISC was on this list once and came off** when `cargo deny` reported the allowance
+# unmatched — an unencountered licence is a speculative widening. It is encountered now, so it
+# returns on evidence rather than on anticipation, which is the same rule read the other way.
+#
+# Checked and NOT a widening: `r-efi` reports `MIT OR Apache-2.0 OR LGPL-2.1-or-later`. The LGPL
+# term is one arm of an OR, so MIT satisfies it and no copyleft obligation attaches. A required
+# LGPL would have stopped this dependency outright.
+allow = ["Apache-2.0", "MIT", "Unicode-3.0", "BSD-3-Clause", "CC0-1.0", "ISC", "CDLA-Permissive-2.0"]
+# workspace crates are not published (publish = false) and carry the repository's own
+# AGPL-3.0-only; this floor is for what they pull in, so they are ignored here
+private = { ignore = true }
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+# workspace path-deps carry no version by design; they are the crate boundaries
+allow-wildcard-paths = true
+
+[advisories]
+yanked = "deny"
+# ONE exception, stated with its scope and its exit (D2, 2026-07-26).
+#
+# RUSTSEC-2024-0436 — `paste` is unmaintained (not vulnerable; no CVE, no unsound
+# finding). It arrives as clickhouse -> polonius-the-crab -> higher-kinded-types ->
+# paste, and it is a PROC-MACRO: it runs at compile time and contributes no code path,
+# no allocation and no input handling to the shipped binary. An unmaintained build-time
+# macro helper is a maintenance risk, not an attack surface, and the alternative —
+# hand-rolling the HTTP transport to avoid it — trades a compile-time dependency for a
+# runtime protocol implementation we would own forever (design §2 decided that
+# explicitly).
+#
+# Exit condition, so this does not become permanent by inattention: re-checked at every
+# `clickhouse` bump. Upstream's own migration path (`pastey`) removes it, and when the
+# dependency disappears this entry goes with it in the same commit.
+ignore = ["RUSTSEC-2024-0436"]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"

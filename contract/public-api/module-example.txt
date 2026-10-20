@@ -1,0 +1,42 @@
+pub mod analyzer_module_example
+pub struct analyzer_module_example::CoverageGaps
+impl analyzer_analysis::module::DerivationModule for analyzer_module_example::CoverageGaps
+pub type analyzer_module_example::CoverageGaps::Cells = analyzer_module_example::GapExposure
+pub type analyzer_module_example::CoverageGaps::Ctx<'a> = ()
+pub type analyzer_module_example::CoverageGaps::Event = f64
+pub type analyzer_module_example::CoverageGaps::Key = alloc::string::String
+pub type analyzer_module_example::CoverageGaps::State = ()
+pub const analyzer_module_example::CoverageGaps::INITIALIZATION: analyzer_analysis::module::Initialization
+pub const analyzer_module_example::CoverageGaps::NAME: &'static str
+pub const analyzer_module_example::CoverageGaps::NEEDS: &'static [&'static str]
+pub fn analyzer_module_example::CoverageGaps::fold(&self, &alloc::string::String, &[f64], (), analyzer_analysis::Window, &()) -> analyzer_analysis::module::Contribution<analyzer_module_example::GapExposure, ()>
+pub struct analyzer_module_example::GapAdapter
+impl analyzer_pipeline::adapter::Adapter for analyzer_module_example::GapAdapter
+pub type analyzer_module_example::GapAdapter::Definition = analyzer_module_example::CoverageGaps
+pub type analyzer_module_example::GapAdapter::Output = analyzer_module_example::GapExposure
+pub const analyzer_module_example::GapAdapter::CADENCE: analyzer_pipeline::adapter::Cadence
+pub const analyzer_module_example::GapAdapter::TABLES: &'static [analyzer_analysis::module::Table]
+pub fn analyzer_module_example::GapAdapter::reconstruct(&analyzer_pipeline::adapter::Context<'_>, &analyzer_pipeline::adapter::Dependencies<'_>) -> core::result::Result<analyzer_module_example::GapExposure, analyzer_pipeline::error::Error>
+pub fn analyzer_module_example::GapAdapter::rows(&analyzer_pipeline::adapter::Context<'_>, &analyzer_module_example::GapExposure) -> alloc::vec::Vec<analyzer_analysis::module::Row>
+pub struct analyzer_module_example::GapExposure(pub alloc::vec::Vec<analyzer_module_example::SourceGap>)
+impl analyzer_analysis::module::Mergeable for analyzer_module_example::GapExposure
+pub fn analyzer_module_example::GapExposure::merge(&mut self, Self)
+impl core::cmp::PartialEq for analyzer_module_example::GapExposure
+pub fn analyzer_module_example::GapExposure::eq(&self, &analyzer_module_example::GapExposure) -> bool
+impl core::default::Default for analyzer_module_example::GapExposure
+pub fn analyzer_module_example::GapExposure::default() -> analyzer_module_example::GapExposure
+impl core::fmt::Debug for analyzer_module_example::GapExposure
+pub fn analyzer_module_example::GapExposure::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_module_example::GapExposure
+pub struct analyzer_module_example::SourceGap
+pub analyzer_module_example::SourceGap::source: alloc::string::String
+pub analyzer_module_example::SourceGap::unobserved_ms: f64
+impl core::clone::Clone for analyzer_module_example::SourceGap
+pub fn analyzer_module_example::SourceGap::clone(&self) -> analyzer_module_example::SourceGap
+impl core::cmp::PartialEq for analyzer_module_example::SourceGap
+pub fn analyzer_module_example::SourceGap::eq(&self, &analyzer_module_example::SourceGap) -> bool
+impl core::fmt::Debug for analyzer_module_example::SourceGap
+pub fn analyzer_module_example::SourceGap::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_module_example::SourceGap
+pub const analyzer_module_example::GAP_SOURCES: analyzer_analysis::module::Table
+pub const analyzer_module_example::GAP_TOTAL: analyzer_analysis::module::Table

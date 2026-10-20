@@ -1,0 +1,707 @@
+# Release: on a v* tag, re-prove everything `ci` proves, package all three artifacts, smoke
+# what was packaged, sign it, and publish. Mirrors the tap's release.yml (infertap 4ce279e),
+# which solved this once; the differences are noted where they occur and every one of them
+# comes from the analyzer shipping things the tap does not.
+#
+# Actions pinned by commit SHA and tools by version. A tag is mutable, a SHA is not, and a
+# release path is the wrong place to discover a new tool version's behaviour.
+#
+# THE FOUR DIFFERENCES FROM THE TAP:
+#
+# 1. **The console is staged from another repository.** It is compiled into the binary (D6), so
+#    a release build must have it, and `INFERTAP_REQUIRE_CONSOLE=1` makes a build without one
+#    FAIL rather than quietly produce a binary that answers `console_not_configured` on every
+#    page. The console repo is private, so this needs `CONSOLE_PAT` — see below.
+# 2. **ClickHouse is fetched and SHIPPED**, hash-verified, because the VM bundle carries the
+#    engine. The tap has no such payload.
+# 3. **Three artifacts, not one**: a VM bundle, a container image, and a Helm chart.
+# 4. **Versions must agree in three places** — the tag, the workspace `Cargo.toml`, and the
+#    chart's `appVersion` — because all three are stamped into things a customer reads.
+#
+# WHAT THIS WORKFLOW NEEDS BEFORE ITS FIRST REAL TAG:
+#
+# - **`CONSOLE_PAT`** (set 2026-08-15): a fine-grained PAT with Contents:Read on
+#   infertap/console and nothing else. The contract submodule needs no credential because
+#   inference-events is public; the console is not. Deliberately NOT the existing
+#   `CONTRACT_PAT` — that name means "the credential that reads the contract", and this reads
+#   the console bundle. **Note the failure mode this buys: a fine-grained PAT EXPIRES, and when
+#   it does the release breaks at the moment you are cutting one.** The guard below fails with
+#   that sentence rather than mysteriously, which is the most a workflow can do about it.
+# - **Signing is keyless (Sigstore), since 2026-09-16, as the tap's is.** cosign exchanges this
+#   job's GitHub OIDC token for a short-lived certificate from Fulcio that names this workflow at
+#   this ref, signs, and records the signature in the Rekor transparency log; a customer verifies
+#   by IDENTITY (`--certificate-identity .../release.yml@refs/tags/<tag>`, issuer GitHub), offline
+#   with the trust root cosign ships, and no key exists to hold, rotate or pin. The KMS role this
+#   replaced (`infertap-analyzer-release-signing`, its OIDC trust policy bound to this repo's
+#   name, its signatures opted out of Sigstore as a "closed product") carried the same latent
+#   defect the tap's did, and `infertap-release.pub` is gone with it. The dry run signs too — at
+#   `refs/heads/main`, an identity no verify command for a release accepts — so the path is
+#   proven without a tag; only publish is tag-only.
+#
+# `workflow_dispatch` is the dry run: everything except the tag gate, the signing and the
+# publish, so the pipeline is provable without cutting a tag or holding the role. A release
+# path that has never run is a claim, not a pipeline.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+permissions:
+  contents: write
+  packages: write # the interim image channel, below
+  id-token: write # the OIDC token Fulcio exchanges for a signing certificate; grants nothing by itself
+
+jobs:
+  battery:
+    # The full engine-backed battery, blocking the release: recovery, chaos, convergence, the
+    # delivery and roster reads, the live-bucket suites — every #[ignore]d suite, against the
+    # pinned engine and a real S3-API bucket that keeps conditional writes, on the exact tree
+    # being tagged.
+    #
+    # Runs on dispatch too: the dry run proves the gate the tag will face.
+    #
+    # The timeout is a hang guard, not a budget. Measured 2026-10-02: 34 min on one runner,
+    # 43.7 min on another with the same tree, and the sampled audits add about 10 % to the
+    # engine suites. 45 cut a passing battery off twice.
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: check out the contract submodule
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 contract/inference-events
+          test -f contract/inference-events/conformance/CONTRACT_HASH
+      - name: fetch pinned clickhouse (hash-verified)
+        run: |
+          set -euo pipefail
+          PIN=$(cat CLICKHOUSE_VERSION)
+          curl -sSfL -o "clickhouse-common-static-${PIN}-amd64.tgz" \
+            "https://packages.clickhouse.com/tgz/lts/clickhouse-common-static-${PIN}-amd64.tgz"
+          sha512sum -c CLICKHOUSE_TGZ_SHA512
+          tar xzf "clickhouse-common-static-${PIN}-amd64.tgz"
+          echo "CLICKHOUSE_BIN=$PWD/clickhouse-common-static-${PIN}/usr/bin/clickhouse" >> "$GITHUB_ENV"
+      - name: start SeaweedFS and create the test bucket
+        # The test bucket is SeaweedFS's S3 gateway, from the project's own release, pinned by
+        # version and our SHA-512 (the release publishes MD5 only). It keeps the conditional
+        # writes the lake's heads and lease rest on; the next steps prove that before any suite
+        # trusts it. Throwaway credentials for a throwaway runner-local store.
+        env:
+          SEAWEEDFS_VERSION: "4.48"
+          SEAWEEDFS_SHA512: cf446e4a70451fd46923416d2a048d8f0b6ee4eba91911acb71ed4ed572a91f17d823d33f31cef5ce592cf622e15468bf41e0f373d1c6cafb3039d6fd3b758e9
+        run: |
+          set -euo pipefail
+          curl -sSfL --retry 3 --max-time 300 -o seaweedfs.tar.gz \
+            "https://github.com/seaweedfs/seaweedfs/releases/download/${SEAWEEDFS_VERSION}/linux_amd64.tar.gz"
+          echo "${SEAWEEDFS_SHA512}  seaweedfs.tar.gz" | sha512sum -c
+          tar xzf seaweedfs.tar.gz weed && rm seaweedfs.tar.gz
+          cat > s3.json <<'JSON'
+          {"identities":[{"name":"ci","credentials":[{"accessKey":"ci-admin","secretKey":"ci-secret-0"}],"actions":["Admin","Read","Write","List","Tagging"]}]}
+          JSON
+          mkdir -p "$RUNNER_TEMP/seaweedfs"
+          nohup ./weed server -ip=127.0.0.1 -dir="$RUNNER_TEMP/seaweedfs" -s3 -s3.port=8333 \
+            -s3.config=s3.json -master.volumeSizeLimitMB=64 -volume.max=200 \
+            > "$RUNNER_TEMP/seaweedfs.log" 2>&1 &
+          for i in $(seq 1 60); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8333/ || true)
+            [ "$code" = "403" ] && break
+            sleep 1
+          done
+          [ "$code" = "403" ] || { cat "$RUNNER_TEMP/seaweedfs.log"; exit 1; }
+          # The gateway answers before the filer is ready, so the create retries until it lands.
+          created=no
+          for i in $(seq 1 30); do
+            if echo "s3.bucket.create -name tap-test" \
+              | timeout 10 ./weed shell -master=127.0.0.1:9333 | grep -q "created bucket"; then
+              created=yes
+              break
+            fi
+            sleep 1
+          done
+          [ "$created" = yes ] || { cat "$RUNNER_TEMP/seaweedfs.log"; exit 1; }
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - name: free the runner's disk
+        # The default image ships ~20 GB of toolchains this job never touches, and the
+        # battery's daemons run a REAL disk-pressure ladder: the first battery run shed
+        # its event horizon mid-test under runner disk pressure, which is the ladder
+        # working and the test environment failing. The tarball goes too, once extracted.
+        run: |
+          set -euo pipefail
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
+          rm -f clickhouse-common-static-*.tgz
+          df -h /
+      - name: the full ignored battery, against the real transport
+        # The URL is s3-scheme with the endpoint riding env, the objectstore's own
+        # convention (`AmazonS3Builder::from_env`): a plain http:// URL stopped parsing at
+        # the objectstore rework, and the old integration job's env carried it unnoticed
+        # for as long as that job never ran — the battery's first real execution is what
+        # found it.
+        env:
+          INFERTAP_TEST_S3_URL: s3://tap-test/
+          INFERTAP_TEST_S3_KEY: ci-admin
+          INFERTAP_TEST_S3_SECRET: ci-secret-0
+          AWS_ENDPOINT: http://127.0.0.1:8333
+          AWS_ALLOW_HTTP: "true"
+        run: |
+          # First the store: a bucket that accepted a conflicting conditional write would let
+          # every suite below pass over a fence that does not exist.
+          cargo test -p analyzer-objectstore --locked --test conditional -- --ignored
+          scripts/test.sh release
+
+  release:
+    # Publishing waits for the battery: a tag whose engine-backed suites fail publishes
+    # nothing, which is the difference between a sweep that informs and a gate that
+    # protects.
+    needs: battery
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: check out the contract submodule
+        # Public spec repo; no credential. The BUILD needs it: `selftest.rs` embeds conformance
+        # telemetry from it with `include_str!`, so its absence is a macro error rather than a
+        # missing file.
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 contract/inference-events
+          test -f contract/inference-events/conformance/CONTRACT_HASH
+
+      - name: the tag, the workspace and the chart agree
+        if: github.ref_type == 'tag'
+        # Three places carry this version and a customer reads all three: `infertap-analyzer
+        # version`, the image tag, and the chart. A release where they disagree ships an
+        # artifact that misreports itself.
+        run: |
+          set -euo pipefail
+          CARGO_V="$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)"
+          CHART_V="$(grep -m1 '^appVersion' charts/infertap-analyzer/Chart.yaml | cut -d'"' -f2)"
+          if [ "v$CARGO_V" != "$GITHUB_REF_NAME" ] || [ "$CHART_V" != "$CARGO_V" ]; then
+            echo "::error::tag $GITHUB_REF_NAME, Cargo.toml $CARGO_V, chart appVersion $CHART_V"
+            exit 1
+          fi
+
+      - name: install cosign (hash-verified, and EARLY on purpose)
+        # **Position matters more than the retry tuning.** Late in the job, an unreachable CDN
+        # would fail a release after roughly fifty minutes of building, packaging and pushing.
+        # Here it costs about two minutes and nothing has been published yet. **Fail on the
+        # flaky dependency before doing the expensive, irreversible work** — the same instinct as
+        # the version-agreement check above it. It needs no AWS credentials.
+        #
+        # ONE retry mechanism, not two: retries nested in a loop multiply into a ceiling nobody
+        # chose. `--retry-max-time` is a hard total, so this cannot exceed ~10 minutes.
+        #
+        #   --connect-timeout   a dead endpoint fails fast
+        #   --max-time          per-attempt deadline; a stall becomes an error the retry can see
+        #   --speed-limit/-time a trickle is also a stall, caught before --max-time expires
+        #   --retry-max-time    the hard ceiling on all retries together
+        #
+        # The digest is cosign's own published checksum for v3.1.3, verified against both the real
+        # artifact and cosign_checksums.txt. Moving the version moves it. A dry run installs it
+        # too: the signing step signs and verifies the blobs on every run.
+        run: |
+          set -euo pipefail
+          COSIGN_VERSION=v3.1.3
+          COSIGN_SHA256=4629c757b7618056f8ddd7e2625ae9fdd94c0372a65049520bc7d9df9efc7f71
+          curl -sSfL -o cosign \
+            --connect-timeout 15 --max-time 180 \
+            --speed-limit 10240 --speed-time 20 \
+            --retry 3 --retry-delay 5 --retry-all-errors --retry-max-time 600 \
+            "https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}/cosign-linux-amd64"
+          echo "${COSIGN_SHA256}  cosign" | sha256sum -c -
+          sudo install -m 0755 cosign /usr/local/bin/cosign
+          cosign version
+
+      - name: fetch pinned clickhouse (hash-verified)
+        # The same three lines as ci.yml's fetch step, and they must stay the same: a second way
+        # to obtain the engine is a second thing that can obtain a different engine.
+        run: |
+          set -euo pipefail
+          PIN=$(cat CLICKHOUSE_VERSION)
+          curl -sSfL -o "clickhouse-common-static-${PIN}-amd64.tgz" \
+            "https://packages.clickhouse.com/tgz/lts/clickhouse-common-static-${PIN}-amd64.tgz"
+          sha512sum -c CLICKHOUSE_TGZ_SHA512
+          tar xzf "clickhouse-common-static-${PIN}-amd64.tgz"
+          echo "CLICKHOUSE_BIN=$PWD/clickhouse-common-static-${PIN}/usr/bin/clickhouse" >> "$GITHUB_ENV"
+
+      - name: check out the console at the pinned commit
+        # **Deliberately NOT `actions/checkout`'s `token:` input**, and the console's own
+        # canary.yml records why: that credential is reused for the primary clone, so a PAT
+        # scoped to one repository makes checking out the OTHER fail with 403. A plain clone with
+        # the token in a git URL rewrite keeps the PAT at exactly one repository's Contents:Read,
+        # which is the least privilege that can work.
+        #
+        # `CONSOLE_PAT` rather than reusing `CONTRACT_PAT`: that name means "the credential that
+        # lets CI read the contract", and this reads the console BUNDLE. The name is what a future
+        # reader uses to decide what a token may reach, so it must not lie.
+        #
+        # **Fetched by COMMIT, not by branch.** `console/PIN.toml` names it and the pin is what
+        # decides, not whatever `main` held when the release ran. A one-object shallow fetch is
+        # also the cheapest way to get exactly it.
+        env:
+          CONSOLE_PAT: ${{ secrets.CONSOLE_PAT }}
+        run: |
+          set -euo pipefail
+          if [ -z "${CONSOLE_PAT:-}" ]; then
+            echo "::error::CONSOLE_PAT is not set, so this release cannot stage the console." \
+                 "Add a fine-grained token with Contents:Read on infertap/console as the" \
+                 "CONSOLE_PAT secret. The console is compiled into the binary, so a release" \
+                 "without one is not a release."
+            exit 1
+          fi
+          PINNED="$(grep -m1 '^source_commit' console/PIN.toml | cut -d'"' -f2)"
+          echo "console pin: $PINNED"
+          git config --global \
+            url."https://x-access-token:${CONSOLE_PAT}@github.com/".insteadOf \
+            "https://github.com/"
+          git init -q .console-src
+          git -C .console-src remote add origin https://github.com/infertap/console.git
+          git -C .console-src fetch -q --depth 1 origin "$PINNED"
+          git -C .console-src checkout -q --detach FETCH_HEAD
+          test -f .console-src/package.json || {
+            echo "::error::the console checked out but carries no package.json"; exit 1; }
+
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version-file: .console-src/.node-version
+
+      - name: build and stage the console
+        # `stage-console.sh` verifies what it staged against `console/PIN.toml`'s CONTENT HASH and
+        # refuses a mismatch; `build.rs` verifies again before embedding. Two checks, because
+        # staging and embedding are different moments — and the hash, not the commit, is the pin.
+        # The commit above only says where to look.
+        run: |
+          set -euo pipefail
+          (cd .console-src && npm ci && npm run build)
+          scripts/stage-console.sh "$PWD/.console-src"
+
+      - name: the embedded console agrees with THIS contract
+        # **A RELEASE SHIPPED A DEAD NAV ENTRY, AND THE CHECK THAT CAUGHT IT WAS ALREADY GREEN-ADJACENT
+        # AND UNREAD.** v1.0.1 embedded a console carrying a rail entry, a route and a data-seam
+        # method for `/v1/declared-inputs` — an endpoint this analyzer had already deleted along
+        # with `label_mappings` and `cost_rates`. Clicking it in a customer's browser was a dead end.
+        #
+        # The console's own `canary.yml` DID detect it, on 2026-08-12, and failed every four hours
+        # for four days naming the exact symbol. Two releases went out during those four days. The
+        # mechanism was never the problem: **a scheduled workflow's failure lands in a tab nobody
+        # opens**, which is the same shape as the six consecutive red pushes in CLAUDE.md — "tests
+        # pass locally" substituted for "the pipeline passes", and nobody looked.
+        #
+        # So the check moves to the one moment it cannot be ignored. Note what this is NOT: it does
+        # not ask the console repo whether its canary was green. That answer is up to four hours old
+        # and describes the analyzer's `main` rather than this tag — and if the schedule were ever
+        # disabled, the last conclusion would stay `success` forever, which is precisely the
+        # "green-looking schedule reads as coverage nobody has" failure wearing a different hat.
+        #
+        # It runs the canary's own assertions HERE instead, and it is nearly free because every
+        # input is already on disk: the console is checked out at the pinned commit, Node is set up
+        # from its `.node-version`, and `npm ci` has run. What is generated is the client for THIS
+        # tag's contract, checked against the exact console being compiled into this binary.
+        #
+        # The hash pin cannot cover this and never could. It proves the embedded bytes are the
+        # reviewed bytes; it says nothing about whether they agree with the API in the same binary.
+        # The `contract` job cannot either — it diffs this repo against its OWN committed document,
+        # so a console pinned to last month's copy is invisible to it from both sides.
+        run: |
+          set -euo pipefail
+          cd .console-src
+          npx openapi-typescript ../contract/openapi.json -o src/data/generated/api.d.ts
+          # The thing itself: every call site, prop and transcription still resolves against the
+          # contract this binary will actually serve.
+          npm run typecheck
+          # What typecheck cannot see: a cause added or removed, a schema whose `required` moved,
+          # an endpoint the data layer calls that the spec no longer declares.
+          npx vitest run test/contract-parity.test.ts test/fixture-parity.test.ts
+
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+
+      - name: the full ci gate, re-proven on the tagged commit
+        # HERE, not by reference: a release must not depend on remembering that some other
+        # workflow ran on this commit.
+        env:
+          RUSTFLAGS: "-D warnings"
+        run: |
+          cargo fmt --all --check
+          cargo clippy --workspace --all-targets -- -D warnings
+          cargo test --workspace --locked
+          RUSTDOCFLAGS=-Dwarnings cargo doc --workspace --no-deps
+
+      - name: supply-chain and notices gate
+        run: |
+          set -euo pipefail
+          cargo install cargo-deny@0.20.2 --locked
+          cargo deny check
+          cargo install cargo-audit@0.22.2 --locked
+          cargo audit
+          # What we may ship, and that we told the customer what we shipped.
+          scripts/third-party-notices.py --check
+
+      - name: compose the notices the customer actually receives
+        # **The committed notices file promises this step, and the step did not exist.** Its own
+        # text reads "enumerated by the console's own notices, which the release workflow appends
+        # below this" — nothing appended anything. The generator walks the CRATE GRAPH, so it
+        # structurally cannot see the console's npm closure or the seven SIL-OFL fonts vendored
+        # into the console's source tree, and both are compiled into this binary. So the shipped
+        # file named neither while telling the reader they were named below it. A promise the
+        # artifact breaks is worse than silence: it sends somebody looking for a section that is
+        # not there, and OFL requires that notice travel with the fonts.
+        #
+        # The COMMITTED file stays the Rust half, because that is what `--check` regenerates and
+        # compares against the crate graph. The SHIPPED file is the union, composed here.
+        run: |
+          set -euo pipefail
+          test -s .console-src/THIRD-PARTY-NOTICES || {
+            echo "::error::the pinned console carries no THIRD-PARTY-NOTICES, so this release" \
+                 "would ship its npm closure and its OFL fonts unattributed. Bump" \
+                 "console/PIN.toml to a console commit that has one."
+            exit 1; }
+          cat THIRD-PARTY-NOTICES .console-src/THIRD-PARTY-NOTICES > NOTICES-SHIPPED
+          # The fonts are the part no dependency tool on either side can see, which is exactly
+          # why they went unattributed for so long. Assert them by name rather than trusting a
+          # concatenation to have carried them.
+          for want in "SIL Open Font License" "IBM Plex" "Fraunces"; do
+            grep -qF "$want" NOTICES-SHIPPED || {
+              echo "::error::composed notices never mention $want"; exit 1; }
+          done
+          # Replace the file IN THE WORKSPACE rather than shipping under a new name. Every
+          # consumer downstream — the VM bundle, the image's COPY, anything added later — then
+          # gets the union without having to know it exists. Teaching each consumer a second
+          # filename is precisely the miss that produced this step. The committed file in git is
+          # untouched; `--check` has already run above.
+          mv NOTICES-SHIPPED THIRD-PARTY-NOTICES
+          echo "composed notices: $(wc -l < THIRD-PARTY-NOTICES) lines"
+
+      - name: make room for the release build
+        # The release build ran the runner out of disk on 2026-10-02 (`No space left on device`
+        # in the runner's own log, so the step left no output): the CI gate's debug tree, the
+        # build image and a fresh toolchain on a runner that boots with ~14 GB free. The debug
+        # tree is finished with, and the runner's preinstalled toolchains were never used here.
+        run: |
+          set -euo pipefail
+          echo "before:"; df -h / | tail -1
+          rm -rf target/debug
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
+          echo "after:"; df -h / | tail -1
+
+      - name: build, with the console REQUIRED
+        # **Built in a container so the binary runs on the machines customers actually have.**
+        #
+        # A dynamically linked binary demands the glibc it was built against. The runner is
+        # Ubuntu 24.04 (glibc 2.39), and a binary built there cannot start on:
+        #
+        #   RHEL / Rocky / Alma 8                      2.28
+        #   RHEL / Rocky / Alma 9, Amazon Linux 2023   2.34
+        #   Ubuntu 22.04 LTS                           2.35
+        #
+        # which is most enterprise Linux and most GPU hosts. The symbols that pull the floor up
+        # come from Rust's process spawning and from `-sys` crates compiled against the host's
+        # headers: consequences of the build host. ClickHouse asks for glibc 2.4, so the build host
+        # is the only constraint.
+        #
+        # **PyPA's manylinux_2_28 image** (AlmaLinux 8, GCC 14), the image Python's portable wheels
+        # are built in: glibc 2.28 with a current compiler. RocksDB 11 is C++20, which Debian 11's
+        # GCC 10 cannot compile, so an old Debian base no longer serves. The floor 2.28 covers
+        # Debian 10+, Ubuntu 18.10+, RHEL 8+ and Amazon Linux 2023. GCC 14 there links the C++
+        # library parts newer than the system's statically, so the binary asks only for the
+        # libstdc++ of RHEL 8 (checked below).
+        #
+        # Inside: libclang for `librocksdb-sys`'s bindings from AlmaLinux 8's own repositories,
+        # and rustup, which installs the toolchain `rust-toolchain.toml` pins. Neither ships.
+        #
+        # Pinned by DIGEST (tag 2026.10.02-1), not by tag: a tag is a mutable pointer somebody
+        # else controls, and this one decides which customers can run the product.
+        # **Root inside, then hand the tree back.** The package manager needs root; the reclaim
+        # step below needs `target/` removable, so the tree is chowned back afterwards. Running
+        # as the runner's user instead failed on the v1.0.3 tag.
+        env:
+          INFERTAP_REQUIRE_CONSOLE: "1"
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD:/src" -w /src \
+            -e CARGO_HOME=/src/.cargo-home \
+            -e RUSTUP_HOME=/src/.rustup-home \
+            -e CARGO_TERM_COLOR=always \
+            -e INFERTAP_REQUIRE_CONSOLE=1 \
+            quay.io/pypa/manylinux_2_28_x86_64@sha256:1e102f2e9ed9b7fd8d64b29f798c76078c3fa8f14d34914d7a4045e39419d8e0 \
+            bash -euo pipefail -c '
+              dnf -y -q --setopt=timeout=60 install clang-devel
+              curl --proto "=https" --tlsv1.2 -sSf --retry 3 --max-time 300 https://sh.rustup.rs \
+                | sh -s -- -y -q --profile minimal --default-toolchain none --no-modify-path
+              . "$CARGO_HOME/env"
+              cargo build --release -p infertap-analyzer --locked'
+          # Root built it; the runner has to be able to delete it. Without this the reclaim step
+          # fails on root-owned files and the disk problem it exists to solve comes straight back.
+          sudo chown -R "$(id -u):$(id -g)" target .cargo-home .rustup-home
+
+      - name: the binary runs on the glibc customers have
+        # **The floor is ASSERTED, not assumed.** Building in an older container is a means; this
+        # is the claim. Without it, a base-image bump silently raises the floor again and the next
+        # anyone hears of it is a customer whose binary will not exec — the failure this whole
+        # arrangement exists to prevent, and one no other check in this pipeline can see. The same
+        # for the C++ library: RHEL 8's libstdc++ (GCC 8) states GLIBCXX up to 3.4.25.
+        run: |
+          set -euo pipefail
+          bin=target/release/infertap-analyzer
+          # Sort the two and check ours is not the larger: a plain string compare gets 2.9 vs 2.28
+          # backwards, and the whole point of this step is to be right about that comparison.
+          at_most() { [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | tail -1)" = "$2" ]; }
+          glibc=$(objdump -T "$bin" | grep -oE 'GLIBC_2\.[0-9]+' | sed 's/GLIBC_//' | sort -V -u | tail -1)
+          cxx=$(objdump -T "$bin" | grep -oE 'GLIBCXX_3\.4(\.[0-9]+)?' | sed 's/GLIBCXX_//' | sort -V -u | tail -1)
+          echo "highest glibc required: ${glibc}; highest GLIBCXX required: ${cxx:-none}"
+          if ! at_most "$glibc" 2.28; then
+            echo "::error::this binary needs glibc ${glibc}, above the 2.28 floor: it will not" \
+                 "start on RHEL 8. Check the build container's base."
+            exit 1
+          fi
+          if [ -n "$cxx" ] && ! at_most "$cxx" 3.4.25; then
+            echo "::error::this binary needs GLIBCXX_${cxx}, above RHEL 8's 3.4.25. Check that" \
+                 "the toolchain links the newer C++ library parts statically."
+            exit 1
+          fi
+
+      - name: the built binary states what is in it
+        # The one check that proves the embed survived into the shipped artifact rather than
+        # only into a local one.
+        run: |
+          set -euo pipefail
+          ./target/release/infertap-analyzer version
+          ./target/release/infertap-analyzer version | grep -q '^console: v' \
+            || { echo "::error::the release binary embeds no console"; exit 1; }
+
+      - name: name the build
+        # A tag names the build. A dispatch from a branch names it by the branch, and a branch may
+        # hold a slash (`v1/l6-working-state`), which a file name and an image tag cannot.
+        run: echo "BUILD_NAME=${GITHUB_REF_NAME//\//-}" >> "$GITHUB_ENV"
+
+      - name: package the VM bundle
+        run: |
+          set -euo pipefail
+          cargo install cargo-cyclonedx@0.5.9 --locked
+          cargo cyclonedx --format json
+          PIN=$(cat CLICKHOUSE_VERSION)
+          NAME="infertap-analyzer-${BUILD_NAME}-x86_64-linux"
+          mkdir -p "stage/$NAME/systemd"
+          cp target/release/infertap-analyzer "stage/$NAME/"
+          cp "clickhouse-common-static-${PIN}-amd64.tgz" CLICKHOUSE_VERSION \
+             CLICKHOUSE_TGZ_SHA512 LICENSE THIRD-PARTY-NOTICES "stage/$NAME/"
+          cp packaging/vm/install.sh "stage/$NAME/"
+          chmod +x "stage/$NAME/install.sh"
+          # **The bundle carries its own instructions.** Without this an operator untars a
+          # binary, an installer and a licence, and has no way to discover that the token they
+          # need is written to a file. `docs/quickstart.md` is that document; it becomes the
+          # README because that is the name somebody opens first.
+          cp docs/quickstart.md "stage/$NAME/README.md"
+          cp packaging/systemd/infertap-analyzer.service "stage/$NAME/systemd/"
+          # `cargo cyclonedx` writes one document per crate, beside each manifest. The bundle
+          # carries them all rather than picking one: the SBOM of a nine-crate workspace is nine
+          # documents, and shipping the shell's alone would describe a fraction of the binary.
+          mkdir -p "stage/$NAME/sbom"
+          find . -name '*.cdx.json' -not -path './stage/*' -exec cp {} "stage/$NAME/sbom/" \;
+          tar -C stage -czf "$NAME.tar.gz" "$NAME"
+          echo "BUNDLE=$NAME.tar.gz" >> "$GITHUB_ENV"
+
+      - name: smoke the PACKAGED artifact
+        # The binary that ships is the binary that was smoked, not a sibling of it. Same law as
+        # the tap's, and here it also re-checks the console stamp from inside the tarball.
+        run: |
+          set -euo pipefail
+          mkdir /tmp/smoke && tar -C /tmp/smoke -xzf "$BUNDLE"
+          /tmp/smoke/infertap-analyzer-*/infertap-analyzer version
+          test -x /tmp/smoke/infertap-analyzer-*/install.sh
+          test -s /tmp/smoke/infertap-analyzer-*/THIRD-PARTY-NOTICES
+          # Not just "a notices file exists" — the file the CUSTOMER unpacks must carry the OFL
+          # fonts. `test -s` passed for a long time over a file that named neither the fonts nor
+          # the console's npm closure, which is how this went unnoticed. Assert the content.
+          grep -qF "SIL Open Font License" /tmp/smoke/infertap-analyzer-*/THIRD-PARTY-NOTICES \
+            || { echo "::error::the bundled notices do not carry the OFL fonts the binary ships"; exit 1; }
+          test -s /tmp/smoke/infertap-analyzer-*/README.md
+          echo "the packaged binary runs; the bundle carries its installer, notices and README"
+
+      - name: reclaim the disk this job has already spent
+        # **The image build ran the runner out of disk, and it will do it again as the workspace
+        # grows.** `No space left on device` while linking `bnum`, inside the container's own
+        # `cargo build`. Nothing was wrong with the Dockerfile or the context — `.dockerignore`
+        # already excludes `target/`. The job had simply accumulated more than the runner holds:
+        #
+        #   target/         a DEBUG tree from `cargo test --workspace` plus a release tree, and
+        #                   the object-store port added arrow + parquet + object_store (82
+        #                   packages) to both
+        #   the engine      a 212 MB tarball and its extraction
+        #   the bundle      a ~230 MB staged directory and the tarball made from it
+        #   docker          which then compiles the ENTIRE workspace a second time, in its own
+        #                   layer cache, on the same filesystem
+        #
+        # A GitHub-hosted runner has roughly 14 GB free on `/`. Everything above competes for it.
+        #
+        # By this point the host's `target/` is dead weight: the bundle is packaged and smoked,
+        # and no later step reads it. The engine extraction is likewise finished with. Dropping
+        # both costs nothing and is the difference between a release and an `os error 28`.
+        #
+        # `df` is printed on both sides deliberately. When this fails again — and disk pressure
+        # returns as dependencies grow — the log should say how much was there rather than leaving
+        # the next reader to infer it from a linker error.
+        run: |
+          set -euo pipefail
+          echo "before:"; df -h / | tail -1
+          # **Where the disk actually goes, because the first reading of it was wrong.**
+          # `65G used` invites the conclusion that this job consumed 65 GB. It did not. A
+          # GitHub-hosted runner boots with tens of gigabytes already occupied by its own image —
+          # Android SDK, .NET, GHC, CodeQL, preloaded Docker images, several toolchains — and this
+          # job adds perhaps 10 GB on top. Which half is growing decides whether the answer is
+          # "delete our build output" or "delete the runner's furniture", and those are very
+          # different fixes. So the composition is printed rather than reasoned about.
+          echo "top consumers:"
+          du -xh -d1 / 2>/dev/null | sort -rh | head -12 || true
+          echo "ours:"
+          du -sh target .cargo-home .rustup-home ~/.cargo .console-src stage 2>/dev/null || true
+          rm -rf target .cargo-home .rustup-home
+          rm -rf clickhouse-common-static-*/ 2>/dev/null || true
+          docker image prune -f >/dev/null 2>&1 || true
+          echo "after:"; df -h / | tail -1
+
+      - name: build the image
+        # Layered per distribution §7 — engine first, our binary last. Built from the same
+        # staged console the bundle's binary embeds.
+        run: |
+          set -euo pipefail
+          docker build -f packaging/docker/Dockerfile \
+            -t "infertap-analyzer:${BUILD_NAME}" .
+          docker run --rm "infertap-analyzer:${BUILD_NAME}" version
+
+      - uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
+        with:
+          version: v3.19.0
+
+      - name: package the chart
+        run: |
+          set -euo pipefail
+          helm package charts/infertap-analyzer --destination .
+          helm template t charts/infertap-analyzer \
+            --set image.registry=example.invalid --set fleet.id=t \
+            --set bucket.url=https://example.invalid/ > /dev/null
+          # Named, not globbed — see `checksums`. `test -f` makes the name an assertion rather
+          # than a guess: if helm ever packages under a different name, this stops here.
+          CHART="infertap-analyzer-$(grep -m1 '^version' charts/infertap-analyzer/Chart.yaml | awk '{print $2}').tgz"
+          test -f "$CHART"
+          echo "CHART=$CHART" >> "$GITHUB_ENV"
+
+      - name: checksums
+        # Covers exactly what is PUBLISHED. The SBOM documents ride inside the bundle, so they
+        # are already under its hash — listing them twice would invite a reader to check a file
+        # the release does not carry.
+        #
+        # **This was `./*.tgz` and that glob was wrong.** The engine tarball is fetched into this
+        # same directory and COPIED into the bundle, not moved, so `clickhouse-common-static-*.tgz`
+        # was still sitting here — and would have been checksummed, KMS-signed, and uploaded to a
+        # public release, republishing ClickHouse's own tarball under ours. No dry run could catch
+        # it: every step was green, only the artifact set was wrong. The two published files are
+        # named now, and the count is asserted so the next unintended file fails here.
+        run: |
+          set -euo pipefail
+          sha256sum "$BUNDLE" "$CHART" > SHA256SUMS
+          test "$(wc -l < SHA256SUMS)" -eq 2
+          cat SHA256SUMS
+
+      # ---------------------------------------------------------------------------------------
+      # Everything below is tag-only. A dispatch run has proven the whole pipeline by here.
+      # ---------------------------------------------------------------------------------------
+
+      - name: publish the image to the interim channel
+        # **GHCR, not oci.infertap.ai.** The registry build is frozen at divergence 1 (product
+        # outranks distribution infra for a single engineer), and the ruling's own interim answer
+        # is "internal images in private GHCR/ECR". When the registry resumes this step changes
+        # and nothing else does — everything above it is channel-agnostic.
+        if: github.ref_type == 'tag'
+        run: |
+          set -euo pipefail
+          echo "${{ github.token }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          REF="ghcr.io/${{ github.repository_owner }}/analyzer:${GITHUB_REF_NAME#v}"
+          docker tag "infertap-analyzer:${BUILD_NAME}" "$REF"
+          docker push "$REF"
+          helm push "$CHART" "oci://ghcr.io/${{ github.repository_owner }}/charts"
+
+      - name: sign keyless, then verify by identity
+        # Keyless: cosign takes this job's OIDC token to Fulcio, gets a certificate that
+        # names this workflow at this ref, signs, and logs the signature in Rekor. Each
+        # artifact gains a .bundle carrying the certificate and the log entry, so a customer
+        # verifies offline with cosign's built-in trust root. The verify half is the exact
+        # command the quickstart prints, with the identity this run has: on a tag build the
+        # v* ref; on a dry run the branch's ref, which proves the path without a tag and
+        # cannot be mistaken for a release. The image signs its DIGEST with the same identity
+        # (a tag is a pointer, the digest is the bytes; an outside reading found the image
+        # unsigned beside three signed files, 2026-08-20). Nothing here holds a key.
+        run: |
+          set -euo pipefail
+          IDENTITY="https://github.com/${GITHUB_REPOSITORY}/.github/workflows/release.yml@${GITHUB_REF}"
+          ISSUER="https://token.actions.githubusercontent.com"
+          echo "IDENTITY=$IDENTITY" >> "$GITHUB_ENV"
+          echo "ISSUER=$ISSUER" >> "$GITHUB_ENV"
+          for f in "$BUNDLE" "$CHART" SHA256SUMS; do
+            cosign sign-blob --bundle "$f.bundle" --yes "$f"
+            cosign verify-blob --bundle "$f.bundle" \
+              --certificate-identity "$IDENTITY" --certificate-oidc-issuer "$ISSUER" "$f"
+          done
+          if [ "${GITHUB_REF_TYPE}" = tag ]; then
+            DIGEST="$(docker inspect --format='{{index .RepoDigests 0}}' \
+              "ghcr.io/${{ github.repository_owner }}/analyzer:${GITHUB_REF_NAME#v}")"
+            cosign sign --yes "$DIGEST"
+            cosign verify --certificate-identity "$IDENTITY" \
+              --certificate-oidc-issuer "$ISSUER" "$DIGEST"
+            echo "signed $DIGEST"
+          fi
+
+      - name: publish
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # **`--generate-notes` produced an empty release page, and that page is the only
+          # customer-facing description of what changed.** v1.0.1's body was one line:
+          #
+          #     **Full Changelog**: .../compare/v1.0.0...v1.0.1
+          #
+          # GitHub builds those notes from merged PRs, and this repo pushes straight to `main`
+          # (which is also why `cargo doc` sits in the push gate rather than in CI — see
+          # CLAUDE.md). No PRs, nothing to enumerate, an empty page. A customer landing on
+          # v1.0.1 could not learn that it fixed anything.
+          #
+          # The annotated tag already carries a written account of the release, so it becomes the
+          # body rather than a second copy somebody maintains in parallel. One source, so the two
+          # cannot disagree — the same reason `install.sh` is the systemd unit's header made
+          # executable.
+          # **The emptiness check is on the OBJECT TYPE, not on the text, and that distinction is
+          # the whole guard.** `%(contents)` on a LIGHTWEIGHT tag does not return empty — it falls
+          # back to the tagged commit's message. A `test -s` here therefore passes on exactly the
+          # input it was written to reject, and the release publishes a commit message as its
+          # customer-facing notes. Caught by tagging a throwaway lightweight ref and reading what
+          # came out: 2768 bytes where zero was expected.
+          if [ "$(git for-each-ref --format='%(objecttype)' "refs/tags/${GITHUB_REF_NAME}")" != tag ]; then
+            echo "::error::${GITHUB_REF_NAME} is a lightweight tag, so it carries no account of" \
+                 "this release and git would hand us the commit message instead. Cut release" \
+                 "tags with 'git tag -a'."
+            exit 1
+          fi
+          # `:body` rather than the whole contents: the first line is the tag subject, which is
+          # already the release title, and repeating it as the first line of the body reads as a
+          # mistake.
+          git tag -l --format='%(contents:body)' "$GITHUB_REF_NAME" > RELEASE_NOTES.md
+          # **And the body must actually say something.** The type check above only proves the tag
+          # is annotated; an annotated tag whose message is just a subject line yields an empty
+          # file and republishes the blank page this step exists to end. The tap's `v0.3.2` is
+          # exactly that shape — objecttype `tag`, body ONE byte — so both checks are needed and
+          # neither implies the other.
+          test -s RELEASE_NOTES.md || {
+            echo "::error::${GITHUB_REF_NAME} is annotated but its body is empty, so this release" \
+                 "would publish a blank page. Put the account of the release in the tag message" \
+                 "below the subject line."
+            exit 1
+          }
+          gh release create "$GITHUB_REF_NAME" --notes-file RELEASE_NOTES.md \
+            "$BUNDLE" "$CHART" SHA256SUMS \
+            "$BUNDLE.bundle" "$CHART.bundle" SHA256SUMS.bundle

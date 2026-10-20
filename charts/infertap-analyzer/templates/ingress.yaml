@@ -1,0 +1,40 @@
+{{- if .Values.ingress.enabled }}
+{{- if not .Values.ingress.hosts }}
+{{- fail "\n\ningress.enabled is true but ingress.hosts is empty.\n\nAn Ingress with no host matches nothing and installs cleanly, which is the worst\ncombination. Name the host the console will be reached at." }}
+{{- end }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "infertap-analyzer.fullname" . }}
+  labels:
+    {{- include "infertap-analyzer.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.ingress.ingressClassName }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  {{- with .Values.ingress.tls }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          # **Root only.** The console is built with `base: '/'`, so every asset URL is
+          # origin-absolute: behind a sub-path prefix the document loads and every asset 404s.
+          # Serving it at the root of its own host is the supported topology; a sub-path needs
+          # work in the console repo and has no customer asking for it yet.
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "infertap-analyzer.fullname" $ }}
+                port:
+                  name: console
+    {{- end }}
+{{- end }}

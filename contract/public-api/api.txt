@@ -1,0 +1,512 @@
+pub mod analyzer_api
+pub mod analyzer_api::auth
+pub struct analyzer_api::auth::Sessions
+impl analyzer_api::auth::Sessions
+pub fn analyzer_api::auth::Sessions::create(&self, &str) -> core::result::Result<alloc::string::String, analyzer_api::error::Error>
+pub fn analyzer_api::auth::Sessions::destroy(&self, &str)
+pub fn analyzer_api::auth::Sessions::stamps_for_test(&self, &str) -> core::option::Option<(std::time::SystemTime, std::time::SystemTime)>
+pub fn analyzer_api::auth::Sessions::token_for(&self, &str) -> core::option::Option<alloc::string::String>
+impl core::default::Default for analyzer_api::auth::Sessions
+pub fn analyzer_api::auth::Sessions::default() -> analyzer_api::auth::Sessions
+impl core::fmt::Debug for analyzer_api::auth::Sessions
+pub fn analyzer_api::auth::Sessions::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_api::auth::TokenRecord
+pub analyzer_api::auth::TokenRecord::id: alloc::string::String
+pub analyzer_api::auth::TokenRecord::issued_at_ms: u64
+pub analyzer_api::auth::TokenRecord::label: alloc::string::String
+pub analyzer_api::auth::TokenRecord::rotated_at_ms: core::option::Option<u64>
+pub analyzer_api::auth::TokenRecord::sha256_hex: alloc::string::String
+impl analyzer_api::auth::TokenRecord
+pub fn analyzer_api::auth::TokenRecord::active(&self) -> bool
+impl core::clone::Clone for analyzer_api::auth::TokenRecord
+pub fn analyzer_api::auth::TokenRecord::clone(&self) -> analyzer_api::auth::TokenRecord
+impl core::cmp::Eq for analyzer_api::auth::TokenRecord
+impl core::cmp::PartialEq for analyzer_api::auth::TokenRecord
+pub fn analyzer_api::auth::TokenRecord::eq(&self, &analyzer_api::auth::TokenRecord) -> bool
+impl core::fmt::Debug for analyzer_api::auth::TokenRecord
+pub fn analyzer_api::auth::TokenRecord::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_api::auth::TokenRecord
+pub struct analyzer_api::auth::TokenStore
+impl analyzer_api::auth::TokenStore
+pub fn analyzer_api::auth::TokenStore::is_active(&self, &str) -> bool
+pub fn analyzer_api::auth::TokenStore::issue(&self, &str, u64) -> core::result::Result<(alloc::string::String, analyzer_api::auth::TokenRecord), analyzer_api::error::Error>
+pub fn analyzer_api::auth::TokenStore::open(&std::path::Path) -> core::result::Result<Self, analyzer_api::error::Error>
+pub fn analyzer_api::auth::TokenStore::records(&self) -> alloc::vec::Vec<analyzer_api::auth::TokenRecord>
+pub fn analyzer_api::auth::TokenStore::rotate(&self, &str, u64) -> core::result::Result<(alloc::string::String, analyzer_api::auth::TokenRecord), analyzer_api::error::Error>
+pub fn analyzer_api::auth::TokenStore::verify(&self, &str) -> core::option::Option<alloc::string::String>
+impl core::default::Default for analyzer_api::auth::TokenStore
+pub fn analyzer_api::auth::TokenStore::default() -> analyzer_api::auth::TokenStore
+impl core::fmt::Debug for analyzer_api::auth::TokenStore
+pub fn analyzer_api::auth::TokenStore::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub fn analyzer_api::auth::bootstrap_token(&analyzer_api::auth::TokenStore, &std::path::Path, u64) -> core::result::Result<core::option::Option<analyzer_api::auth::TokenRecord>, analyzer_api::error::Error>
+pub async fn analyzer_api::auth::require_session(axum::extract::state::State<analyzer_api::ApiState>, axum_core::extract::Request, axum::middleware::from_fn::Next) -> core::result::Result<axum_core::response::Response, analyzer_api::error::ApiError>
+pub mod analyzer_api::console
+pub struct analyzer_api::console::Asset
+pub analyzer_api::console::Asset::body: &'static [u8]
+pub analyzer_api::console::Asset::content_type: &'static str
+pub analyzer_api::console::Asset::etag: &'static str
+pub analyzer_api::console::Asset::path: &'static str
+pub const analyzer_api::console::CONSOLE_HASH: core::option::Option<&str>
+pub const analyzer_api::console::CONSOLE_VERSION: core::option::Option<&str>
+pub static analyzer_api::console::CONSOLE_ASSETS: &[analyzer_api::console::Asset]
+pub fn analyzer_api::console::assets() -> &'static [analyzer_api::console::Asset]
+pub fn analyzer_api::console::present() -> bool
+pub fn analyzer_api::console::serve(&str, &http::header::map::HeaderMap) -> core::option::Option<axum_core::response::Response>
+pub fn analyzer_api::console::stamp() -> core::option::Option<(&'static str, &'static str)>
+pub mod analyzer_api::cursor
+pub struct analyzer_api::cursor::Cursor
+pub analyzer_api::cursor::Cursor::classified_day: core::option::Option<i64>
+pub analyzer_api::cursor::Cursor::discriminator: alloc::string::String
+pub analyzer_api::cursor::Cursor::position: alloc::string::String
+pub analyzer_api::cursor::Cursor::query: alloc::string::String
+pub analyzer_api::cursor::Cursor::revision: u64
+pub analyzer_api::cursor::Cursor::tick_at_ms: core::option::Option<f64>
+impl analyzer_api::cursor::Cursor
+pub fn analyzer_api::cursor::Cursor::encode(&self) -> alloc::string::String
+pub fn analyzer_api::cursor::Cursor::mint(&analyzer_api::envelope::Stamp, &analyzer_api::cursor::QueryIdentity, &str) -> Self
+pub fn analyzer_api::cursor::Cursor::parse(&str, &analyzer_api::envelope::Stamp, &analyzer_api::cursor::QueryIdentity) -> core::result::Result<Self, analyzer_api::error::ApiError>
+impl core::clone::Clone for analyzer_api::cursor::Cursor
+pub fn analyzer_api::cursor::Cursor::clone(&self) -> analyzer_api::cursor::Cursor
+impl core::cmp::PartialEq for analyzer_api::cursor::Cursor
+pub fn analyzer_api::cursor::Cursor::eq(&self, &analyzer_api::cursor::Cursor) -> bool
+impl core::fmt::Debug for analyzer_api::cursor::Cursor
+pub fn analyzer_api::cursor::Cursor::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_api::cursor::Cursor
+pub struct analyzer_api::cursor::QueryIdentity(_)
+impl analyzer_api::cursor::QueryIdentity
+pub fn analyzer_api::cursor::QueryIdentity::as_str(&self) -> &str
+pub fn analyzer_api::cursor::QueryIdentity::of(&[alloc::string::String]) -> Self
+impl core::clone::Clone for analyzer_api::cursor::QueryIdentity
+pub fn analyzer_api::cursor::QueryIdentity::clone(&self) -> analyzer_api::cursor::QueryIdentity
+impl core::cmp::Eq for analyzer_api::cursor::QueryIdentity
+impl core::cmp::PartialEq for analyzer_api::cursor::QueryIdentity
+pub fn analyzer_api::cursor::QueryIdentity::eq(&self, &analyzer_api::cursor::QueryIdentity) -> bool
+impl core::fmt::Debug for analyzer_api::cursor::QueryIdentity
+pub fn analyzer_api::cursor::QueryIdentity::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_api::cursor::QueryIdentity
+pub mod analyzer_api::envelope
+pub struct analyzer_api::envelope::Stamp
+pub analyzer_api::envelope::Stamp::audited_to_ms: core::option::Option<f64>
+pub analyzer_api::envelope::Stamp::classified_to_ms: core::option::Option<f64>
+pub analyzer_api::envelope::Stamp::covered_to_ms: core::option::Option<f64>
+pub analyzer_api::envelope::Stamp::declared_raw_days: u32
+pub analyzer_api::envelope::Stamp::discriminator: alloc::string::String
+pub analyzer_api::envelope::Stamp::emitted_to_ms: core::option::Option<f64>
+pub analyzer_api::envelope::Stamp::fleet_id: alloc::string::String
+pub analyzer_api::envelope::Stamp::raw_from_ms: core::option::Option<f64>
+pub analyzer_api::envelope::Stamp::revision: core::option::Option<u64>
+pub analyzer_api::envelope::Stamp::semantics_version: &'static str
+pub analyzer_api::envelope::Stamp::settled_through_day: core::option::Option<i64>
+pub analyzer_api::envelope::Stamp::tick_at_ms: core::option::Option<f64>
+pub analyzer_api::envelope::Stamp::window: core::option::Option<analyzer_analysis::Window>
+impl analyzer_api::envelope::Stamp
+pub fn analyzer_api::envelope::Stamp::classified_day(&self) -> core::option::Option<i64>
+pub async fn analyzer_api::envelope::Stamp::read(&analyzer_api::ApiState, core::option::Option<analyzer_analysis::Window>, u32) -> core::result::Result<Self, analyzer_api::error::ApiError>
+pub fn analyzer_api::envelope::Stamp::to_json(&self) -> serde_json::value::Value
+impl core::clone::Clone for analyzer_api::envelope::Stamp
+pub fn analyzer_api::envelope::Stamp::clone(&self) -> analyzer_api::envelope::Stamp
+impl core::fmt::Debug for analyzer_api::envelope::Stamp
+pub fn analyzer_api::envelope::Stamp::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub fn analyzer_api::envelope::day_index(f64) -> i64
+pub mod analyzer_api::error
+pub enum analyzer_api::error::Cause
+pub analyzer_api::error::Cause::AnnotationInvalid
+pub analyzer_api::error::Cause::BucketUnavailable
+pub analyzer_api::error::Cause::ConsoleNotConfigured
+pub analyzer_api::error::Cause::CursorStale
+pub analyzer_api::error::Cause::DimUnknown
+pub analyzer_api::error::Cause::EngineUnavailable
+pub analyzer_api::error::Cause::GrainUnavailable
+pub analyzer_api::error::Cause::LimitInvalid
+pub analyzer_api::error::Cause::OutsideRawHorizon
+pub analyzer_api::error::Cause::RequestInvalid
+pub analyzer_api::error::Cause::SessionExpired
+pub analyzer_api::error::Cause::SubjectMissing
+pub analyzer_api::error::Cause::SupersededSemantics
+pub analyzer_api::error::Cause::Unauthenticated
+pub analyzer_api::error::Cause::UnknownBlock
+pub analyzer_api::error::Cause::UnknownHolder
+pub analyzer_api::error::Cause::UnknownMarker
+pub analyzer_api::error::Cause::UnknownRoute
+pub analyzer_api::error::Cause::UnlinkedGeneration
+pub analyzer_api::error::Cause::WindowInvalid
+impl analyzer_api::error::Cause
+pub fn analyzer_api::error::Cause::all() -> &'static [analyzer_api::error::Cause]
+pub fn analyzer_api::error::Cause::as_str(self) -> &'static str
+pub fn analyzer_api::error::Cause::status(self) -> http::status::StatusCode
+impl core::clone::Clone for analyzer_api::error::Cause
+pub fn analyzer_api::error::Cause::clone(&self) -> analyzer_api::error::Cause
+impl core::cmp::Eq for analyzer_api::error::Cause
+impl core::cmp::PartialEq for analyzer_api::error::Cause
+pub fn analyzer_api::error::Cause::eq(&self, &analyzer_api::error::Cause) -> bool
+impl core::convert::From<analyzer_serving_clickhouse::shape1::RefusalCause> for analyzer_api::error::Cause
+pub fn analyzer_api::error::Cause::from(analyzer_serving_clickhouse::shape1::RefusalCause) -> Self
+impl core::fmt::Debug for analyzer_api::error::Cause
+pub fn analyzer_api::error::Cause::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_api::error::Cause
+impl core::marker::StructuralPartialEq for analyzer_api::error::Cause
+impl serde_core::ser::Serialize for analyzer_api::error::Cause
+pub fn analyzer_api::error::Cause::serialize<S: serde_core::ser::Serializer>(&self, S) -> core::result::Result<<S as serde_core::ser::Serializer>::Ok, <S as serde_core::ser::Serializer>::Error>
+impl utoipa::PartialSchema for analyzer_api::error::Cause
+pub fn analyzer_api::error::Cause::schema() -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+impl utoipa::ToSchema for analyzer_api::error::Cause
+#[non_exhaustive] pub enum analyzer_api::error::Error
+pub analyzer_api::error::Error::Auth(alloc::string::String)
+pub analyzer_api::error::Error::Dao(analyzer_serving_clickhouse::error::Error)
+pub analyzer_api::error::Error::Engine(analyzer_serving_clickhouse::engine::error::Error)
+pub analyzer_api::error::Error::Listener(alloc::string::String)
+pub analyzer_api::error::Error::Poisoned(&'static str)
+impl core::convert::From<analyzer_serving_clickhouse::engine::error::Error> for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::from(analyzer_serving_clickhouse::engine::error::Error) -> Self
+impl core::convert::From<analyzer_serving_clickhouse::error::Error> for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::from(analyzer_serving_clickhouse::error::Error) -> Self
+impl core::error::Error for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::source(&self) -> core::option::Option<&(dyn core::error::Error + 'static)>
+impl core::fmt::Debug for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_api::error::ApiError
+pub analyzer_api::error::ApiError::bound: core::option::Option<serde_json::value::Value>
+pub analyzer_api::error::ApiError::cause: analyzer_api::error::Cause
+pub analyzer_api::error::ApiError::message: alloc::string::String
+pub analyzer_api::error::ApiError::requested: core::option::Option<serde_json::value::Value>
+impl analyzer_api::error::ApiError
+pub fn analyzer_api::error::ApiError::body(&self) -> serde_json::value::Value
+pub fn analyzer_api::error::ApiError::engine(impl core::convert::Into<alloc::string::String>) -> Self
+pub fn analyzer_api::error::ApiError::new(analyzer_api::error::Cause, impl core::convert::Into<alloc::string::String>) -> Self
+pub fn analyzer_api::error::ApiError::with_bound(self, serde_json::value::Value) -> Self
+pub fn analyzer_api::error::ApiError::with_requested(self, serde_json::value::Value) -> Self
+impl axum_core::response::into_response::IntoResponse for analyzer_api::error::ApiError
+pub fn analyzer_api::error::ApiError::into_response(self) -> axum_core::response::Response
+impl core::clone::Clone for analyzer_api::error::ApiError
+pub fn analyzer_api::error::ApiError::clone(&self) -> analyzer_api::error::ApiError
+impl core::fmt::Debug for analyzer_api::error::ApiError
+pub fn analyzer_api::error::ApiError::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub mod analyzer_api::extract
+pub struct analyzer_api::extract::Body<T>(pub T)
+impl<S, T> axum_core::extract::FromRequest<S> for analyzer_api::extract::Body<T> where S: core::marker::Send + core::marker::Sync, T: serde_core::de::DeserializeOwned
+pub type analyzer_api::extract::Body<T>::Rejection = analyzer_api::error::ApiError
+pub async fn analyzer_api::extract::Body<T>::from_request(axum_core::extract::Request, &S) -> core::result::Result<Self, analyzer_api::error::ApiError>
+impl<T: core::clone::Clone> core::clone::Clone for analyzer_api::extract::Body<T>
+pub fn analyzer_api::extract::Body<T>::clone(&self) -> analyzer_api::extract::Body<T>
+impl<T: core::default::Default> core::default::Default for analyzer_api::extract::Body<T>
+pub fn analyzer_api::extract::Body<T>::default() -> analyzer_api::extract::Body<T>
+impl<T: core::fmt::Debug> core::fmt::Debug for analyzer_api::extract::Body<T>
+pub fn analyzer_api::extract::Body<T>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<T: core::marker::Copy> core::marker::Copy for analyzer_api::extract::Body<T>
+pub struct analyzer_api::extract::Params<T>(pub T)
+impl<S, T> axum_core::extract::FromRequestParts<S> for analyzer_api::extract::Params<T> where S: core::marker::Send + core::marker::Sync, T: serde_core::de::DeserializeOwned
+pub type analyzer_api::extract::Params<T>::Rejection = analyzer_api::error::ApiError
+pub async fn analyzer_api::extract::Params<T>::from_request_parts(&mut http::request::Parts, &S) -> core::result::Result<Self, analyzer_api::error::ApiError>
+impl<T: core::clone::Clone> core::clone::Clone for analyzer_api::extract::Params<T>
+pub fn analyzer_api::extract::Params<T>::clone(&self) -> analyzer_api::extract::Params<T>
+impl<T: core::default::Default> core::default::Default for analyzer_api::extract::Params<T>
+pub fn analyzer_api::extract::Params<T>::default() -> analyzer_api::extract::Params<T>
+impl<T: core::fmt::Debug> core::fmt::Debug for analyzer_api::extract::Params<T>
+pub fn analyzer_api::extract::Params<T>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<T: core::marker::Copy> core::marker::Copy for analyzer_api::extract::Params<T>
+pub struct analyzer_api::extract::Subject<T>(pub T)
+impl<S, T> axum_core::extract::FromRequestParts<S> for analyzer_api::extract::Subject<T> where S: core::marker::Send + core::marker::Sync, T: serde_core::de::DeserializeOwned + core::marker::Send
+pub type analyzer_api::extract::Subject<T>::Rejection = analyzer_api::error::ApiError
+pub async fn analyzer_api::extract::Subject<T>::from_request_parts(&mut http::request::Parts, &S) -> core::result::Result<Self, analyzer_api::error::ApiError>
+impl<T: core::clone::Clone> core::clone::Clone for analyzer_api::extract::Subject<T>
+pub fn analyzer_api::extract::Subject<T>::clone(&self) -> analyzer_api::extract::Subject<T>
+impl<T: core::default::Default> core::default::Default for analyzer_api::extract::Subject<T>
+pub fn analyzer_api::extract::Subject<T>::default() -> analyzer_api::extract::Subject<T>
+impl<T: core::fmt::Debug> core::fmt::Debug for analyzer_api::extract::Subject<T>
+pub fn analyzer_api::extract::Subject<T>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<T: core::marker::Copy> core::marker::Copy for analyzer_api::extract::Subject<T>
+pub mod analyzer_api::health
+pub struct analyzer_api::health::LoopHints
+pub analyzer_api::health::LoopHints::backlog_bytes: core::option::Option<u64>
+pub analyzer_api::health::LoopHints::backlog_files: core::option::Option<u64>
+pub analyzer_api::health::LoopHints::next_tick_at_ms: core::option::Option<f64>
+pub analyzer_api::health::LoopHints::refusing: core::option::Option<bool>
+impl core::clone::Clone for analyzer_api::health::LoopHints
+pub fn analyzer_api::health::LoopHints::clone(&self) -> analyzer_api::health::LoopHints
+impl core::default::Default for analyzer_api::health::LoopHints
+pub fn analyzer_api::health::LoopHints::default() -> analyzer_api::health::LoopHints
+impl core::fmt::Debug for analyzer_api::health::LoopHints
+pub fn analyzer_api::health::LoopHints::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub mod analyzer_api::openapi
+pub fn analyzer_api::openapi::document() -> serde_json::value::Value
+pub mod analyzer_api::serve
+pub fn analyzer_api::serve::bind(core::net::socket_addr::SocketAddr) -> core::result::Result<analyzer_api::serve::Listener, analyzer_api::error::Error>
+pub fn analyzer_api::serve::serve(std::net::tcp::TcpListener, analyzer_api::ApiState, impl core::ops::function::Fn() -> bool + core::marker::Send + 'static) -> core::result::Result<(), analyzer_api::error::Error>
+pub type analyzer_api::serve::Listener = std::net::tcp::TcpListener
+pub mod analyzer_api::wire
+pub struct analyzer_api::wire::Bucket
+pub analyzer_api::wire::Bucket::bucket: alloc::string::String
+pub analyzer_api::wire::Bucket::dims: alloc::vec::Vec<analyzer_api::wire::DimValue>
+pub analyzer_api::wire::Bucket::events: u64
+pub analyzer_api::wire::Bucket::tokens: analyzer_api::wire::Figure
+impl serde_core::ser::Serialize for analyzer_api::wire::Bucket
+pub fn analyzer_api::wire::Bucket::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::Bucket
+pub fn analyzer_api::wire::Bucket::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::Bucket::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::Bucket
+pub fn analyzer_api::wire::Bucket::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::CoverageRow
+pub analyzer_api::wire::CoverageRow::coverage_kind: &'static str
+pub analyzer_api::wire::CoverageRow::covered_ms: f64
+pub analyzer_api::wire::CoverageRow::day: alloc::string::String
+pub analyzer_api::wire::CoverageRow::fraction: f64
+pub analyzer_api::wire::CoverageRow::instance: core::option::Option<alloc::string::String>
+pub analyzer_api::wire::CoverageRow::instances: u64
+pub analyzer_api::wire::CoverageRow::token_mass: core::option::Option<f64>
+pub analyzer_api::wire::CoverageRow::token_weighted_fraction: core::option::Option<f64>
+pub analyzer_api::wire::CoverageRow::token_wsum: core::option::Option<f64>
+pub analyzer_api::wire::CoverageRow::window_ms: f64
+impl serde_core::ser::Serialize for analyzer_api::wire::CoverageRow
+pub fn analyzer_api::wire::CoverageRow::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::CoverageRow
+pub fn analyzer_api::wire::CoverageRow::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::CoverageRow::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::CoverageRow
+pub fn analyzer_api::wire::CoverageRow::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::DegradationJson
+pub analyzer_api::wire::DegradationJson::class: &'static str
+pub analyzer_api::wire::DegradationJson::degraded: alloc::string::String
+pub analyzer_api::wire::DegradationJson::incidents: u64
+pub analyzer_api::wire::DegradationJson::register: &'static str
+pub analyzer_api::wire::DegradationJson::remedy: &'static str
+pub analyzer_api::wire::DegradationJson::scope: alloc::string::String
+pub analyzer_api::wire::DegradationJson::unaffected: &'static str
+impl serde_core::ser::Serialize for analyzer_api::wire::DegradationJson
+pub fn analyzer_api::wire::DegradationJson::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::DegradationJson
+pub fn analyzer_api::wire::DegradationJson::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::DegradationJson::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::DegradationJson
+pub fn analyzer_api::wire::DegradationJson::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::DimValue
+pub analyzer_api::wire::DimValue::dim: &'static str
+pub analyzer_api::wire::DimValue::value: alloc::string::String
+impl serde_core::ser::Serialize for analyzer_api::wire::DimValue
+pub fn analyzer_api::wire::DimValue::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::DimValue
+pub fn analyzer_api::wire::DimValue::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::DimValue::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::DimValue
+pub fn analyzer_api::wire::DimValue::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::Envelope<T>
+pub analyzer_api::wire::Envelope::data: T
+pub analyzer_api::wire::Envelope::stamp: serde_json::value::Value
+impl<T> serde_core::ser::Serialize for analyzer_api::wire::Envelope<T> where T: serde_core::ser::Serialize
+pub fn analyzer_api::wire::Envelope<T>::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+pub struct analyzer_api::wire::Figure(pub analyzer_serving_clickhouse::Covered<f64>)
+impl core::clone::Clone for analyzer_api::wire::Figure
+pub fn analyzer_api::wire::Figure::clone(&self) -> analyzer_api::wire::Figure
+impl core::convert::From<&analyzer_serving_clickhouse::Covered<f64>> for analyzer_api::wire::Figure
+pub fn analyzer_api::wire::Figure::from(&analyzer_serving_clickhouse::Covered<f64>) -> Self
+impl core::fmt::Debug for analyzer_api::wire::Figure
+pub fn analyzer_api::wire::Figure::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl serde_core::ser::Serialize for analyzer_api::wire::Figure
+pub fn analyzer_api::wire::Figure::serialize<S: serde_core::ser::Serializer>(&self, S) -> core::result::Result<<S as serde_core::ser::Serializer>::Ok, <S as serde_core::ser::Serializer>::Error>
+impl utoipa::PartialSchema for analyzer_api::wire::Figure
+pub fn analyzer_api::wire::Figure::schema() -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+impl utoipa::ToSchema for analyzer_api::wire::Figure
+pub struct analyzer_api::wire::HealthData
+pub analyzer_api::wire::HealthData::agent_versions: alloc::vec::Vec<alloc::string::String>
+pub analyzer_api::wire::HealthData::coverage_by_instance: alloc::vec::Vec<analyzer_api::wire::CoverageRow>
+pub analyzer_api::wire::HealthData::degradations: alloc::vec::Vec<analyzer_api::wire::DegradationJson>
+pub analyzer_api::wire::HealthData::ingest: analyzer_api::wire::IngestJson
+pub analyzer_api::wire::HealthData::models: analyzer_api::wire::ModelCounts
+pub analyzer_api::wire::HealthData::modules: alloc::vec::Vec<analyzer_api::wire::ModuleJson>
+pub analyzer_api::wire::HealthData::producer_runs: usize
+pub analyzer_api::wire::HealthData::run_states: alloc::collections::btree::map::BTreeMap<alloc::string::String, usize>
+impl serde_core::ser::Serialize for analyzer_api::wire::HealthData
+pub fn analyzer_api::wire::HealthData::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::HealthData
+pub fn analyzer_api::wire::HealthData::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::HealthData::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::HealthData
+pub fn analyzer_api::wire::HealthData::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::IngestJson
+pub analyzer_api::wire::IngestJson::backlog_bytes: core::option::Option<u64>
+pub analyzer_api::wire::IngestJson::backlog_files: core::option::Option<u64>
+pub analyzer_api::wire::IngestJson::batches_total: u64
+pub analyzer_api::wire::IngestJson::events_since_install: u64
+pub analyzer_api::wire::IngestJson::lag_ms: core::option::Option<f64>
+pub analyzer_api::wire::IngestJson::last_segment: core::option::Option<alloc::string::String>
+pub analyzer_api::wire::IngestJson::last_segment_at_ms: core::option::Option<f64>
+pub analyzer_api::wire::IngestJson::last_segment_records: core::option::Option<u64>
+pub analyzer_api::wire::IngestJson::last_segment_span: core::option::Option<analyzer_api::wire::SpanJson>
+pub analyzer_api::wire::IngestJson::next_tick_at_ms: core::option::Option<f64>
+pub analyzer_api::wire::IngestJson::refusing: core::option::Option<bool>
+pub analyzer_api::wire::IngestJson::unknown_kinds_total: u64
+impl serde_core::ser::Serialize for analyzer_api::wire::IngestJson
+pub fn analyzer_api::wire::IngestJson::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::IngestJson
+pub fn analyzer_api::wire::IngestJson::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::IngestJson::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::IngestJson
+pub fn analyzer_api::wire::IngestJson::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::ModelCounts
+pub analyzer_api::wire::ModelCounts::observed: u64
+pub analyzer_api::wire::ModelCounts::undeclared: u64
+impl serde_core::ser::Serialize for analyzer_api::wire::ModelCounts
+pub fn analyzer_api::wire::ModelCounts::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::ModelCounts
+pub fn analyzer_api::wire::ModelCounts::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::ModelCounts::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::ModelCounts
+pub fn analyzer_api::wire::ModelCounts::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::ModuleJson
+pub analyzer_api::wire::ModuleJson::enabled: bool
+pub analyzer_api::wire::ModuleJson::name: alloc::string::String
+pub analyzer_api::wire::ModuleJson::revision: core::option::Option<u64>
+pub analyzer_api::wire::ModuleJson::stated_from_day: core::option::Option<alloc::string::String>
+pub analyzer_api::wire::ModuleJson::stated_through_day: core::option::Option<alloc::string::String>
+impl serde_core::ser::Serialize for analyzer_api::wire::ModuleJson
+pub fn analyzer_api::wire::ModuleJson::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::ModuleJson
+pub fn analyzer_api::wire::ModuleJson::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::ModuleJson::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::ModuleJson
+pub fn analyzer_api::wire::ModuleJson::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::Page
+pub analyzer_api::wire::Page::limit: u32
+pub analyzer_api::wire::Page::next_cursor: core::option::Option<alloc::string::String>
+pub analyzer_api::wire::Page::returned: usize
+pub analyzer_api::wire::Page::total_rows: core::option::Option<usize>
+impl serde_core::ser::Serialize for analyzer_api::wire::Page
+pub fn analyzer_api::wire::Page::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::Page
+pub fn analyzer_api::wire::Page::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::Page::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::Page
+pub fn analyzer_api::wire::Page::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::PlacementBound
+pub analyzer_api::wire::PlacementBound::source: &'static str
+impl serde_core::ser::Serialize for analyzer_api::wire::PlacementBound
+pub fn analyzer_api::wire::PlacementBound::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::PlacementBound
+pub fn analyzer_api::wire::PlacementBound::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::PlacementBound::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::PlacementBound
+pub fn analyzer_api::wire::PlacementBound::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::PlacementData
+pub analyzer_api::wire::PlacementData::bound: analyzer_api::wire::PlacementBound
+pub analyzer_api::wire::PlacementData::day_rows_sum_to_window: bool
+pub analyzer_api::wire::PlacementData::never_summed_with: alloc::vec::Vec<&'static str>
+pub analyzer_api::wire::PlacementData::register: &'static str
+pub analyzer_api::wire::PlacementData::rows: alloc::vec::Vec<analyzer_api::wire::PlacementRow>
+pub analyzer_api::wire::PlacementData::truncation: core::option::Option<analyzer_api::wire::TruncationJson>
+pub analyzer_api::wire::PlacementData::unit: &'static str
+pub analyzer_api::wire::PlacementData::window_total: analyzer_api::wire::Figure
+pub analyzer_api::wire::PlacementData::within_engine: alloc::vec::Vec<analyzer_api::wire::WithinEngineRow>
+impl serde_core::ser::Serialize for analyzer_api::wire::PlacementData
+pub fn analyzer_api::wire::PlacementData::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::PlacementData
+pub fn analyzer_api::wire::PlacementData::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::PlacementData::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::PlacementData
+pub fn analyzer_api::wire::PlacementData::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::PlacementRow
+pub analyzer_api::wire::PlacementRow::day: alloc::string::String
+pub analyzer_api::wire::PlacementRow::engine_a: alloc::string::String
+pub analyzer_api::wire::PlacementRow::engine_b: alloc::string::String
+pub analyzer_api::wire::PlacementRow::group_a: u32
+pub analyzer_api::wire::PlacementRow::group_b: u32
+pub analyzer_api::wire::PlacementRow::rank_a: u32
+pub analyzer_api::wire::PlacementRow::rank_b: u32
+pub analyzer_api::wire::PlacementRow::token_ms: analyzer_api::wire::Figure
+pub analyzer_api::wire::PlacementRow::workload: alloc::string::String
+impl serde_core::ser::Serialize for analyzer_api::wire::PlacementRow
+pub fn analyzer_api::wire::PlacementRow::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::PlacementRow
+pub fn analyzer_api::wire::PlacementRow::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::PlacementRow::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::PlacementRow
+pub fn analyzer_api::wire::PlacementRow::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::SpanJson
+pub analyzer_api::wire::SpanJson::domain: &'static str
+pub analyzer_api::wire::SpanJson::end_ms: f64
+pub analyzer_api::wire::SpanJson::start_ms: f64
+impl serde_core::ser::Serialize for analyzer_api::wire::SpanJson
+pub fn analyzer_api::wire::SpanJson::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::SpanJson
+pub fn analyzer_api::wire::SpanJson::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::SpanJson::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::SpanJson
+pub fn analyzer_api::wire::SpanJson::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::TruncationJson
+pub analyzer_api::wire::TruncationJson::pairs_returned: usize
+pub analyzer_api::wire::TruncationJson::pairs_total: usize
+pub analyzer_api::wire::TruncationJson::token_ms_excluded: analyzer_api::wire::Figure
+impl serde_core::ser::Serialize for analyzer_api::wire::TruncationJson
+pub fn analyzer_api::wire::TruncationJson::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::TruncationJson
+pub fn analyzer_api::wire::TruncationJson::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::TruncationJson::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::TruncationJson
+pub fn analyzer_api::wire::TruncationJson::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub struct analyzer_api::wire::WithinEngineRow
+pub analyzer_api::wire::WithinEngineRow::day: alloc::string::String
+pub analyzer_api::wire::WithinEngineRow::engine: alloc::string::String
+pub analyzer_api::wire::WithinEngineRow::group_a: u32
+pub analyzer_api::wire::WithinEngineRow::group_b: u32
+pub analyzer_api::wire::WithinEngineRow::rank_a: u32
+pub analyzer_api::wire::WithinEngineRow::rank_b: u32
+pub analyzer_api::wire::WithinEngineRow::token_ms: analyzer_api::wire::Figure
+pub analyzer_api::wire::WithinEngineRow::workload: alloc::string::String
+impl serde_core::ser::Serialize for analyzer_api::wire::WithinEngineRow
+pub fn analyzer_api::wire::WithinEngineRow::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl utoipa::ToSchema for analyzer_api::wire::WithinEngineRow
+pub fn analyzer_api::wire::WithinEngineRow::name() -> alloc::borrow::Cow<'static, str>
+pub fn analyzer_api::wire::WithinEngineRow::schemas(&mut alloc::vec::Vec<(alloc::string::String, utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>)>)
+impl utoipa::__dev::ComposeSchema for analyzer_api::wire::WithinEngineRow
+pub fn analyzer_api::wire::WithinEngineRow::compose(alloc::vec::Vec<utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>>) -> utoipa::openapi::RefOr<utoipa::openapi::schema::Schema>
+pub const analyzer_api::wire::FIGURE_FIELDS: [&str; 4]
+pub fn analyzer_api::wire::derived(f64, &analyzer_serving_clickhouse::Covered<f64>) -> analyzer_api::wire::Figure
+#[non_exhaustive] pub enum analyzer_api::Error
+pub analyzer_api::Error::Auth(alloc::string::String)
+pub analyzer_api::Error::Dao(analyzer_serving_clickhouse::error::Error)
+pub analyzer_api::Error::Engine(analyzer_serving_clickhouse::engine::error::Error)
+pub analyzer_api::Error::Listener(alloc::string::String)
+pub analyzer_api::Error::Poisoned(&'static str)
+impl core::convert::From<analyzer_serving_clickhouse::engine::error::Error> for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::from(analyzer_serving_clickhouse::engine::error::Error) -> Self
+impl core::convert::From<analyzer_serving_clickhouse::error::Error> for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::from(analyzer_serving_clickhouse::error::Error) -> Self
+impl core::error::Error for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::source(&self) -> core::option::Option<&(dyn core::error::Error + 'static)>
+impl core::fmt::Debug for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_api::error::Error
+pub fn analyzer_api::error::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_api::ApiConfig
+pub analyzer_api::ApiConfig::addr: core::net::socket_addr::SocketAddr
+pub analyzer_api::ApiConfig::console_dir: core::option::Option<std::path::PathBuf>
+pub analyzer_api::ApiConfig::cookie_secure: bool
+pub analyzer_api::ApiConfig::dev_origin: core::option::Option<alloc::string::String>
+pub analyzer_api::ApiConfig::token_store: std::path::PathBuf
+impl analyzer_api::ApiConfig
+pub fn analyzer_api::ApiConfig::new(std::path::PathBuf) -> Self
+impl core::clone::Clone for analyzer_api::ApiConfig
+pub fn analyzer_api::ApiConfig::clone(&self) -> analyzer_api::ApiConfig
+impl core::fmt::Debug for analyzer_api::ApiConfig
+pub fn analyzer_api::ApiConfig::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_api::ApiState
+impl analyzer_api::ApiState
+pub fn analyzer_api::ApiState::events(&self) -> analyzer_api::sse::Events
+pub fn analyzer_api::ApiState::fleet_id(&self) -> &str
+pub fn analyzer_api::ApiState::new(alloc::sync::Arc<std::sync::poison::mutex::Mutex<analyzer_serving_clickhouse::engine::Engine>>, (alloc::sync::Arc<analyzer_pipeline::spine::Spine>, alloc::sync::Arc<dyn analyzer_pipeline::publish::Serving>), analyzer_pipeline::parquet_source::SourceConfig, &analyzer_analysis::Params, analyzer_serving_clickhouse::engine::RetentionConfig, analyzer_api::ApiConfig) -> core::result::Result<Self, analyzer_api::error::Error>
+pub fn analyzer_api::ApiState::params(&self) -> &analyzer_analysis::Params
+pub fn analyzer_api::ApiState::publish_ledger(&self, core::option::Option<analyzer_analysis::degradation::Ledger>)
+pub fn analyzer_api::ApiState::publish_loop_hints(&self, analyzer_api::health::LoopHints)
+pub fn analyzer_api::ApiState::sessions_for_test(&self) -> alloc::sync::Arc<analyzer_api::auth::Sessions>
+pub fn analyzer_api::ApiState::set_annotation_sink(&self, alloc::sync::Arc<(dyn core::ops::function::Fn(&str, &[u8]) -> core::result::Result<(), alloc::boxed::Box<(dyn core::error::Error + core::marker::Send + core::marker::Sync)>> + core::marker::Send + core::marker::Sync)>)
+pub fn analyzer_api::ApiState::set_tick_kick(&self, alloc::sync::Arc<core::sync::atomic::AtomicBool>)
+pub fn analyzer_api::ApiState::tokens_for_test(&self) -> alloc::sync::Arc<analyzer_api::auth::TokenStore>
+pub fn analyzer_api::ApiState::with_clock(self, f64) -> Self
+impl core::clone::Clone for analyzer_api::ApiState
+pub fn analyzer_api::ApiState::clone(&self) -> analyzer_api::ApiState
+pub const analyzer_api::READ_CONCURRENCY: usize
+pub const analyzer_api::READ_DEADLINE: core::time::Duration
+pub fn analyzer_api::initial_token_for(&std::path::Path) -> std::path::PathBuf
+pub fn analyzer_api::router(analyzer_api::ApiState) -> axum::routing::Router
+pub fn analyzer_api::token_store_for(&std::path::Path) -> std::path::PathBuf

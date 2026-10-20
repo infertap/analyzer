@@ -1,0 +1,44 @@
+{
+  "cells": [
+    "band_minute|class=ETR|band=10-60m|workload_class=agentic|model=\\N|bucket=t+5400 -> 1|8",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+13320 -> 1|32",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+3600 -> 1|8",
+    "band_minute|class=cold|band=none|workload_class=agentic|model=\\N|bucket=t+5760 -> 1|16",
+    "band_minute|class=re_admit|band=none|workload_class=agentic|model=\\N|bucket=t+12600 -> 1|8",
+    "band_rank_minute|class=ETR|band=10-60m|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+5400 -> 1|8",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+13320 -> 1|32",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+3600 -> 1|8",
+    "band_rank_minute|class=cold|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+5760 -> 1|16",
+    "band_rank_minute|class=re_admit|band=none|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+12600 -> 1|8",
+    "band_rollup_daily|class=ETR|band=10-60m|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 1|8",
+    "band_rollup_daily|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 3|56",
+    "band_rollup_daily|class=re_admit|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 1|8",
+    "band_rollup_hourly|class=ETR|band=10-60m|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+3600 -> 1|8",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+10800 -> 1|32",
+    "band_rollup_hourly|class=cold|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+3600 -> 2|24",
+    "band_rollup_hourly|class=re_admit|band=none|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+10800 -> 1|8",
+    "class_rollup_daily|class=ETR|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 1|8",
+    "class_rollup_daily|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 3|56",
+    "class_rollup_daily|class=re_admit|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=day+0 -> 1|8",
+    "class_rollup_hourly|class=ETR|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+3600 -> 1|8",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+10800 -> 1|32",
+    "class_rollup_hourly|class=cold|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+3600 -> 2|24",
+    "class_rollup_hourly|class=re_admit|workload_class=agentic|model=\\N|instance_id=i1|dp_rank=0|group_idx=0|bucket=t+10800 -> 1|8",
+    "recompute_minute|class=ETR|workload_class=agentic|model=\\N|bucket=t+5400 -> 1|8",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+13320 -> 1|32",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+3600 -> 1|8",
+    "recompute_minute|class=cold|workload_class=agentic|model=\\N|bucket=t+5760 -> 1|16",
+    "recompute_minute|class=re_admit|workload_class=agentic|model=\\N|bucket=t+12600 -> 1|8",
+    "recompute_rank_minute|class=ETR|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+5400 -> 1|8",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+13320 -> 1|32",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+3600 -> 1|8",
+    "recompute_rank_minute|class=cold|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+5760 -> 1|16",
+    "recompute_rank_minute|class=re_admit|instance_id=i1|dp_rank=0|workload_class=agentic|model=\\N|bucket=t+12600 -> 1|8"
+  ],
+  "coverage": {
+    "coverage_daily|day=day+0|instance_id=i1": [
+      14039000.0,
+      86400000.0
+    ]
+  }
+}

@@ -1,0 +1,129 @@
+pub mod analyzer_ingest
+pub use analyzer_ingest::DecodedSegment
+pub use analyzer_ingest::content_batch_id
+pub use analyzer_ingest::decode_segment
+pub mod analyzer_ingest::annotations
+pub enum analyzer_ingest::annotations::DeploySource
+pub analyzer_ingest::annotations::DeploySource::Api
+pub analyzer_ingest::annotations::DeploySource::Cli
+pub analyzer_ingest::annotations::DeploySource::Pipeline
+impl analyzer_ingest::annotations::DeploySource
+pub fn analyzer_ingest::annotations::DeploySource::as_str(self) -> &'static str
+impl core::clone::Clone for analyzer_ingest::annotations::DeploySource
+pub fn analyzer_ingest::annotations::DeploySource::clone(&self) -> analyzer_ingest::annotations::DeploySource
+impl core::cmp::Eq for analyzer_ingest::annotations::DeploySource
+impl core::cmp::PartialEq for analyzer_ingest::annotations::DeploySource
+pub fn analyzer_ingest::annotations::DeploySource::eq(&self, &analyzer_ingest::annotations::DeploySource) -> bool
+impl core::fmt::Debug for analyzer_ingest::annotations::DeploySource
+pub fn analyzer_ingest::annotations::DeploySource::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_ingest::annotations::DeploySource
+impl core::marker::StructuralPartialEq for analyzer_ingest::annotations::DeploySource
+pub struct analyzer_ingest::annotations::AnnotationIngest
+pub analyzer_ingest::annotations::AnnotationIngest::ingested: u64
+pub analyzer_ingest::annotations::AnnotationIngest::refused: u64
+impl core::clone::Clone for analyzer_ingest::annotations::AnnotationIngest
+pub fn analyzer_ingest::annotations::AnnotationIngest::clone(&self) -> analyzer_ingest::annotations::AnnotationIngest
+impl core::cmp::Eq for analyzer_ingest::annotations::AnnotationIngest
+impl core::cmp::PartialEq for analyzer_ingest::annotations::AnnotationIngest
+pub fn analyzer_ingest::annotations::AnnotationIngest::eq(&self, &analyzer_ingest::annotations::AnnotationIngest) -> bool
+impl core::default::Default for analyzer_ingest::annotations::AnnotationIngest
+pub fn analyzer_ingest::annotations::AnnotationIngest::default() -> analyzer_ingest::annotations::AnnotationIngest
+impl core::fmt::Debug for analyzer_ingest::annotations::AnnotationIngest
+pub fn analyzer_ingest::annotations::AnnotationIngest::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_ingest::annotations::AnnotationIngest
+impl core::marker::StructuralPartialEq for analyzer_ingest::annotations::AnnotationIngest
+pub struct analyzer_ingest::annotations::DeployAnnotation
+pub analyzer_ingest::annotations::DeployAnnotation::at_ms: f64
+pub analyzer_ingest::annotations::DeployAnnotation::declared_at_ms: core::option::Option<f64>
+pub analyzer_ingest::annotations::DeployAnnotation::label: alloc::string::String
+pub analyzer_ingest::annotations::DeployAnnotation::scope: core::option::Option<alloc::string::String>
+pub analyzer_ingest::annotations::DeployAnnotation::source: analyzer_ingest::annotations::DeploySource
+impl analyzer_ingest::annotations::DeployAnnotation
+pub fn analyzer_ingest::annotations::DeployAnnotation::record(&self) -> analyzer_lake::ledger::DeclaredAnnotation
+impl analyzer_ingest::annotations::DeployAnnotation
+pub fn analyzer_ingest::annotations::DeployAnnotation::validate(&self) -> core::result::Result<(), analyzer_ingest::Error>
+impl core::clone::Clone for analyzer_ingest::annotations::DeployAnnotation
+pub fn analyzer_ingest::annotations::DeployAnnotation::clone(&self) -> analyzer_ingest::annotations::DeployAnnotation
+impl core::cmp::PartialEq for analyzer_ingest::annotations::DeployAnnotation
+pub fn analyzer_ingest::annotations::DeployAnnotation::eq(&self, &analyzer_ingest::annotations::DeployAnnotation) -> bool
+impl core::fmt::Debug for analyzer_ingest::annotations::DeployAnnotation
+pub fn analyzer_ingest::annotations::DeployAnnotation::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_ingest::annotations::DeployAnnotation
+pub const analyzer_ingest::annotations::ANNOTATIONS_PREFIX: &str
+pub const analyzer_ingest::annotations::ANNOTATION_MAX_BYTES: u64
+pub fn analyzer_ingest::annotations::declare(&dyn analyzer_objectstore::ObjectStore, &analyzer_ingest::annotations::DeployAnnotation) -> core::result::Result<alloc::string::String, analyzer_ingest::Error>
+pub fn analyzer_ingest::annotations::encode(&analyzer_ingest::annotations::DeployAnnotation) -> alloc::string::String
+pub fn analyzer_ingest::annotations::ingest_annotations(&analyzer_lake::Lake, &dyn analyzer_objectstore::ObjectStore) -> core::result::Result<analyzer_ingest::annotations::AnnotationIngest, analyzer_ingest::Error>
+pub fn analyzer_ingest::annotations::object_key(f64, &str) -> alloc::string::String
+pub fn analyzer_ingest::annotations::parse(&[u8]) -> core::result::Result<analyzer_ingest::annotations::DeployAnnotation, analyzer_ingest::Error>
+pub mod analyzer_ingest::bucket
+pub struct analyzer_ingest::bucket::Discovered
+pub analyzer_ingest::bucket::Discovered::etag: alloc::string::String
+pub analyzer_ingest::bucket::Discovered::key: alloc::string::String
+pub analyzer_ingest::bucket::Discovered::size: u64
+impl core::clone::Clone for analyzer_ingest::bucket::Discovered
+pub fn analyzer_ingest::bucket::Discovered::clone(&self) -> analyzer_ingest::bucket::Discovered
+impl core::cmp::Eq for analyzer_ingest::bucket::Discovered
+impl core::cmp::PartialEq for analyzer_ingest::bucket::Discovered
+pub fn analyzer_ingest::bucket::Discovered::eq(&self, &analyzer_ingest::bucket::Discovered) -> bool
+impl core::fmt::Debug for analyzer_ingest::bucket::Discovered
+pub fn analyzer_ingest::bucket::Discovered::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_ingest::bucket::Discovered
+pub struct analyzer_ingest::bucket::Slice
+pub analyzer_ingest::bucket::Slice::deadline: core::option::Option<std::time::Instant>
+pub analyzer_ingest::bucket::Slice::workers: core::option::Option<usize>
+impl core::clone::Clone for analyzer_ingest::bucket::Slice
+pub fn analyzer_ingest::bucket::Slice::clone(&self) -> analyzer_ingest::bucket::Slice
+impl core::default::Default for analyzer_ingest::bucket::Slice
+pub fn analyzer_ingest::bucket::Slice::default() -> analyzer_ingest::bucket::Slice
+impl core::fmt::Debug for analyzer_ingest::bucket::Slice
+pub fn analyzer_ingest::bucket::Slice::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_ingest::bucket::Slice
+pub fn analyzer_ingest::bucket::discover(&analyzer_lake::Lake, &dyn analyzer_objectstore::ObjectStore, &str, bool) -> core::result::Result<alloc::vec::Vec<analyzer_ingest::bucket::Discovered>, analyzer_ingest::Error>
+pub fn analyzer_ingest::bucket::ingest_bucket(&analyzer_lake::Lake, &dyn analyzer_objectstore::ObjectStore, &str, &str, bool) -> core::result::Result<analyzer_ingest::IngestReport, analyzer_ingest::Error>
+pub fn analyzer_ingest::bucket::ingest_discovered(&analyzer_lake::Lake, &dyn analyzer_objectstore::ObjectStore, &str, alloc::vec::Vec<analyzer_ingest::bucket::Discovered>, analyzer_ingest::bucket::Slice, &mut dyn core::ops::function::FnMut(u64)) -> core::result::Result<analyzer_ingest::IngestReport, analyzer_ingest::Error>
+pub fn analyzer_ingest::bucket::oldest_key_day(&[analyzer_ingest::bucket::Discovered]) -> core::option::Option<i64>
+#[non_exhaustive] pub enum analyzer_ingest::Error
+pub analyzer_ingest::Error::File
+pub analyzer_ingest::Error::File::key: alloc::string::String
+pub analyzer_ingest::Error::File::source: alloc::boxed::Box<analyzer_ingest::Error>
+pub analyzer_ingest::Error::Lake(analyzer_lake::Error)
+pub analyzer_ingest::Error::Malformed(alloc::string::String)
+pub analyzer_ingest::Error::Refused(alloc::string::String)
+pub analyzer_ingest::Error::Segment(analyzer_segments::error::Error)
+pub analyzer_ingest::Error::Store(analyzer_objectstore::Error)
+impl core::clone::Clone for analyzer_ingest::Error
+pub fn analyzer_ingest::Error::clone(&self) -> analyzer_ingest::Error
+impl core::convert::From<analyzer_lake::Error> for analyzer_ingest::Error
+pub fn analyzer_ingest::Error::from(analyzer_lake::Error) -> Self
+impl core::convert::From<analyzer_objectstore::Error> for analyzer_ingest::Error
+pub fn analyzer_ingest::Error::from(analyzer_objectstore::Error) -> Self
+impl core::convert::From<analyzer_segments::error::Error> for analyzer_ingest::Error
+pub fn analyzer_ingest::Error::from(analyzer_segments::error::Error) -> Self
+impl core::error::Error for analyzer_ingest::Error
+pub fn analyzer_ingest::Error::source(&self) -> core::option::Option<&(dyn core::error::Error + 'static)>
+impl core::fmt::Debug for analyzer_ingest::Error
+pub fn analyzer_ingest::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_ingest::Error
+pub fn analyzer_ingest::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_ingest::IngestReport
+pub analyzer_ingest::IngestReport::bytes_deferred: u64
+pub analyzer_ingest::IngestReport::bytes_seen: u64
+pub analyzer_ingest::IngestReport::duplicates_skipped: u64
+pub analyzer_ingest::IngestReport::files_deferred: u64
+pub analyzer_ingest::IngestReport::files_ingested: u64
+pub analyzer_ingest::IngestReport::files_seen: u64
+pub analyzer_ingest::IngestReport::projected_files: u64
+pub analyzer_ingest::IngestReport::records_inserted: u64
+pub analyzer_ingest::IngestReport::unknown_kinds: u64
+impl core::cmp::Eq for analyzer_ingest::IngestReport
+impl core::cmp::PartialEq for analyzer_ingest::IngestReport
+pub fn analyzer_ingest::IngestReport::eq(&self, &analyzer_ingest::IngestReport) -> bool
+impl core::default::Default for analyzer_ingest::IngestReport
+pub fn analyzer_ingest::IngestReport::default() -> analyzer_ingest::IngestReport
+impl core::fmt::Debug for analyzer_ingest::IngestReport
+pub fn analyzer_ingest::IngestReport::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_ingest::IngestReport
+pub const analyzer_ingest::FAST_WALK_PROJECTION: &[&str]
+pub fn analyzer_ingest::ingest_bytes(&analyzer_lake::Lake, &str, &str, &[u8]) -> core::result::Result<analyzer_ingest::IngestReport, analyzer_ingest::Error>
+pub fn analyzer_ingest::ingest_bytes_shaped(&analyzer_lake::Lake, &str, &str, &[u8]) -> core::result::Result<analyzer_ingest::IngestReport, analyzer_ingest::Error>

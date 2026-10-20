@@ -1,0 +1,171 @@
+pub mod analyzer_objectstore
+#[non_exhaustive] pub enum analyzer_objectstore::Conditional
+pub analyzer_objectstore::Conditional::Refused
+pub analyzer_objectstore::Conditional::Written(analyzer_objectstore::Version)
+impl core::clone::Clone for analyzer_objectstore::Conditional
+pub fn analyzer_objectstore::Conditional::clone(&self) -> analyzer_objectstore::Conditional
+impl core::cmp::Eq for analyzer_objectstore::Conditional
+impl core::cmp::PartialEq for analyzer_objectstore::Conditional
+pub fn analyzer_objectstore::Conditional::eq(&self, &analyzer_objectstore::Conditional) -> bool
+impl core::fmt::Debug for analyzer_objectstore::Conditional
+pub fn analyzer_objectstore::Conditional::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_objectstore::Conditional
+#[non_exhaustive] pub enum analyzer_objectstore::Error
+pub analyzer_objectstore::Error::Config
+pub analyzer_objectstore::Error::Config::message: alloc::string::String
+pub analyzer_objectstore::Error::Config::url: alloc::string::String
+pub analyzer_objectstore::Error::FetchRange
+pub analyzer_objectstore::Error::FetchRange::end: u64
+pub analyzer_objectstore::Error::FetchRange::key: alloc::string::String
+pub analyzer_objectstore::Error::FetchRange::message: alloc::string::String
+pub analyzer_objectstore::Error::FetchRange::start: u64
+pub analyzer_objectstore::Error::Listing(alloc::string::String)
+pub analyzer_objectstore::Error::Object
+pub analyzer_objectstore::Error::Object::key: alloc::string::String
+pub analyzer_objectstore::Error::Object::message: alloc::string::String
+pub analyzer_objectstore::Error::Object::op: &'static str
+pub analyzer_objectstore::Error::Other(alloc::string::String)
+pub analyzer_objectstore::Error::Range(&'static str)
+pub analyzer_objectstore::Error::Runtime(alloc::string::String)
+impl core::clone::Clone for analyzer_objectstore::Error
+pub fn analyzer_objectstore::Error::clone(&self) -> analyzer_objectstore::Error
+impl core::error::Error for analyzer_objectstore::Error
+impl core::fmt::Debug for analyzer_objectstore::Error
+pub fn analyzer_objectstore::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_objectstore::Error
+pub fn analyzer_objectstore::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+#[non_exhaustive] pub enum analyzer_objectstore::Precondition
+pub analyzer_objectstore::Precondition::Absent
+pub analyzer_objectstore::Precondition::Matches(analyzer_objectstore::Version)
+impl core::clone::Clone for analyzer_objectstore::Precondition
+pub fn analyzer_objectstore::Precondition::clone(&self) -> analyzer_objectstore::Precondition
+impl core::cmp::Eq for analyzer_objectstore::Precondition
+impl core::cmp::PartialEq for analyzer_objectstore::Precondition
+pub fn analyzer_objectstore::Precondition::eq(&self, &analyzer_objectstore::Precondition) -> bool
+impl core::fmt::Debug for analyzer_objectstore::Precondition
+pub fn analyzer_objectstore::Precondition::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_objectstore::Precondition
+pub struct analyzer_objectstore::DirStore
+impl analyzer_objectstore::DirStore
+pub fn analyzer_objectstore::DirStore::new(impl core::convert::Into<std::path::PathBuf>) -> Self
+impl analyzer_objectstore::ObjectStore for analyzer_objectstore::DirStore
+pub fn analyzer_objectstore::DirStore::delete(&self, &str) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::get(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::get_range(&self, &str, core::ops::range::Range<u64>) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::get_versioned(&self, &str) -> core::result::Result<core::option::Option<(alloc::vec::Vec<u8>, analyzer_objectstore::Version)>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::list(&self, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::list_after(&self, &str, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::location(&self) -> alloc::string::String
+pub fn analyzer_objectstore::DirStore::put(&self, &str, &[u8]) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::put_if(&self, &str, &[u8], &analyzer_objectstore::Precondition) -> core::result::Result<analyzer_objectstore::Conditional, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::sibling(&self) -> core::result::Result<alloc::boxed::Box<dyn analyzer_objectstore::ObjectStore>, analyzer_objectstore::Error>
+impl core::clone::Clone for analyzer_objectstore::DirStore
+pub fn analyzer_objectstore::DirStore::clone(&self) -> analyzer_objectstore::DirStore
+impl core::fmt::Debug for analyzer_objectstore::DirStore
+pub fn analyzer_objectstore::DirStore::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_objectstore::ObjectMeta
+pub analyzer_objectstore::ObjectMeta::etag: core::option::Option<alloc::string::String>
+pub analyzer_objectstore::ObjectMeta::key: alloc::string::String
+pub analyzer_objectstore::ObjectMeta::size: u64
+impl core::clone::Clone for analyzer_objectstore::ObjectMeta
+pub fn analyzer_objectstore::ObjectMeta::clone(&self) -> analyzer_objectstore::ObjectMeta
+impl core::cmp::Eq for analyzer_objectstore::ObjectMeta
+impl core::cmp::PartialEq for analyzer_objectstore::ObjectMeta
+pub fn analyzer_objectstore::ObjectMeta::eq(&self, &analyzer_objectstore::ObjectMeta) -> bool
+impl core::fmt::Debug for analyzer_objectstore::ObjectMeta
+pub fn analyzer_objectstore::ObjectMeta::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_objectstore::ObjectMeta
+pub struct analyzer_objectstore::Requests
+pub analyzer_objectstore::Requests::deletes: u64
+pub analyzer_objectstore::Requests::gets: u64
+pub analyzer_objectstore::Requests::lists: u64
+pub analyzer_objectstore::Requests::puts: u64
+impl analyzer_objectstore::Requests
+pub fn analyzer_objectstore::Requests::since(self, Self) -> Self
+impl core::clone::Clone for analyzer_objectstore::Requests
+pub fn analyzer_objectstore::Requests::clone(&self) -> analyzer_objectstore::Requests
+impl core::cmp::Eq for analyzer_objectstore::Requests
+impl core::cmp::PartialEq for analyzer_objectstore::Requests
+pub fn analyzer_objectstore::Requests::eq(&self, &analyzer_objectstore::Requests) -> bool
+impl core::default::Default for analyzer_objectstore::Requests
+pub fn analyzer_objectstore::Requests::default() -> analyzer_objectstore::Requests
+impl core::fmt::Debug for analyzer_objectstore::Requests
+pub fn analyzer_objectstore::Requests::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_objectstore::Requests
+impl core::marker::StructuralPartialEq for analyzer_objectstore::Requests
+pub struct analyzer_objectstore::S3Store
+impl analyzer_objectstore::S3Store
+pub fn analyzer_objectstore::S3Store::open(&str, core::option::Option<&analyzer_objectstore::StaticCredentials>) -> core::result::Result<Self, analyzer_objectstore::Error>
+impl analyzer_objectstore::S3Store
+pub fn analyzer_objectstore::S3Store::requests() -> analyzer_objectstore::Requests
+impl analyzer_objectstore::ObjectStore for analyzer_objectstore::S3Store
+pub fn analyzer_objectstore::S3Store::delete(&self, &str) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::get(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::get_range(&self, &str, core::ops::range::Range<u64>) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::get_versioned(&self, &str) -> core::result::Result<core::option::Option<(alloc::vec::Vec<u8>, analyzer_objectstore::Version)>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::list(&self, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::list_after(&self, &str, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::location(&self) -> alloc::string::String
+pub fn analyzer_objectstore::S3Store::put(&self, &str, &[u8]) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::put_if(&self, &str, &[u8], &analyzer_objectstore::Precondition) -> core::result::Result<analyzer_objectstore::Conditional, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::sibling(&self) -> core::result::Result<alloc::boxed::Box<dyn analyzer_objectstore::ObjectStore>, analyzer_objectstore::Error>
+impl core::fmt::Debug for analyzer_objectstore::S3Store
+pub fn analyzer_objectstore::S3Store::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_objectstore::StaticCredentials
+pub analyzer_objectstore::StaticCredentials::access_key_id: alloc::string::String
+pub analyzer_objectstore::StaticCredentials::secret_access_key: alloc::string::String
+pub analyzer_objectstore::StaticCredentials::session_token: core::option::Option<alloc::string::String>
+impl core::clone::Clone for analyzer_objectstore::StaticCredentials
+pub fn analyzer_objectstore::StaticCredentials::clone(&self) -> analyzer_objectstore::StaticCredentials
+impl core::fmt::Debug for analyzer_objectstore::StaticCredentials
+pub fn analyzer_objectstore::StaticCredentials::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_objectstore::Version(_)
+impl analyzer_objectstore::Version
+pub fn analyzer_objectstore::Version::etag(&self) -> &str
+impl core::clone::Clone for analyzer_objectstore::Version
+pub fn analyzer_objectstore::Version::clone(&self) -> analyzer_objectstore::Version
+impl core::cmp::Eq for analyzer_objectstore::Version
+impl core::cmp::PartialEq for analyzer_objectstore::Version
+pub fn analyzer_objectstore::Version::eq(&self, &analyzer_objectstore::Version) -> bool
+impl core::fmt::Debug for analyzer_objectstore::Version
+pub fn analyzer_objectstore::Version::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_objectstore::Version
+pub const analyzer_objectstore::CONNECT_TIMEOUT: core::time::Duration
+pub const analyzer_objectstore::REQUEST_TIMEOUT: core::time::Duration
+pub const analyzer_objectstore::RETRY_ATTEMPTS: usize
+pub const analyzer_objectstore::RETRY_BUDGET: core::time::Duration
+pub const analyzer_objectstore::RUNTIME_WORKERS: usize
+pub trait analyzer_objectstore::ObjectStore: core::marker::Send + core::marker::Sync
+pub fn analyzer_objectstore::ObjectStore::delete(&self, &str) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::ObjectStore::get(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::ObjectStore::get_range(&self, &str, core::ops::range::Range<u64>) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::ObjectStore::get_versioned(&self, &str) -> core::result::Result<core::option::Option<(alloc::vec::Vec<u8>, analyzer_objectstore::Version)>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::ObjectStore::list(&self, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::ObjectStore::list_after(&self, &str, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::ObjectStore::location(&self) -> alloc::string::String
+pub fn analyzer_objectstore::ObjectStore::put(&self, &str, &[u8]) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::ObjectStore::put_if(&self, &str, &[u8], &analyzer_objectstore::Precondition) -> core::result::Result<analyzer_objectstore::Conditional, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::ObjectStore::sibling(&self) -> core::result::Result<alloc::boxed::Box<dyn analyzer_objectstore::ObjectStore>, analyzer_objectstore::Error>
+impl analyzer_objectstore::ObjectStore for analyzer_objectstore::DirStore
+pub fn analyzer_objectstore::DirStore::delete(&self, &str) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::get(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::get_range(&self, &str, core::ops::range::Range<u64>) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::get_versioned(&self, &str) -> core::result::Result<core::option::Option<(alloc::vec::Vec<u8>, analyzer_objectstore::Version)>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::list(&self, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::list_after(&self, &str, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::location(&self) -> alloc::string::String
+pub fn analyzer_objectstore::DirStore::put(&self, &str, &[u8]) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::put_if(&self, &str, &[u8], &analyzer_objectstore::Precondition) -> core::result::Result<analyzer_objectstore::Conditional, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::DirStore::sibling(&self) -> core::result::Result<alloc::boxed::Box<dyn analyzer_objectstore::ObjectStore>, analyzer_objectstore::Error>
+impl analyzer_objectstore::ObjectStore for analyzer_objectstore::S3Store
+pub fn analyzer_objectstore::S3Store::delete(&self, &str) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::get(&self, &str) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::get_range(&self, &str, core::ops::range::Range<u64>) -> core::result::Result<alloc::vec::Vec<u8>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::get_versioned(&self, &str) -> core::result::Result<core::option::Option<(alloc::vec::Vec<u8>, analyzer_objectstore::Version)>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::list(&self, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::list_after(&self, &str, &str) -> core::result::Result<alloc::vec::Vec<analyzer_objectstore::ObjectMeta>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::location(&self) -> alloc::string::String
+pub fn analyzer_objectstore::S3Store::put(&self, &str, &[u8]) -> core::result::Result<(), analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::put_if(&self, &str, &[u8], &analyzer_objectstore::Precondition) -> core::result::Result<analyzer_objectstore::Conditional, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::S3Store::sibling(&self) -> core::result::Result<alloc::boxed::Box<dyn analyzer_objectstore::ObjectStore>, analyzer_objectstore::Error>
+pub fn analyzer_objectstore::check_conditional_writes(&dyn analyzer_objectstore::ObjectStore, &str) -> core::result::Result<(), alloc::string::String>

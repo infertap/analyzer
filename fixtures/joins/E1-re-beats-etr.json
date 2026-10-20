@@ -1,0 +1,100 @@
+{
+ "fixture_version": "v1",
+ "source": "classification-semantics.md \u00a74: RE outranks ETR",
+ "params": {},
+ "cases": [
+  {
+   "name": "primary_RE",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 100000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 200000,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i2",
+     "block_id": "p",
+     "at_ms": 150000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 400000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s_final"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s_final": "RE"
+    },
+    "eviction_waste_tokens": 0
+   }
+  },
+  {
+   "name": "pair_ETR",
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 100000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 200000,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i2",
+     "block_id": "p",
+     "at_ms": 150000,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i2",
+     "block_id": "p",
+     "at_ms": 300000,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 400000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s_final"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s_final": "ETR"
+    },
+    "eviction_waste_tokens": 4
+   }
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+name: Bug report
+description: The analyzer did something other than what its documentation says.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. A vulnerability is not a bug report — see `SECURITY.md` and report it privately.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The output of `infertap-analyzer --version` (the engine version is printed beside it).
+      placeholder: infertap-analyzer 1.0.10 (clickhouse 26.3.17.56)
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What the analyzer did, with the journal lines (`journalctl -u infertap-analyzer` or the container log) around it.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      description: What the documentation, the API contract or the figure's definition says should have happened.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to reproduce
+      description: The smallest sequence that shows it — a fixture, a request, a command. A `selftest` run's output helps.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS or Kubernetes version, how the analyzer was installed (bundle, image, chart), the object store, the fleet's size.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before filing
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: This is not a security vulnerability (those go to `SECURITY.md`).
+          required: true

@@ -1,0 +1,38 @@
+name: Feature request
+description: A figure, a read, a surface or a behaviour the analyzer should have.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        `ROADMAP.md` says what is planned; `GOVERNANCE.md` says how a design change is ruled on. A request that touches the meaning of a figure is a design proposal — say so here and we will take it there.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you are trying to find out or do with the analyzer, and what stops you today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: The proposal
+      description: What the analyzer should do. If it is a figure, say what it measures, at what grain, and what the denominator is.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What you tried instead, and why it is not enough.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - a figure or its derivation
+        - the read API or the console
+        - ingestion or the object store
+        - the install, the bundle, the chart
+        - the operator's experience (health, journal, metrics)
+        - other

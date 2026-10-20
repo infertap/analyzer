@@ -1,0 +1,133 @@
+{
+  "classification": {
+    "bucket_counts": {
+      "ETR": 1,
+      "cold": 1
+    },
+    "eviction_waste_tokens": 4,
+    "post_clear_tokens": 0,
+    "residencies": [
+      {
+        "close_ms": 120000.0,
+        "duration_ms": 20000.0,
+        "instance": "i1",
+        "opener_class": "cold"
+      }
+    ],
+    "stores": [
+      {
+        "at_ms": 100000.0,
+        "block": "p",
+        "class": "cold",
+        "gap_ms": null,
+        "holder": [
+          "i1",
+          0,
+          0
+        ],
+        "key_epoch": null,
+        "n_tokens": 4
+      },
+      {
+        "at_ms": 150000.0,
+        "block": "p",
+        "class": "ETR",
+        "gap_ms": 30000.0,
+        "holder": [
+          "i1",
+          0,
+          0
+        ],
+        "key_epoch": null,
+        "n_tokens": 4
+      }
+    ]
+  },
+  "coverage": {
+    "fraction": 0.0,
+    "per_day": [
+      {
+        "covered_ms": 0.0,
+        "day_ms": 0.0,
+        "source": "i1",
+        "window_ms": 50002.0
+      }
+    ],
+    "per_source_covered_ms": [
+      [
+        "i1",
+        0.0
+      ]
+    ]
+  },
+  "degradation_ledger": [],
+  "evict_audit": "AuditOutcome { instances: [InstanceAudit { instance: \"i1\", audited: 1, agreed: 1, mismatched: 0, underresolved: 0, indeterminate: 0, unjoined: 0 }] }",
+  "intervals": [
+    {
+      "block": "p",
+      "close_ms": 120000.0,
+      "close_reason": "Some(Evict)",
+      "holder": [
+        "i1",
+        0,
+        0
+      ],
+      "key_epoch": null,
+      "open_ms": 100000.0,
+      "readmits": 0,
+      "tier": "GPU"
+    },
+    {
+      "block": "p",
+      "close_ms": null,
+      "close_reason": "None",
+      "holder": [
+        "i1",
+        0,
+        0
+      ],
+      "key_epoch": null,
+      "open_ms": 150000.0,
+      "readmits": 0,
+      "tier": "GPU"
+    }
+  ],
+  "liveness": {
+    "fleet_health": "FleetHealth { expected_departures: 0, unexplained_departures: 0, observed_idle_or_stalled: [], agents: 0, instances: 0 }",
+    "run_verdicts": []
+  },
+  "meaning": {
+    "delta_skew_ms": 1000.0,
+    "discriminator": "s1000x3600000",
+    "examined_history_ms": 3600000.0,
+    "semantics_version": "js-7",
+    "staleness_grace_ms": 1800000.0
+  },
+  "narrowing": "GapSpan { narrowed: false, start_ms: None, end_ms: None }",
+  "reuse": {
+    "declaration": "Unlabelled",
+    "first_insertion": {
+      "countable": false,
+      "records": null,
+      "tokens": null
+    },
+    "recompute": {
+      "countable": true,
+      "records": 1,
+      "tokens": 4
+    },
+    "unqualified": {
+      "countable": false,
+      "records": null,
+      "tokens": null
+    }
+  },
+  "tree": {
+    "dangling_edges": 0,
+    "nodes": [
+      "p"
+    ],
+    "observed_edges": [],
+    "parent_conflicts": 0
+  }
+}

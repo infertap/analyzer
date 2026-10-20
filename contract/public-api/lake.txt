@@ -1,0 +1,754 @@
+pub mod analyzer_lake
+pub mod analyzer_lake::cache
+pub struct analyzer_lake::cache::LocalCopy
+impl analyzer_lake::cache::LocalCopy
+pub fn analyzer_lake::cache::LocalCopy::path(&self) -> &std::path::Path
+impl core::fmt::Debug for analyzer_lake::cache::LocalCopy
+pub fn analyzer_lake::cache::LocalCopy::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::ops::drop::Drop for analyzer_lake::cache::LocalCopy
+pub fn analyzer_lake::cache::LocalCopy::drop(&mut self)
+pub struct analyzer_lake::cache::ObjectCache
+impl analyzer_lake::cache::ObjectCache
+pub fn analyzer_lake::cache::ObjectCache::keep(&self, &str, &[u8])
+pub fn analyzer_lake::cache::ObjectCache::local(&self, &dyn analyzer_objectstore::ObjectStore, &str) -> core::result::Result<analyzer_lake::cache::LocalCopy, analyzer_lake::Error>
+pub fn analyzer_lake::cache::ObjectCache::new(impl core::convert::Into<std::path::PathBuf>, u64) -> core::result::Result<Self, analyzer_lake::Error>
+impl core::fmt::Debug for analyzer_lake::cache::ObjectCache
+pub fn analyzer_lake::cache::ObjectCache::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub fn analyzer_lake::cache::local_copy(core::option::Option<&analyzer_lake::cache::ObjectCache>, &dyn analyzer_objectstore::ObjectStore, &str) -> core::result::Result<analyzer_lake::cache::LocalCopy, analyzer_lake::Error>
+pub mod analyzer_lake::dated
+pub const analyzer_lake::dated::ANALYZER_ROOT: &str
+pub const analyzer_lake::dated::LIST_MARGIN_HOURS: i64
+pub const analyzer_lake::dated::PREFLIGHT_PREFIX: &str
+pub const analyzer_lake::dated::SHIPPED_SUFFIX: &str
+pub fn analyzer_lake::dated::date_of_day(i64) -> alloc::string::String
+pub fn analyzer_lake::dated::hour_floor(&str, i64) -> core::option::Option<alloc::string::String>
+pub fn analyzer_lake::dated::hour_prefixes(f64, f64) -> alloc::vec::Vec<alloc::string::String>
+pub fn analyzer_lake::dated::is_analyzer_owned(&str) -> bool
+pub fn analyzer_lake::dated::is_shipped_key(&str) -> bool
+pub fn analyzer_lake::dated::key_day(&str) -> core::option::Option<i64>
+pub fn analyzer_lake::dated::key_hour(&str) -> core::option::Option<i64>
+pub fn analyzer_lake::dated::segment_key(&str, f64, &str, &str) -> core::option::Option<alloc::string::String>
+pub mod analyzer_lake::fold
+pub enum analyzer_lake::fold::Tier
+pub analyzer_lake::fold::Tier::Fold
+pub analyzer_lake::fold::Tier::Keep
+pub analyzer_lake::fold::Tier::Merge(usize)
+impl core::clone::Clone for analyzer_lake::fold::Tier
+pub fn analyzer_lake::fold::Tier::clone(&self) -> analyzer_lake::fold::Tier
+impl core::cmp::Eq for analyzer_lake::fold::Tier
+impl core::cmp::PartialEq for analyzer_lake::fold::Tier
+pub fn analyzer_lake::fold::Tier::eq(&self, &analyzer_lake::fold::Tier) -> bool
+impl core::fmt::Debug for analyzer_lake::fold::Tier
+pub fn analyzer_lake::fold::Tier::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_lake::fold::Tier
+impl core::marker::StructuralPartialEq for analyzer_lake::fold::Tier
+pub struct analyzer_lake::fold::DayManifest
+pub analyzer_lake::fold::DayManifest::day: i64
+pub analyzer_lake::fold::DayManifest::next_revision: u64
+pub analyzer_lake::fold::DayManifest::published: alloc::collections::btree::map::BTreeMap<alloc::string::String, analyzer_lake::fold::PublishedLog>
+impl analyzer_lake::head::Document for analyzer_lake::fold::DayManifest
+pub const analyzer_lake::fold::DayManifest::FORMAT: u32
+pub const analyzer_lake::fold::DayManifest::NAME: &'static str
+pub fn analyzer_lake::fold::DayManifest::format(&self) -> u32
+pub fn analyzer_lake::fold::DayManifest::lease_epoch(&self) -> u64
+pub fn analyzer_lake::fold::DayManifest::set_lease_epoch(&mut self, u64)
+impl core::clone::Clone for analyzer_lake::fold::DayManifest
+pub fn analyzer_lake::fold::DayManifest::clone(&self) -> analyzer_lake::fold::DayManifest
+impl core::cmp::PartialEq for analyzer_lake::fold::DayManifest
+pub fn analyzer_lake::fold::DayManifest::eq(&self, &analyzer_lake::fold::DayManifest) -> bool
+impl core::default::Default for analyzer_lake::fold::DayManifest
+pub fn analyzer_lake::fold::DayManifest::default() -> Self
+impl core::fmt::Debug for analyzer_lake::fold::DayManifest
+pub fn analyzer_lake::fold::DayManifest::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::fold::DayManifest
+impl serde_core::ser::Serialize for analyzer_lake::fold::DayManifest
+pub fn analyzer_lake::fold::DayManifest::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::fold::DayManifest
+pub fn analyzer_lake::fold::DayManifest::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::fold::DayManifests
+impl analyzer_lake::fold::DayManifests
+pub fn analyzer_lake::fold::DayManifests::at(&dyn analyzer_objectstore::ObjectStore, &str, analyzer_lake::lineage::Lineage) -> core::result::Result<Self, analyzer_lake::Error>
+pub fn analyzer_lake::fold::DayManifests::commit(&self, i64, impl core::ops::function::Fn(&mut analyzer_lake::fold::DayManifest)) -> core::result::Result<analyzer_lake::fold::DayManifest, analyzer_lake::Error>
+pub fn analyzer_lake::fold::DayManifests::days(&self) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_lake::Error>
+pub fn analyzer_lake::fold::DayManifests::drop_day(&self, i64) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::fold::DayManifests::read(&self, i64) -> core::result::Result<analyzer_lake::fold::DayManifest, analyzer_lake::Error>
+pub fn analyzer_lake::fold::DayManifests::reserve(&self, i64) -> core::result::Result<(u64, analyzer_lake::fold::DayManifest), analyzer_lake::Error>
+pub struct analyzer_lake::fold::FoldHead
+pub analyzer_lake::fold::FoldHead::next_revision: u64
+pub analyzer_lake::fold::FoldHead::published: alloc::collections::btree::map::BTreeMap<alloc::string::String, analyzer_lake::fold::PublishedLog>
+impl analyzer_lake::head::Document for analyzer_lake::fold::FoldHead
+pub const analyzer_lake::fold::FoldHead::FORMAT: u32
+pub const analyzer_lake::fold::FoldHead::NAME: &'static str
+pub fn analyzer_lake::fold::FoldHead::format(&self) -> u32
+pub fn analyzer_lake::fold::FoldHead::lease_epoch(&self) -> u64
+pub fn analyzer_lake::fold::FoldHead::set_lease_epoch(&mut self, u64)
+impl core::clone::Clone for analyzer_lake::fold::FoldHead
+pub fn analyzer_lake::fold::FoldHead::clone(&self) -> analyzer_lake::fold::FoldHead
+impl core::cmp::PartialEq for analyzer_lake::fold::FoldHead
+pub fn analyzer_lake::fold::FoldHead::eq(&self, &analyzer_lake::fold::FoldHead) -> bool
+impl core::default::Default for analyzer_lake::fold::FoldHead
+pub fn analyzer_lake::fold::FoldHead::default() -> Self
+impl core::fmt::Debug for analyzer_lake::fold::FoldHead
+pub fn analyzer_lake::fold::FoldHead::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::fold::FoldHead
+impl serde_core::ser::Serialize for analyzer_lake::fold::FoldHead
+pub fn analyzer_lake::fold::FoldHead::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::fold::FoldHead
+pub fn analyzer_lake::fold::FoldHead::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::fold::PublishedLog
+pub analyzer_lake::fold::PublishedLog::base: core::option::Option<analyzer_lake::fold::PublishedObject>
+pub analyzer_lake::fold::PublishedLog::deltas: alloc::vec::Vec<analyzer_lake::fold::PublishedObject>
+impl core::clone::Clone for analyzer_lake::fold::PublishedLog
+pub fn analyzer_lake::fold::PublishedLog::clone(&self) -> analyzer_lake::fold::PublishedLog
+impl core::cmp::Eq for analyzer_lake::fold::PublishedLog
+impl core::cmp::PartialEq for analyzer_lake::fold::PublishedLog
+pub fn analyzer_lake::fold::PublishedLog::eq(&self, &analyzer_lake::fold::PublishedLog) -> bool
+impl core::default::Default for analyzer_lake::fold::PublishedLog
+pub fn analyzer_lake::fold::PublishedLog::default() -> analyzer_lake::fold::PublishedLog
+impl core::fmt::Debug for analyzer_lake::fold::PublishedLog
+pub fn analyzer_lake::fold::PublishedLog::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::fold::PublishedLog
+impl serde_core::ser::Serialize for analyzer_lake::fold::PublishedLog
+pub fn analyzer_lake::fold::PublishedLog::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::fold::PublishedLog
+pub fn analyzer_lake::fold::PublishedLog::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::fold::PublishedObject
+pub analyzer_lake::fold::PublishedObject::bytes: u64
+pub analyzer_lake::fold::PublishedObject::publication: u64
+pub analyzer_lake::fold::PublishedObject::revision: u64
+impl core::clone::Clone for analyzer_lake::fold::PublishedObject
+pub fn analyzer_lake::fold::PublishedObject::clone(&self) -> analyzer_lake::fold::PublishedObject
+impl core::cmp::Eq for analyzer_lake::fold::PublishedObject
+impl core::cmp::PartialEq for analyzer_lake::fold::PublishedObject
+pub fn analyzer_lake::fold::PublishedObject::eq(&self, &analyzer_lake::fold::PublishedObject) -> bool
+impl core::fmt::Debug for analyzer_lake::fold::PublishedObject
+pub fn analyzer_lake::fold::PublishedObject::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_lake::fold::PublishedObject
+impl core::marker::StructuralPartialEq for analyzer_lake::fold::PublishedObject
+impl serde_core::ser::Serialize for analyzer_lake::fold::PublishedObject
+pub fn analyzer_lake::fold::PublishedObject::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::fold::PublishedObject
+pub fn analyzer_lake::fold::PublishedObject::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub const analyzer_lake::fold::TIER_MAX: usize
+pub const analyzer_lake::fold::TIER_MIN: usize
+pub const analyzer_lake::fold::TIER_RATIO: u64
+pub fn analyzer_lake::fold::tier(&[u64], core::option::Option<u64>, impl core::ops::function::Fn(usize) -> bool) -> analyzer_lake::fold::Tier
+pub mod analyzer_lake::head
+pub struct analyzer_lake::head::Head<D>
+impl<D: analyzer_lake::head::Document> analyzer_lake::head::Head<D>
+pub fn analyzer_lake::head::Head<D>::at(alloc::boxed::Box<dyn analyzer_objectstore::ObjectStore>, &str, analyzer_lake::lineage::Lineage) -> Self
+pub fn analyzer_lake::head::Head<D>::commit(&self, impl core::ops::function::Fn(&mut D)) -> core::result::Result<D, analyzer_lake::Error>
+pub fn analyzer_lake::head::Head<D>::hold_lease(&self) -> core::result::Result<u64, analyzer_lake::Error>
+pub fn analyzer_lake::head::Head<D>::read(&self) -> core::result::Result<D, analyzer_lake::Error>
+pub fn analyzer_lake::head::Head<D>::sharing_lease(alloc::boxed::Box<dyn analyzer_objectstore::ObjectStore>, &str, &str, analyzer_lake::lineage::Lineage) -> Self
+pub trait analyzer_lake::head::Document: core::clone::Clone + core::default::Default + core::cmp::PartialEq + serde_core::ser::Serialize + serde_core::de::DeserializeOwned
+pub const analyzer_lake::head::Document::FORMAT: u32
+pub const analyzer_lake::head::Document::NAME: &'static str
+pub fn analyzer_lake::head::Document::format(&self) -> u32
+pub fn analyzer_lake::head::Document::lease_epoch(&self) -> u64
+pub fn analyzer_lake::head::Document::set_lease_epoch(&mut self, u64)
+impl analyzer_lake::head::Document for analyzer_lake::fold::DayManifest
+pub const analyzer_lake::fold::DayManifest::FORMAT: u32
+pub const analyzer_lake::fold::DayManifest::NAME: &'static str
+pub fn analyzer_lake::fold::DayManifest::format(&self) -> u32
+pub fn analyzer_lake::fold::DayManifest::lease_epoch(&self) -> u64
+pub fn analyzer_lake::fold::DayManifest::set_lease_epoch(&mut self, u64)
+impl analyzer_lake::head::Document for analyzer_lake::fold::FoldHead
+pub const analyzer_lake::fold::FoldHead::FORMAT: u32
+pub const analyzer_lake::fold::FoldHead::NAME: &'static str
+pub fn analyzer_lake::fold::FoldHead::format(&self) -> u32
+pub fn analyzer_lake::fold::FoldHead::lease_epoch(&self) -> u64
+pub fn analyzer_lake::fold::FoldHead::set_lease_epoch(&mut self, u64)
+impl analyzer_lake::head::Document for analyzer_lake::ledger::LedgerHead
+pub const analyzer_lake::ledger::LedgerHead::FORMAT: u32
+pub const analyzer_lake::ledger::LedgerHead::NAME: &'static str
+pub fn analyzer_lake::ledger::LedgerHead::format(&self) -> u32
+pub fn analyzer_lake::ledger::LedgerHead::lease_epoch(&self) -> u64
+pub fn analyzer_lake::ledger::LedgerHead::set_lease_epoch(&mut self, u64)
+impl analyzer_lake::head::Document for analyzer_lake::working::WorkingHead
+pub const analyzer_lake::working::WorkingHead::FORMAT: u32
+pub const analyzer_lake::working::WorkingHead::NAME: &'static str
+pub fn analyzer_lake::working::WorkingHead::format(&self) -> u32
+pub fn analyzer_lake::working::WorkingHead::lease_epoch(&self) -> u64
+pub fn analyzer_lake::working::WorkingHead::set_lease_epoch(&mut self, u64)
+pub mod analyzer_lake::keyed
+pub struct analyzer_lake::keyed::Changes
+pub analyzer_lake::keyed::Changes::deleted: u64
+pub analyzer_lake::keyed::Changes::inserted: u64
+pub analyzer_lake::keyed::Changes::updated: u64
+pub analyzer_lake::keyed::Changes::written: u64
+impl analyzer_lake::keyed::Changes
+pub fn analyzer_lake::keyed::Changes::changed(&self) -> u64
+impl core::clone::Clone for analyzer_lake::keyed::Changes
+pub fn analyzer_lake::keyed::Changes::clone(&self) -> analyzer_lake::keyed::Changes
+impl core::cmp::Eq for analyzer_lake::keyed::Changes
+impl core::cmp::PartialEq for analyzer_lake::keyed::Changes
+pub fn analyzer_lake::keyed::Changes::eq(&self, &analyzer_lake::keyed::Changes) -> bool
+impl core::default::Default for analyzer_lake::keyed::Changes
+pub fn analyzer_lake::keyed::Changes::default() -> analyzer_lake::keyed::Changes
+impl core::fmt::Debug for analyzer_lake::keyed::Changes
+pub fn analyzer_lake::keyed::Changes::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_lake::keyed::Changes
+impl core::marker::StructuralPartialEq for analyzer_lake::keyed::Changes
+impl serde_core::ser::Serialize for analyzer_lake::keyed::Changes
+pub fn analyzer_lake::keyed::Changes::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::keyed::Changes
+pub fn analyzer_lake::keyed::Changes::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::keyed::Record
+pub analyzer_lake::keyed::Record::gone: bool
+pub analyzer_lake::keyed::Record::hash: u64
+pub analyzer_lake::keyed::Record::key: alloc::vec::Vec<u8>
+pub analyzer_lake::keyed::Record::payload: alloc::vec::Vec<u8>
+pub analyzer_lake::keyed::Record::version: f64
+impl core::clone::Clone for analyzer_lake::keyed::Record
+pub fn analyzer_lake::keyed::Record::clone(&self) -> analyzer_lake::keyed::Record
+impl core::cmp::PartialEq for analyzer_lake::keyed::Record
+pub fn analyzer_lake::keyed::Record::eq(&self, &analyzer_lake::keyed::Record) -> bool
+impl core::fmt::Debug for analyzer_lake::keyed::Record
+pub fn analyzer_lake::keyed::Record::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::keyed::Record
+pub fn analyzer_lake::keyed::term(&analyzer_lake::keyed::Record) -> u64
+pub type analyzer_lake::keyed::Terms = std::collections::hash::map::HashMap<(u64, alloc::vec::Vec<u8>), core::option::Option<u64>>
+pub mod analyzer_lake::ledger
+pub struct analyzer_lake::ledger::BatchRecord
+pub analyzer_lake::ledger::BatchRecord::annotations: alloc::vec::Vec<analyzer_lake::ledger::DeclaredAnnotation>
+pub analyzer_lake::ledger::BatchRecord::batch_id: alloc::string::String
+pub analyzer_lake::ledger::BatchRecord::carrier: alloc::string::String
+pub analyzer_lake::ledger::BatchRecord::days: alloc::vec::Vec<i64>
+pub analyzer_lake::ledger::BatchRecord::drops: alloc::vec::Vec<analyzer_lake::ledger::DeclaredDrop>
+pub analyzer_lake::ledger::BatchRecord::etag: alloc::string::String
+pub analyzer_lake::ledger::BatchRecord::first_at_ms: core::option::Option<f64>
+pub analyzer_lake::ledger::BatchRecord::ingested_at_ms: u64
+pub analyzer_lake::ledger::BatchRecord::input_position: u64
+pub analyzer_lake::ledger::BatchRecord::last_at_ms: core::option::Option<f64>
+pub analyzer_lake::ledger::BatchRecord::lifecycle: alloc::vec::Vec<analyzer_lake::ledger::LifecycleRecord>
+pub analyzer_lake::ledger::BatchRecord::object_key: alloc::string::String
+pub analyzer_lake::ledger::BatchRecord::record_count: u64
+pub analyzer_lake::ledger::BatchRecord::segments: alloc::vec::Vec<analyzer_lake::ledger::SegmentArrival>
+pub analyzer_lake::ledger::BatchRecord::source: alloc::string::String
+pub analyzer_lake::ledger::BatchRecord::stored: alloc::vec::Vec<analyzer_lake::ledger::StoredMass>
+pub analyzer_lake::ledger::BatchRecord::tags: alloc::vec::Vec<analyzer_lake::ledger::DeclaredTag>
+pub analyzer_lake::ledger::BatchRecord::unknown_kinds: u64
+impl analyzer_lake::ledger::BatchRecord
+pub fn analyzer_lake::ledger::BatchRecord::meets(&self, f64, f64) -> bool
+impl analyzer_lake::ledger::BatchRecord
+pub fn analyzer_lake::ledger::BatchRecord::placement_days(&self) -> alloc::collections::btree::set::BTreeSet<i64>
+impl core::clone::Clone for analyzer_lake::ledger::BatchRecord
+pub fn analyzer_lake::ledger::BatchRecord::clone(&self) -> analyzer_lake::ledger::BatchRecord
+impl core::cmp::PartialEq for analyzer_lake::ledger::BatchRecord
+pub fn analyzer_lake::ledger::BatchRecord::eq(&self, &analyzer_lake::ledger::BatchRecord) -> bool
+impl core::fmt::Debug for analyzer_lake::ledger::BatchRecord
+pub fn analyzer_lake::ledger::BatchRecord::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::BatchRecord
+impl serde_core::ser::Serialize for analyzer_lake::ledger::BatchRecord
+pub fn analyzer_lake::ledger::BatchRecord::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::BatchRecord
+pub fn analyzer_lake::ledger::BatchRecord::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::ledger::DayIndex
+pub analyzer_lake::ledger::DayIndex::batches: u64
+pub analyzer_lake::ledger::DayIndex::compacted: bool
+pub analyzer_lake::ledger::DayIndex::first_at_ms: core::option::Option<f64>
+pub analyzer_lake::ledger::DayIndex::last_at_ms: core::option::Option<f64>
+pub analyzer_lake::ledger::DayIndex::last_position: u64
+pub analyzer_lake::ledger::DayIndex::newest_position: u64
+pub analyzer_lake::ledger::DayIndex::records: u64
+impl core::clone::Clone for analyzer_lake::ledger::DayIndex
+pub fn analyzer_lake::ledger::DayIndex::clone(&self) -> analyzer_lake::ledger::DayIndex
+impl core::cmp::PartialEq for analyzer_lake::ledger::DayIndex
+pub fn analyzer_lake::ledger::DayIndex::eq(&self, &analyzer_lake::ledger::DayIndex) -> bool
+impl core::default::Default for analyzer_lake::ledger::DayIndex
+pub fn analyzer_lake::ledger::DayIndex::default() -> analyzer_lake::ledger::DayIndex
+impl core::fmt::Debug for analyzer_lake::ledger::DayIndex
+pub fn analyzer_lake::ledger::DayIndex::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::DayIndex
+impl serde_core::ser::Serialize for analyzer_lake::ledger::DayIndex
+pub fn analyzer_lake::ledger::DayIndex::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::DayIndex
+pub fn analyzer_lake::ledger::DayIndex::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::ledger::DayLedger
+pub analyzer_lake::ledger::DayLedger::batches: alloc::vec::Vec<analyzer_lake::ledger::BatchRecord>
+pub analyzer_lake::ledger::DayLedger::day: i64
+impl analyzer_lake::ledger::DayLedger
+pub fn analyzer_lake::ledger::DayLedger::arrivals(&self) -> impl core::iter::traits::iterator::Iterator<Item = &analyzer_lake::ledger::BatchRecord>
+pub fn analyzer_lake::ledger::DayLedger::newest_position(&self) -> core::option::Option<u64>
+pub fn analyzer_lake::ledger::DayLedger::since(&self, u64) -> impl core::iter::traits::iterator::Iterator<Item = &analyzer_lake::ledger::BatchRecord>
+impl core::clone::Clone for analyzer_lake::ledger::DayLedger
+pub fn analyzer_lake::ledger::DayLedger::clone(&self) -> analyzer_lake::ledger::DayLedger
+impl core::cmp::PartialEq for analyzer_lake::ledger::DayLedger
+pub fn analyzer_lake::ledger::DayLedger::eq(&self, &analyzer_lake::ledger::DayLedger) -> bool
+impl core::default::Default for analyzer_lake::ledger::DayLedger
+pub fn analyzer_lake::ledger::DayLedger::default() -> analyzer_lake::ledger::DayLedger
+impl core::fmt::Debug for analyzer_lake::ledger::DayLedger
+pub fn analyzer_lake::ledger::DayLedger::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::DayLedger
+pub struct analyzer_lake::ledger::DeclaredAnnotation
+pub analyzer_lake::ledger::DeclaredAnnotation::at_ms: f64
+pub analyzer_lake::ledger::DeclaredAnnotation::declared_at_ms: core::option::Option<f64>
+pub analyzer_lake::ledger::DeclaredAnnotation::label: alloc::string::String
+pub analyzer_lake::ledger::DeclaredAnnotation::scope: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::DeclaredAnnotation::source: alloc::string::String
+impl core::clone::Clone for analyzer_lake::ledger::DeclaredAnnotation
+pub fn analyzer_lake::ledger::DeclaredAnnotation::clone(&self) -> analyzer_lake::ledger::DeclaredAnnotation
+impl core::cmp::PartialEq for analyzer_lake::ledger::DeclaredAnnotation
+pub fn analyzer_lake::ledger::DeclaredAnnotation::eq(&self, &analyzer_lake::ledger::DeclaredAnnotation) -> bool
+impl core::fmt::Debug for analyzer_lake::ledger::DeclaredAnnotation
+pub fn analyzer_lake::ledger::DeclaredAnnotation::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::DeclaredAnnotation
+impl serde_core::ser::Serialize for analyzer_lake::ledger::DeclaredAnnotation
+pub fn analyzer_lake::ledger::DeclaredAnnotation::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::DeclaredAnnotation
+pub fn analyzer_lake::ledger::DeclaredAnnotation::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::ledger::DeclaredDrop
+pub analyzer_lake::ledger::DeclaredDrop::at_ms: f64
+pub analyzer_lake::ledger::DeclaredDrop::first_seq: i64
+pub analyzer_lake::ledger::DeclaredDrop::incarnation: alloc::string::String
+pub analyzer_lake::ledger::DeclaredDrop::last_seq: i64
+impl core::clone::Clone for analyzer_lake::ledger::DeclaredDrop
+pub fn analyzer_lake::ledger::DeclaredDrop::clone(&self) -> analyzer_lake::ledger::DeclaredDrop
+impl core::cmp::PartialEq for analyzer_lake::ledger::DeclaredDrop
+pub fn analyzer_lake::ledger::DeclaredDrop::eq(&self, &analyzer_lake::ledger::DeclaredDrop) -> bool
+impl core::fmt::Debug for analyzer_lake::ledger::DeclaredDrop
+pub fn analyzer_lake::ledger::DeclaredDrop::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::DeclaredDrop
+impl serde_core::ser::Serialize for analyzer_lake::ledger::DeclaredDrop
+pub fn analyzer_lake::ledger::DeclaredDrop::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::DeclaredDrop
+pub fn analyzer_lake::ledger::DeclaredDrop::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::ledger::DeclaredTag
+pub analyzer_lake::ledger::DeclaredTag::at_ms: f64
+pub analyzer_lake::ledger::DeclaredTag::declaration_id: alloc::string::String
+pub analyzer_lake::ledger::DeclaredTag::from_ms: f64
+pub analyzer_lake::ledger::DeclaredTag::identity: alloc::string::String
+pub analyzer_lake::ledger::DeclaredTag::tag: alloc::string::String
+pub analyzer_lake::ledger::DeclaredTag::until_ms: core::option::Option<f64>
+impl core::clone::Clone for analyzer_lake::ledger::DeclaredTag
+pub fn analyzer_lake::ledger::DeclaredTag::clone(&self) -> analyzer_lake::ledger::DeclaredTag
+impl core::cmp::PartialEq for analyzer_lake::ledger::DeclaredTag
+pub fn analyzer_lake::ledger::DeclaredTag::eq(&self, &analyzer_lake::ledger::DeclaredTag) -> bool
+impl core::fmt::Debug for analyzer_lake::ledger::DeclaredTag
+pub fn analyzer_lake::ledger::DeclaredTag::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::DeclaredTag
+impl serde_core::ser::Serialize for analyzer_lake::ledger::DeclaredTag
+pub fn analyzer_lake::ledger::DeclaredTag::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::DeclaredTag
+pub fn analyzer_lake::ledger::DeclaredTag::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::ledger::Ledger
+impl analyzer_lake::ledger::Ledger
+pub fn analyzer_lake::ledger::Ledger::at(&dyn analyzer_objectstore::ObjectStore, &str, u32, analyzer_lake::lineage::Lineage) -> core::result::Result<Self, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::commit_cycle(&self, u64, alloc::vec::Vec<analyzer_lake::ledger::BatchRecord>) -> core::result::Result<analyzer_lake::ledger::LedgerHead, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::committed_since(&self, u64) -> core::result::Result<alloc::vec::Vec<analyzer_lake::ledger::BatchRecord>, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::compact(&self, i64) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::day(&self, i64) -> core::result::Result<alloc::sync::Arc<analyzer_lake::ledger::DayLedger>, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::each_day<E: core::convert::From<analyzer_lake::Error>>(&self, impl core::ops::function::FnMut(&analyzer_lake::ledger::DayLedger) -> core::result::Result<(), E>) -> core::result::Result<(), E>
+pub fn analyzer_lake::ledger::Ledger::head(&self) -> core::result::Result<analyzer_lake::ledger::LedgerHead, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::holds(&self, &str, &alloc::collections::btree::set::BTreeSet<i64>) -> core::result::Result<bool, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::meeting(&self, f64, f64) -> core::result::Result<alloc::vec::Vec<analyzer_lake::ledger::BatchRecord>, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::next_position(&self) -> core::result::Result<u64, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::over(&self, i64, i64) -> core::result::Result<alloc::vec::Vec<analyzer_lake::ledger::BatchRecord>, analyzer_lake::Error>
+pub fn analyzer_lake::ledger::Ledger::retire_before(&self, i64) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_lake::Error>
+pub struct analyzer_lake::ledger::LedgerHead
+pub analyzer_lake::ledger::LedgerHead::annotations: alloc::collections::btree::set::BTreeSet<alloc::string::String>
+pub analyzer_lake::ledger::LedgerHead::batches: u64
+pub analyzer_lake::ledger::LedgerHead::committed: u64
+pub analyzer_lake::ledger::LedgerHead::days: alloc::collections::btree::map::BTreeMap<i64, analyzer_lake::ledger::DayIndex>
+pub analyzer_lake::ledger::LedgerHead::epochs: alloc::collections::btree::map::BTreeMap<u64, u64>
+pub analyzer_lake::ledger::LedgerHead::format: u32
+pub analyzer_lake::ledger::LedgerHead::key_watermark: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::LedgerHead::last_ingested_at_ms: u64
+pub analyzer_lake::ledger::LedgerHead::lease_epoch: u64
+pub analyzer_lake::ledger::LedgerHead::shard: u32
+impl analyzer_lake::ledger::LedgerHead
+pub fn analyzer_lake::ledger::LedgerHead::days_recorded_since(&self, u64) -> alloc::vec::Vec<i64>
+pub fn analyzer_lake::ledger::LedgerHead::days_since(&self, u64) -> alloc::vec::Vec<i64>
+pub fn analyzer_lake::ledger::LedgerHead::owner_of(&self, u64) -> core::option::Option<u64>
+impl analyzer_lake::head::Document for analyzer_lake::ledger::LedgerHead
+pub const analyzer_lake::ledger::LedgerHead::FORMAT: u32
+pub const analyzer_lake::ledger::LedgerHead::NAME: &'static str
+pub fn analyzer_lake::ledger::LedgerHead::format(&self) -> u32
+pub fn analyzer_lake::ledger::LedgerHead::lease_epoch(&self) -> u64
+pub fn analyzer_lake::ledger::LedgerHead::set_lease_epoch(&mut self, u64)
+impl core::clone::Clone for analyzer_lake::ledger::LedgerHead
+pub fn analyzer_lake::ledger::LedgerHead::clone(&self) -> analyzer_lake::ledger::LedgerHead
+impl core::cmp::PartialEq for analyzer_lake::ledger::LedgerHead
+pub fn analyzer_lake::ledger::LedgerHead::eq(&self, &analyzer_lake::ledger::LedgerHead) -> bool
+impl core::default::Default for analyzer_lake::ledger::LedgerHead
+pub fn analyzer_lake::ledger::LedgerHead::default() -> Self
+impl core::fmt::Debug for analyzer_lake::ledger::LedgerHead
+pub fn analyzer_lake::ledger::LedgerHead::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::LedgerHead
+impl serde_core::ser::Serialize for analyzer_lake::ledger::LedgerHead
+pub fn analyzer_lake::ledger::LedgerHead::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::LedgerHead
+pub fn analyzer_lake::ledger::LedgerHead::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::ledger::LifecycleRecord
+pub analyzer_lake::ledger::LifecycleRecord::at_ms: f64
+pub analyzer_lake::ledger::LifecycleRecord::kind: alloc::string::String
+pub analyzer_lake::ledger::LifecycleRecord::row: alloc::string::String
+pub analyzer_lake::ledger::LifecycleRecord::segment_key: alloc::string::String
+impl core::clone::Clone for analyzer_lake::ledger::LifecycleRecord
+pub fn analyzer_lake::ledger::LifecycleRecord::clone(&self) -> analyzer_lake::ledger::LifecycleRecord
+impl core::cmp::PartialEq for analyzer_lake::ledger::LifecycleRecord
+pub fn analyzer_lake::ledger::LifecycleRecord::eq(&self, &analyzer_lake::ledger::LifecycleRecord) -> bool
+impl core::fmt::Debug for analyzer_lake::ledger::LifecycleRecord
+pub fn analyzer_lake::ledger::LifecycleRecord::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::LifecycleRecord
+impl serde_core::ser::Serialize for analyzer_lake::ledger::LifecycleRecord
+pub fn analyzer_lake::ledger::LifecycleRecord::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::LifecycleRecord
+pub fn analyzer_lake::ledger::LifecycleRecord::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::ledger::SegmentArrival
+pub analyzer_lake::ledger::SegmentArrival::agent_version: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::SegmentArrival::attributed: bool
+pub analyzer_lake::ledger::SegmentArrival::canary: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::SegmentArrival::declared_model: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::SegmentArrival::declared_pod: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::SegmentArrival::dropped: u64
+pub analyzer_lake::ledger::SegmentArrival::dropped_at_hb_first: u64
+pub analyzer_lake::ledger::SegmentArrival::engine_version: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::SegmentArrival::first_record_at_ms: f64
+pub analyzer_lake::ledger::SegmentArrival::hb_count: u64
+pub analyzer_lake::ledger::SegmentArrival::hb_first_at_ms: core::option::Option<f64>
+pub analyzer_lake::ledger::SegmentArrival::hb_last_at_ms: core::option::Option<f64>
+pub analyzer_lake::ledger::SegmentArrival::heartbeat_secs: u64
+pub analyzer_lake::ledger::SegmentArrival::incarnation: alloc::string::String
+pub analyzer_lake::ledger::SegmentArrival::instance: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::SegmentArrival::last_record_at_ms: f64
+pub analyzer_lake::ledger::SegmentArrival::max_segment_secs: u64
+pub analyzer_lake::ledger::SegmentArrival::msgs_seen: u64
+pub analyzer_lake::ledger::SegmentArrival::oversized: u64
+pub analyzer_lake::ledger::SegmentArrival::oversized_at_hb_first: u64
+pub analyzer_lake::ledger::SegmentArrival::publisher_restarts: u64
+pub analyzer_lake::ledger::SegmentArrival::segment_seq: i64
+pub analyzer_lake::ledger::SegmentArrival::stop_at_ms: core::option::Option<f64>
+pub analyzer_lake::ledger::SegmentArrival::topic_model: core::option::Option<alloc::string::String>
+pub analyzer_lake::ledger::SegmentArrival::topic_pod: core::option::Option<alloc::string::String>
+impl core::clone::Clone for analyzer_lake::ledger::SegmentArrival
+pub fn analyzer_lake::ledger::SegmentArrival::clone(&self) -> analyzer_lake::ledger::SegmentArrival
+impl core::cmp::PartialEq for analyzer_lake::ledger::SegmentArrival
+pub fn analyzer_lake::ledger::SegmentArrival::eq(&self, &analyzer_lake::ledger::SegmentArrival) -> bool
+impl core::fmt::Debug for analyzer_lake::ledger::SegmentArrival
+pub fn analyzer_lake::ledger::SegmentArrival::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::SegmentArrival
+impl serde_core::ser::Serialize for analyzer_lake::ledger::SegmentArrival
+pub fn analyzer_lake::ledger::SegmentArrival::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::SegmentArrival
+pub fn analyzer_lake::ledger::SegmentArrival::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::ledger::StoredMass
+pub analyzer_lake::ledger::StoredMass::comparable: u64
+pub analyzer_lake::ledger::StoredMass::day: i64
+pub analyzer_lake::ledger::StoredMass::instance: alloc::string::String
+pub analyzer_lake::ledger::StoredMass::kind: alloc::string::String
+pub analyzer_lake::ledger::StoredMass::own: u64
+pub analyzer_lake::ledger::StoredMass::records: u64
+pub analyzer_lake::ledger::StoredMass::tokens: i64
+impl core::clone::Clone for analyzer_lake::ledger::StoredMass
+pub fn analyzer_lake::ledger::StoredMass::clone(&self) -> analyzer_lake::ledger::StoredMass
+impl core::cmp::PartialEq for analyzer_lake::ledger::StoredMass
+pub fn analyzer_lake::ledger::StoredMass::eq(&self, &analyzer_lake::ledger::StoredMass) -> bool
+impl core::fmt::Debug for analyzer_lake::ledger::StoredMass
+pub fn analyzer_lake::ledger::StoredMass::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::ledger::StoredMass
+impl serde_core::ser::Serialize for analyzer_lake::ledger::StoredMass
+pub fn analyzer_lake::ledger::StoredMass::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::ledger::StoredMass
+pub fn analyzer_lake::ledger::StoredMass::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub const analyzer_lake::ledger::SHARD: u32
+pub fn analyzer_lake::ledger::day_of(f64) -> i64
+pub mod analyzer_lake::lineage
+pub struct analyzer_lake::lineage::Lineage
+pub analyzer_lake::lineage::Lineage::instance: alloc::string::String
+pub analyzer_lake::lineage::Lineage::lineage: alloc::string::String
+impl analyzer_lake::lineage::Lineage
+pub fn analyzer_lake::lineage::Lineage::new(&str, &str) -> core::result::Result<Self, analyzer_lake::Error>
+pub fn analyzer_lake::lineage::Lineage::object_prefix(&self) -> alloc::string::String
+pub fn analyzer_lake::lineage::Lineage::of_data_dir(&std::path::Path) -> core::result::Result<Self, analyzer_lake::Error>
+pub fn analyzer_lake::lineage::Lineage::read(&std::path::Path) -> core::result::Result<core::option::Option<Self>, analyzer_lake::Error>
+impl core::clone::Clone for analyzer_lake::lineage::Lineage
+pub fn analyzer_lake::lineage::Lineage::clone(&self) -> analyzer_lake::lineage::Lineage
+impl core::cmp::Eq for analyzer_lake::lineage::Lineage
+impl core::cmp::PartialEq for analyzer_lake::lineage::Lineage
+pub fn analyzer_lake::lineage::Lineage::eq(&self, &analyzer_lake::lineage::Lineage) -> bool
+impl core::fmt::Debug for analyzer_lake::lineage::Lineage
+pub fn analyzer_lake::lineage::Lineage::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::lineage::Lineage
+impl serde_core::ser::Serialize for analyzer_lake::lineage::Lineage
+pub fn analyzer_lake::lineage::Lineage::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::lineage::Lineage
+pub fn analyzer_lake::lineage::Lineage::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub const analyzer_lake::lineage::LEASE_TTL_MS: u64
+pub mod analyzer_lake::state
+pub enum analyzer_lake::state::Replace
+pub analyzer_lake::state::Replace::Fold
+pub analyzer_lake::state::Replace::Merge(usize)
+impl core::clone::Clone for analyzer_lake::state::Replace
+pub fn analyzer_lake::state::Replace::clone(&self) -> analyzer_lake::state::Replace
+impl core::cmp::Eq for analyzer_lake::state::Replace
+impl core::cmp::PartialEq for analyzer_lake::state::Replace
+pub fn analyzer_lake::state::Replace::eq(&self, &analyzer_lake::state::Replace) -> bool
+impl core::fmt::Debug for analyzer_lake::state::Replace
+pub fn analyzer_lake::state::Replace::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_lake::state::Replace
+impl core::marker::StructuralPartialEq for analyzer_lake::state::Replace
+pub struct analyzer_lake::state::LogId<'a>
+pub analyzer_lake::state::LogId::day: core::option::Option<i64>
+pub analyzer_lake::state::LogId::discriminator: &'a str
+pub analyzer_lake::state::LogId::semantics_version: &'a str
+pub analyzer_lake::state::LogId::table: &'a str
+impl<'a> core::clone::Clone for analyzer_lake::state::LogId<'a>
+pub fn analyzer_lake::state::LogId<'a>::clone(&self) -> analyzer_lake::state::LogId<'a>
+impl<'a> core::cmp::Eq for analyzer_lake::state::LogId<'a>
+impl<'a> core::cmp::PartialEq for analyzer_lake::state::LogId<'a>
+pub fn analyzer_lake::state::LogId<'a>::eq(&self, &analyzer_lake::state::LogId<'a>) -> bool
+impl<'a> core::fmt::Debug for analyzer_lake::state::LogId<'a>
+pub fn analyzer_lake::state::LogId<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_lake::state::LogId<'a>
+impl<'a> core::marker::StructuralPartialEq for analyzer_lake::state::LogId<'a>
+pub struct analyzer_lake::state::LogRead
+pub analyzer_lake::state::LogRead::base: core::option::Option<(u64, alloc::vec::Vec<u8>)>
+pub analyzer_lake::state::LogRead::deltas: alloc::vec::Vec<(u64, alloc::vec::Vec<u8>)>
+impl core::clone::Clone for analyzer_lake::state::LogRead
+pub fn analyzer_lake::state::LogRead::clone(&self) -> analyzer_lake::state::LogRead
+impl core::cmp::Eq for analyzer_lake::state::LogRead
+impl core::cmp::PartialEq for analyzer_lake::state::LogRead
+pub fn analyzer_lake::state::LogRead::eq(&self, &analyzer_lake::state::LogRead) -> bool
+impl core::default::Default for analyzer_lake::state::LogRead
+pub fn analyzer_lake::state::LogRead::default() -> analyzer_lake::state::LogRead
+impl core::fmt::Debug for analyzer_lake::state::LogRead
+pub fn analyzer_lake::state::LogRead::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::state::LogRead
+pub struct analyzer_lake::state::StateLogs
+impl analyzer_lake::state::StateLogs
+pub fn analyzer_lake::state::StateLogs::at(&analyzer_lake::Lake) -> Self
+pub fn analyzer_lake::state::StateLogs::drop_log(&self, &analyzer_lake::state::LogId<'_>) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::state::StateLogs::named(&self, &analyzer_lake::state::LogId<'_>) -> core::result::Result<analyzer_lake::fold::PublishedLog, analyzer_lake::Error>
+pub fn analyzer_lake::state::StateLogs::publish(&self, core::option::Option<i64>, u64, &[analyzer_lake::state::Write<'_>]) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::state::StateLogs::read(&self, &analyzer_lake::state::LogId<'_>) -> core::result::Result<analyzer_lake::state::LogRead, analyzer_lake::Error>
+pub fn analyzer_lake::state::StateLogs::read_named(&self, &analyzer_lake::state::LogId<'_>, &analyzer_lake::fold::PublishedLog) -> core::result::Result<analyzer_lake::state::LogRead, analyzer_lake::Error>
+pub fn analyzer_lake::state::StateLogs::replace(&self, &analyzer_lake::state::LogId<'_>, &analyzer_lake::fold::PublishedLog, (analyzer_lake::state::Replace, u64), &[u8]) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::state::StateLogs::retire_before(&self, i64) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_lake::Error>
+pub struct analyzer_lake::state::Write<'a>
+pub analyzer_lake::state::Write::base: bool
+pub analyzer_lake::state::Write::body: &'a [u8]
+pub analyzer_lake::state::Write::id: analyzer_lake::state::LogId<'a>
+impl<'a> core::clone::Clone for analyzer_lake::state::Write<'a>
+pub fn analyzer_lake::state::Write<'a>::clone(&self) -> analyzer_lake::state::Write<'a>
+impl<'a> core::fmt::Debug for analyzer_lake::state::Write<'a>
+pub fn analyzer_lake::state::Write<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_lake::state::Write<'a>
+pub mod analyzer_lake::stripe
+pub const analyzer_lake::stripe::STRIPES: usize
+pub fn analyzer_lake::stripe::first_hash(usize) -> u64
+pub fn analyzer_lake::stripe::key_hash(&[u8]) -> u64
+pub fn analyzer_lake::stripe::of(u64) -> usize
+pub mod analyzer_lake::working
+pub enum analyzer_lake::working::Index
+pub analyzer_lake::working::Index::Instants
+pub analyzer_lake::working::Index::Plain
+impl core::clone::Clone for analyzer_lake::working::Index
+pub fn analyzer_lake::working::Index::clone(&self) -> analyzer_lake::working::Index
+impl core::cmp::Eq for analyzer_lake::working::Index
+impl core::cmp::PartialEq for analyzer_lake::working::Index
+pub fn analyzer_lake::working::Index::eq(&self, &analyzer_lake::working::Index) -> bool
+impl core::fmt::Debug for analyzer_lake::working::Index
+pub fn analyzer_lake::working::Index::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_lake::working::Index
+impl core::marker::StructuralPartialEq for analyzer_lake::working::Index
+pub enum analyzer_lake::working::Scope
+pub analyzer_lake::working::Scope::Day(i64)
+pub analyzer_lake::working::Scope::Lineage
+impl core::clone::Clone for analyzer_lake::working::Scope
+pub fn analyzer_lake::working::Scope::clone(&self) -> analyzer_lake::working::Scope
+impl core::cmp::Eq for analyzer_lake::working::Scope
+impl core::cmp::PartialEq for analyzer_lake::working::Scope
+pub fn analyzer_lake::working::Scope::eq(&self, &analyzer_lake::working::Scope) -> bool
+impl core::fmt::Debug for analyzer_lake::working::Scope
+pub fn analyzer_lake::working::Scope::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_lake::working::Scope
+impl core::marker::StructuralPartialEq for analyzer_lake::working::Scope
+pub struct analyzer_lake::working::CheckpointFile
+pub analyzer_lake::working::CheckpointFile::bytes: u64
+pub analyzer_lake::working::CheckpointFile::key: alloc::string::String
+pub analyzer_lake::working::CheckpointFile::name: alloc::string::String
+impl core::clone::Clone for analyzer_lake::working::CheckpointFile
+pub fn analyzer_lake::working::CheckpointFile::clone(&self) -> analyzer_lake::working::CheckpointFile
+impl core::cmp::Eq for analyzer_lake::working::CheckpointFile
+impl core::cmp::PartialEq for analyzer_lake::working::CheckpointFile
+pub fn analyzer_lake::working::CheckpointFile::eq(&self, &analyzer_lake::working::CheckpointFile) -> bool
+impl core::fmt::Debug for analyzer_lake::working::CheckpointFile
+pub fn analyzer_lake::working::CheckpointFile::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::working::CheckpointFile
+impl serde_core::ser::Serialize for analyzer_lake::working::CheckpointFile
+pub fn analyzer_lake::working::CheckpointFile::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::working::CheckpointFile
+pub fn analyzer_lake::working::CheckpointFile::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::working::Declared
+pub analyzer_lake::working::Declared::dated: bool
+pub analyzer_lake::working::Declared::index: analyzer_lake::working::Index
+pub analyzer_lake::working::Declared::name: &'static str
+impl core::clone::Clone for analyzer_lake::working::Declared
+pub fn analyzer_lake::working::Declared::clone(&self) -> analyzer_lake::working::Declared
+impl core::cmp::Eq for analyzer_lake::working::Declared
+impl core::cmp::PartialEq for analyzer_lake::working::Declared
+pub fn analyzer_lake::working::Declared::eq(&self, &analyzer_lake::working::Declared) -> bool
+impl core::fmt::Debug for analyzer_lake::working::Declared
+pub fn analyzer_lake::working::Declared::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::Copy for analyzer_lake::working::Declared
+impl core::marker::StructuralPartialEq for analyzer_lake::working::Declared
+pub struct analyzer_lake::working::Garbage
+pub analyzer_lake::working::Garbage::key: alloc::string::String
+pub analyzer_lake::working::Garbage::since_ms: u64
+impl core::clone::Clone for analyzer_lake::working::Garbage
+pub fn analyzer_lake::working::Garbage::clone(&self) -> analyzer_lake::working::Garbage
+impl core::cmp::Eq for analyzer_lake::working::Garbage
+impl core::cmp::PartialEq for analyzer_lake::working::Garbage
+pub fn analyzer_lake::working::Garbage::eq(&self, &analyzer_lake::working::Garbage) -> bool
+impl core::fmt::Debug for analyzer_lake::working::Garbage
+pub fn analyzer_lake::working::Garbage::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::working::Garbage
+impl serde_core::ser::Serialize for analyzer_lake::working::Garbage
+pub fn analyzer_lake::working::Garbage::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::working::Garbage
+pub fn analyzer_lake::working::Garbage::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::working::Relation<'a>
+pub analyzer_lake::working::Relation::name: &'a str
+pub analyzer_lake::working::Relation::scope: analyzer_lake::working::Scope
+impl<'a> core::clone::Clone for analyzer_lake::working::Relation<'a>
+pub fn analyzer_lake::working::Relation<'a>::clone(&self) -> analyzer_lake::working::Relation<'a>
+impl<'a> core::cmp::Eq for analyzer_lake::working::Relation<'a>
+impl<'a> core::cmp::PartialEq for analyzer_lake::working::Relation<'a>
+pub fn analyzer_lake::working::Relation<'a>::eq(&self, &analyzer_lake::working::Relation<'a>) -> bool
+impl<'a> core::fmt::Debug for analyzer_lake::working::Relation<'a>
+pub fn analyzer_lake::working::Relation<'a>::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl<'a> core::marker::Copy for analyzer_lake::working::Relation<'a>
+impl<'a> core::marker::StructuralPartialEq for analyzer_lake::working::Relation<'a>
+pub struct analyzer_lake::working::StateCheckpoint
+pub analyzer_lake::working::StateCheckpoint::epoch: u64
+pub analyzer_lake::working::StateCheckpoint::files: alloc::vec::Vec<analyzer_lake::working::CheckpointFile>
+pub analyzer_lake::working::StateCheckpoint::number: u64
+pub analyzer_lake::working::StateCheckpoint::position: u64
+pub analyzer_lake::working::StateCheckpoint::sequence: u64
+impl core::clone::Clone for analyzer_lake::working::StateCheckpoint
+pub fn analyzer_lake::working::StateCheckpoint::clone(&self) -> analyzer_lake::working::StateCheckpoint
+impl core::cmp::Eq for analyzer_lake::working::StateCheckpoint
+impl core::cmp::PartialEq for analyzer_lake::working::StateCheckpoint
+pub fn analyzer_lake::working::StateCheckpoint::eq(&self, &analyzer_lake::working::StateCheckpoint) -> bool
+impl core::fmt::Debug for analyzer_lake::working::StateCheckpoint
+pub fn analyzer_lake::working::StateCheckpoint::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::working::StateCheckpoint
+impl serde_core::ser::Serialize for analyzer_lake::working::StateCheckpoint
+pub fn analyzer_lake::working::StateCheckpoint::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::working::StateCheckpoint
+pub fn analyzer_lake::working::StateCheckpoint::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::working::Stream
+impl core::iter::traits::iterator::Iterator for analyzer_lake::working::Stream
+pub type analyzer_lake::working::Stream::Item = core::result::Result<analyzer_lake::keyed::Record, analyzer_lake::Error>
+pub fn analyzer_lake::working::Stream::next(&mut self) -> core::option::Option<Self::Item>
+pub struct analyzer_lake::working::WorkingHead
+pub analyzer_lake::working::WorkingHead::checkpoints: alloc::vec::Vec<analyzer_lake::working::StateCheckpoint>
+pub analyzer_lake::working::WorkingHead::garbage: alloc::vec::Vec<analyzer_lake::working::Garbage>
+impl analyzer_lake::head::Document for analyzer_lake::working::WorkingHead
+pub const analyzer_lake::working::WorkingHead::FORMAT: u32
+pub const analyzer_lake::working::WorkingHead::NAME: &'static str
+pub fn analyzer_lake::working::WorkingHead::format(&self) -> u32
+pub fn analyzer_lake::working::WorkingHead::lease_epoch(&self) -> u64
+pub fn analyzer_lake::working::WorkingHead::set_lease_epoch(&mut self, u64)
+impl core::clone::Clone for analyzer_lake::working::WorkingHead
+pub fn analyzer_lake::working::WorkingHead::clone(&self) -> analyzer_lake::working::WorkingHead
+impl core::cmp::PartialEq for analyzer_lake::working::WorkingHead
+pub fn analyzer_lake::working::WorkingHead::eq(&self, &analyzer_lake::working::WorkingHead) -> bool
+impl core::default::Default for analyzer_lake::working::WorkingHead
+pub fn analyzer_lake::working::WorkingHead::default() -> Self
+impl core::fmt::Debug for analyzer_lake::working::WorkingHead
+pub fn analyzer_lake::working::WorkingHead::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::marker::StructuralPartialEq for analyzer_lake::working::WorkingHead
+impl serde_core::ser::Serialize for analyzer_lake::working::WorkingHead
+pub fn analyzer_lake::working::WorkingHead::serialize<__S>(&self, __S) -> core::result::Result<<__S as serde_core::ser::Serializer>::Ok, <__S as serde_core::ser::Serializer>::Error> where __S: serde_core::ser::Serializer
+impl<'de> serde_core::de::Deserialize<'de> for analyzer_lake::working::WorkingHead
+pub fn analyzer_lake::working::WorkingHead::deserialize<__D>(__D) -> core::result::Result<Self, <__D as serde_core::de::Deserializer>::Error> where __D: serde_core::de::Deserializer<'de>
+pub struct analyzer_lake::working::WorkingState
+impl analyzer_lake::working::WorkingState
+pub fn analyzer_lake::working::WorkingState::abandon(&self, u64) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::begin(&self, &analyzer_lake::Lake) -> core::result::Result<bool, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::checkpointed_sequence(&self, &analyzer_lake::Lake) -> core::result::Result<core::option::Option<u64>, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::close(&self) -> core::result::Result<bool, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::commit(&self, &analyzer_lake::working::Relation<'_>, u64, bool, core::option::Option<&analyzer_lake::keyed::Terms>) -> core::result::Result<core::option::Option<analyzer_lake::keyed::Changes>, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::days(&self, &str) -> core::result::Result<alloc::vec::Vec<i64>, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::drop_day(&self, i64) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::drop_relation(&self, &analyzer_lake::working::Relation<'_>) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::end(&alloc::sync::Arc<Self>, &analyzer_lake::Lake, u64) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::holds(&self, &analyzer_lake::working::Relation<'_>) -> core::result::Result<bool, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::open(&std::path::Path, &analyzer_lake::Lake, &[analyzer_lake::working::Declared], usize) -> core::result::Result<Self, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::position(&self) -> u64
+pub fn analyzer_lake::working::WorkingState::read(&self, &analyzer_lake::working::Relation<'_>, usize, core::option::Option<&[u64]>) -> core::result::Result<alloc::vec::Vec<analyzer_lake::keyed::Record>, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::reserve(&self) -> u64
+pub fn analyzer_lake::working::WorkingState::retire(&self, &analyzer_lake::working::Relation<'_>, i64, impl core::ops::function::Fn(&analyzer_lake::keyed::Record) -> bool) -> core::result::Result<bool, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::sequence(&self) -> core::result::Result<u64, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::settle(&self, &analyzer_lake::Lake) -> core::result::Result<bool, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::shared(&std::path::Path, &analyzer_lake::Lake, &[analyzer_lake::working::Declared], usize) -> core::result::Result<alloc::sync::Arc<Self>, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::since(&self, &analyzer_lake::working::Relation<'_>, f64) -> core::result::Result<alloc::vec::Vec<analyzer_lake::keyed::Record>, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::stage(&self, &analyzer_lake::working::Relation<'_>, u64, (usize, u32), &[analyzer_lake::keyed::Record], core::option::Option<&[f64]>) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::stated(&self, &analyzer_lake::working::Relation<'_>) -> core::result::Result<bool, analyzer_lake::Error>
+pub fn analyzer_lake::working::WorkingState::stream(&self, &analyzer_lake::working::Relation<'_>, usize) -> core::result::Result<analyzer_lake::working::Stream, analyzer_lake::Error>
+impl analyzer_lake::working::WorkingState
+pub fn analyzer_lake::working::WorkingState::checkpoint(&self, &analyzer_lake::Lake) -> core::result::Result<u64, analyzer_lake::Error>
+impl core::ops::drop::Drop for analyzer_lake::working::WorkingState
+pub fn analyzer_lake::working::WorkingState::drop(&mut self)
+pub const analyzer_lake::working::BACKGROUND_JOBS: i32
+pub const analyzer_lake::working::BLOOM_BITS: f64
+pub const analyzer_lake::working::BUILD_LANES: usize
+pub const analyzer_lake::working::CHECKPOINT_BYTES: u64
+pub const analyzer_lake::working::CHECKPOINT_INTERVAL_MS: u64
+pub const analyzer_lake::working::DEFAULT_MEMORY_BYTES: usize
+pub const analyzer_lake::working::GARBAGE_MIN_AGE_MS: u64
+pub const analyzer_lake::working::INGEST_BYTES: u64
+pub const analyzer_lake::working::MEMTABLE_SHARE: f64
+pub const analyzer_lake::working::METADATA_BLOCK_BYTES: usize
+pub const analyzer_lake::working::RETAINED: usize
+pub const analyzer_lake::working::WRITE_BATCH_BYTES: usize
+#[non_exhaustive] pub enum analyzer_lake::Error
+pub analyzer_lake::Error::Corrupt(alloc::string::String)
+pub analyzer_lake::Error::Fenced
+pub analyzer_lake::Error::Fenced::lineage: alloc::string::String
+pub analyzer_lake::Error::Fenced::reason: alloc::string::String
+pub analyzer_lake::Error::Invalid(alloc::string::String)
+pub analyzer_lake::Error::Local(alloc::string::String)
+pub analyzer_lake::Error::OtherFormat
+pub analyzer_lake::Error::OtherFormat::document: alloc::string::String
+pub analyzer_lake::Error::OtherFormat::found: u32
+pub analyzer_lake::Error::OtherFormat::reads: u32
+pub analyzer_lake::Error::Store(analyzer_objectstore::Error)
+impl core::clone::Clone for analyzer_lake::Error
+pub fn analyzer_lake::Error::clone(&self) -> analyzer_lake::Error
+impl core::convert::From<analyzer_objectstore::Error> for analyzer_lake::Error
+pub fn analyzer_lake::Error::from(analyzer_objectstore::Error) -> Self
+impl core::error::Error for analyzer_lake::Error
+pub fn analyzer_lake::Error::source(&self) -> core::option::Option<&(dyn core::error::Error + 'static)>
+impl core::fmt::Debug for analyzer_lake::Error
+pub fn analyzer_lake::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+impl core::fmt::Display for analyzer_lake::Error
+pub fn analyzer_lake::Error::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub struct analyzer_lake::Lake
+impl analyzer_lake::Lake
+pub fn analyzer_lake::Lake::day_manifests(&self) -> core::result::Result<analyzer_lake::fold::DayManifests, analyzer_lake::Error>
+pub fn analyzer_lake::Lake::end_unit(&self, u64) -> core::result::Result<(), analyzer_lake::Error>
+pub fn analyzer_lake::Lake::identity(&self) -> alloc::string::String
+pub fn analyzer_lake::Lake::journal_dir(&self) -> alloc::string::String
+pub fn analyzer_lake::Lake::keep(&self, &str, &[u8])
+pub fn analyzer_lake::Lake::ledger(&self, u32) -> core::result::Result<analyzer_lake::ledger::Ledger, analyzer_lake::Error>
+pub fn analyzer_lake::Lake::lineage(&self) -> &analyzer_lake::lineage::Lineage
+pub fn analyzer_lake::Lake::local_copy(&self, &str) -> core::result::Result<analyzer_lake::cache::LocalCopy, analyzer_lake::Error>
+pub fn analyzer_lake::Lake::new(alloc::sync::Arc<(dyn analyzer_objectstore::ObjectStore + core::marker::Send + core::marker::Sync)>, alloc::string::String, analyzer_lake::lineage::Lineage) -> Self
+pub fn analyzer_lake::Lake::root(&self) -> &str
+pub fn analyzer_lake::Lake::state(&self) -> analyzer_lake::state::StateLogs
+pub fn analyzer_lake::Lake::store(&self) -> &dyn analyzer_objectstore::ObjectStore
+pub fn analyzer_lake::Lake::with_cache(self, alloc::sync::Arc<analyzer_lake::cache::ObjectCache>) -> Self
+pub fn analyzer_lake::Lake::with_working(self, alloc::sync::Arc<analyzer_lake::working::WorkingState>) -> Self
+pub fn analyzer_lake::Lake::working(&self) -> core::result::Result<&analyzer_lake::working::WorkingState, analyzer_lake::Error>
+impl analyzer_lake::Lake
+pub fn analyzer_lake::Lake::reserve_revision(&self, core::option::Option<i64>) -> core::result::Result<u64, analyzer_lake::Error>
+impl core::clone::Clone for analyzer_lake::Lake
+pub fn analyzer_lake::Lake::clone(&self) -> analyzer_lake::Lake
+impl core::fmt::Debug for analyzer_lake::Lake
+pub fn analyzer_lake::Lake::fmt(&self, &mut core::fmt::Formatter<'_>) -> core::fmt::Result
+pub const analyzer_lake::IO_WIDTH: usize
+pub fn analyzer_lake::in_parallel<T: core::marker::Sync, R: core::marker::Send, E: core::marker::Send>(&[T], impl core::ops::function::Fn(&T) -> core::result::Result<R, E> + core::marker::Sync) -> core::result::Result<alloc::vec::Vec<R>, E>

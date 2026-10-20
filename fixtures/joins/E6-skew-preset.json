@@ -1,0 +1,82 @@
+{
+ "fixture_version": "v1",
+ "source": "classification-semantics.md \u00a75, \u00a710: the skew allowance decides simultaneity",
+ "cases": [
+  {
+   "name": "primary_default_skew_no_RE",
+   "params": {
+    "delta_skew_ms": 1000
+   },
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i2",
+     "block_id": "p",
+     "at_ms": 499900,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i2",
+     "block_id": "p",
+     "at_ms": 500100,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 500000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "cold"
+    },
+    "note": "default skew cannot manufacture the positive"
+   }
+  },
+  {
+   "name": "pair_attested_low_skew_RE",
+   "params": {
+    "delta_skew_ms": 50
+   },
+   "records": [
+    {
+     "kind": "store",
+     "instance_id": "i2",
+     "block_id": "p",
+     "at_ms": 499900,
+     "tier": "GPU",
+     "n_tokens": 4
+    },
+    {
+     "kind": "evict",
+     "instance_id": "i2",
+     "block_id": "p",
+     "at_ms": 500100,
+     "tier": "GPU"
+    },
+    {
+     "kind": "store",
+     "instance_id": "i1",
+     "block_id": "p",
+     "at_ms": 500000,
+     "tier": "GPU",
+     "n_tokens": 4,
+     "ref": "s"
+    }
+   ],
+   "expect": {
+    "classifications": {
+     "s": "RE"
+    },
+    "note": "operator-attested precision buys the sharper positive"
+   }
+  }
+ ]
+}

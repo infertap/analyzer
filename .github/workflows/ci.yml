@@ -1,0 +1,258 @@
+# CI: the agent's posture inherited — pinned actions by SHA, pinned toolchain from
+# rust-toolchain.toml, supply-chain jobs, and the parity scan against the pinned
+# ClickHouse with a tight timeout (known cost is sub-second; a regression toward the
+# stdin-hang shape fails fast and loudly instead of eating the runner's patience).
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 6 * * 1"
+
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-D warnings"
+
+jobs:
+  check:
+    # The fast verdict: fmt, clippy with warnings denied, and the doc links. No engine —
+    # nothing here runs a test — so a lint reaches a PR in minutes instead of after the
+    # battery. The contract submodule is needed even here: the CLI's selftest compiles the
+    # conformance corpus in with `include_str!`, so clippy cannot build the binary without
+    # it (the first run of this job said so). The tests are `test`, the engine-backed
+    # battery is `battery`.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - name: check out the contract submodule
+        # The contract is the PUBLIC spec repo (inference-events); no credential needed.
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 contract/inference-events
+          test -f contract/inference-events/conformance/CONTRACT_HASH || {
+            echo "::error::the submodule checked out but carries no CONTRACT_HASH — the pin" \
+                 "points at the wrong commit."
+            exit 1
+          }
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - run: cargo fmt --all --check
+      - name: every source file carries the SPDX licence header
+        run: scripts/spdx-check.sh
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      # Doc links as a ratchet: seven were dangling on 2026-08-11 and nothing had ever looked.
+      # Five in `analysis` pointed at functions that moved to `pipeline` with the store boundary.
+      - run: cargo doc --workspace --no-deps --locked
+        env:
+          RUSTDOCFLAGS: -Dwarnings
+
+  test:
+    # `cargo test --workspace`: the unit tests, the guards' engine-free cases and the static
+    # audit — what a contributor runs on a checkout with nothing fetched. Hermetic on
+    # purpose: no engine is fetched, so a test that needs one and is not `#[ignore]`d fails
+    # HERE, where the failure says so, rather than passing on a runner that happens to have
+    # it. The contract submodule is checked out because the reader and layout tests read it.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - name: check out the contract submodule
+        # The contract is the PUBLIC spec repo (inference-events); no credential needed.
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 contract/inference-events
+          test -f contract/inference-events/conformance/CONTRACT_HASH || {
+            echo "::error::the submodule checked out but carries no CONTRACT_HASH — the pin" \
+                 "points at the wrong commit."
+            exit 1
+          }
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - run: python3 scripts/tests/test_test_runner.py
+      - run: scripts/test.sh fast
+
+  battery:
+    # Pipeline correctness runs beside engine-free and serving checks.
+    # The live-bucket transport, TTL and chaos suites run in release.yml's battery.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - name: check out the contract submodule
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 contract/inference-events
+      - name: fetch the pinned engine (hash-verified; the same script a contributor runs)
+        run: scripts/fetch-engine.sh
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - name: the correctness core's engine-backed battery
+        run: |
+          scripts/test.sh engine pipeline
+
+  serving:
+    # External module, API, daemon, serving-store and spec-conformance regressions run beside
+    # the pipeline battery.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: check out the contract submodule
+        run: git submodule update --init --depth 1 contract/inference-events
+      - name: fetch the pinned engine
+        run: scripts/fetch-engine.sh
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - name: external module integration tests against the pinned engine
+        run: scripts/test.sh engine module-example
+      - name: API integration tests against the pinned engine
+        run: scripts/test.sh engine api
+      - name: daemon loop integration tests against the pinned engine
+        # The live-bucket ttl_gate suite runs in the release battery.
+        run: scripts/test.sh engine daemon
+      - name: serving-store integration tests against the pinned engine
+        run: scripts/test.sh engine serving-clickhouse
+      - name: the spec's reader conformance corpus against the pinned engine
+        run: scripts/test.sh engine conformance
+
+  contract:
+    # The read API's OpenAPI document is COMMITTED at contract/openapi.json and diffed here, so
+    # a change to the console-facing contract is a reviewable diff in the PR that causes it --
+    # the same "exception is a diff, never a drift" discipline the network fence and the query
+    # inventory both run on.
+    #
+    # Its own job rather than a step in `check` because it needs neither the pinned engine nor
+    # the contract submodule: the generator reads only compiled-in constants.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - name: the committed OpenAPI document matches what the code generates
+        run: |
+          set -euo pipefail
+          cargo run -q --locked -p analyzer-api --bin dump-openapi > /tmp/openapi.json
+          if ! diff -u contract/openapi.json /tmp/openapi.json; then
+            echo "::error::contract/openapi.json is stale. Regenerate it with" \
+                 "\`cargo run -p analyzer-api --bin dump-openapi > contract/openapi.json\`" \
+                 "and commit the diff -- the console is built against this document."
+            exit 1
+          fi
+
+  public-api:
+    # The public surface of every library crate is a COMMITTED baseline (contract/public-api/,
+    # one file per crate) and is diffed here, so a change to what a partner can link — a
+    # renamed `pub fn`, a widened signature, an item that went `pub(crate)` — is a reviewable
+    # diff in the commit that causes it, never a drift. The contract/openapi.json discipline,
+    # one layer down; scripts/public-api.sh is the check and the way to re-baseline.
+    #
+    # Needs a nightly toolchain because the surface is read from rustdoc's JSON output, which
+    # only nightly emits; the crates themselves build on the pinned stable toolchain and
+    # nightly builds nothing that ships. No engine, no submodule, no network past the installs.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - run: rustup toolchain install "$(cat contract/public-api/TOOLCHAIN)" --profile minimal
+      - run: cargo install cargo-public-api --version 0.52.0 --locked
+      - run: scripts/public-api.sh check
+
+  clock-forward:
+    # The suite with the runner's clock a month ahead (scripts/clock-forward-check.sh): the
+    # check that no fixture has quietly pinned a date. Every fixture is rebased from the wall
+    # clock, so this should never notice the date; twice it has. On the weekly schedule and on
+    # a manual dispatch, never on a push — it moves the machine's clock, which only a
+    # disposable runner may allow, and it costs the whole battery a second time.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    # This job builds every test binary of the workspace, then the pipeline's again under the
+    # package's own feature set, and each links the embedded RocksDB: two target trees, more
+    # than the 12 GB the image leaves free. The linker died of it (`ld terminated with signal 7
+    # [Bus error]`, 2026-09-29, the disk at 100%), with and without debug info. The job judges
+    # dates, not stack traces, so it builds without debug info, and it removes the image's
+    # toolchains it never uses before the build.
+    env:
+      CARGO_PROFILE_DEV_DEBUG: "0"
+      CARGO_PROFILE_TEST_DEBUG: "0"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - name: check out the contract submodule
+        run: |
+          set -euo pipefail
+          git submodule update --init --depth 1 contract/inference-events
+      - name: fetch the pinned engine (hash-verified; the same script a contributor runs)
+        run: scripts/fetch-engine.sh
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - name: make room for two target trees
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+            /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+      - name: the disk before the build
+        run: df -h / /tmp
+      - name: the suite, a month ahead
+        # The script elevates only its `date` call; the tests run as the runner's user, with
+        # the runner's file-descriptor limit rather than root's (the audit's spill needs it).
+        run: scripts/clock-forward-check.sh 30
+      - name: the disk after the suite
+        if: always()
+        run: df -h / /tmp
+
+  parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - name: fetch the pinned engine (hash-verified; the engine is not the one unpinned input)
+        run: scripts/fetch-engine.sh
+      - name: parity scan (pinned build; tight timeout by design)
+        timeout-minutes: 2
+        run: ./scripts/parity-scan.sh
+
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - run: cargo install cargo-audit --version 0.22.2 --locked
+      - run: cargo audit
+
+  deny:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - run: cargo install cargo-deny --version 0.20.2 --locked
+      - run: cargo deny check
+      # The licence FLOOR and the licence NOTICES are two different obligations and both belong
+      # to this job. `cargo deny` says what we are allowed to ship; this says we told the customer
+      # what we shipped. A dependency arriving without its notice is silent — the build is green,
+      # the artifact is complete, and the obligation is unmet.
+      - name: THIRD-PARTY-NOTICES covers the tree that actually ships
+        run: scripts/third-party-notices.py --check
+
+  sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+      - run: cargo install cargo-cyclonedx --version 0.5.9 --locked
+      - run: cargo cyclonedx --format json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: sbom-cyclonedx
+          path: "**/*.cdx.json"

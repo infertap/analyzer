@@ -1,0 +1,18 @@
+.tools
+target/
+
+# macOS writes these into any directory Finder has opened. Not build output and not a
+# decision like the local-only list below — just noise from the OS, ignored wherever it
+# lands rather than at the repo root only.
+.DS_Store
+
+# Local-only working material, kept OUT of the repo by user decision. Deliberately listed
+# by path rather than by a pattern: a pattern invites new files to be assumed covered, and
+# the point of the list is that adding to it is a decision. Enforced by
+# `static_audit::local_only_paths_are_not_tracked`, because a .gitignore entry does NOT
+# untrack a file that is already tracked — which is exactly how scale-audit.md reached
+# origin/main and sat there for three landings.
+docs/scale-audit.md
+docs/production-audit.md
+crates/api/console-dist/
+docs/distribution.md

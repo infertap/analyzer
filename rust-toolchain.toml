@@ -1,0 +1,4 @@
+# Version-pinned: local and CI build with the identical toolchain (the tap's rule).
+[toolchain]
+channel = "1.97.0"
+components = ["rustfmt", "clippy"]

@@ -1,0 +1,35 @@
+{
+  "claim": "a second wave resumes the co-residency frontier: an open residency accrues across the tick seam, a readmit onto a seeded interval never mints a copy, and a clear reaches a seeded holder that had no events of its own this wave",
+  "expect_fleet_cells": [["1", "none"], ["2", "cross"]],
+  "waves": [
+    {
+      "records": [
+        { "kind": "agent_start", "at_ms": 1800000.0, "incarnation": "run-1", "canary": "k1", "heartbeat_secs": 60, "max_segment_secs": 300 },
+        { "kind": "heartbeat", "at_ms": 2160000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 10, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 2160000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 2160000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 3360000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 11, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 3360000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 3360000.0 } ] },
+        { "kind": "store", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 3600000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 12 },
+        { "kind": "store", "instance_id": "i2", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 4320000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 12 },
+        { "kind": "heartbeat", "at_ms": 4560000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 12, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 4560000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 4560000.0 } ] },
+        { "kind": "store", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "d", "content_id": "d", "at_ms": 5040000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 3 }
+      ]
+    },
+    {
+      "records": [
+        { "kind": "store", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 5760000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 12 },
+        { "kind": "heartbeat", "at_ms": 5760000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 13, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 5760000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 5760000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 6960000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 14, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 6960000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 6960000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 8160000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 15, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 8160000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 8160000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 9360000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 16, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 9360000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 9360000.0 } ] },
+        { "kind": "heartbeat", "at_ms": 10560000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 17, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 10560000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 10560000.0 } ] },
+        { "kind": "evict", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "a", "content_id": "a", "at_ms": 10800000.0, "incarnation": "run-1", "workload_class": "agentic" },
+        { "kind": "evict", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "d", "content_id": "d", "at_ms": 11520000.0, "incarnation": "run-1", "workload_class": "agentic" },
+        { "kind": "heartbeat", "at_ms": 11760000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 18, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 11760000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 11760000.0 } ] },
+        { "kind": "clear", "instance_id": "i2", "at_ms": 12600000.0, "incarnation": "run-1" },
+        { "kind": "heartbeat", "at_ms": 12960000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 19, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 12960000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 12960000.0 } ] },
+        { "kind": "store", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "zz", "content_id": "zz", "at_ms": 13320000.0, "incarnation": "run-1", "workload_class": "agentic", "n_tokens": 1 },
+        { "kind": "evict", "instance_id": "i1", "dp_rank": 0, "group_idx": 0, "block_id": "zz", "content_id": "zz", "at_ms": 13680000.0, "incarnation": "run-1", "workload_class": "agentic" },
+        { "kind": "heartbeat", "at_ms": 14160000.0, "incarnation": "run-1", "canary": "k1", "msgs_seen": 20, "dropped": 0, "oversized": 0, "heartbeat_secs": 60, "max_segment_secs": 300, "endpoints": [ { "source": "i1", "endpoint": "tcp://e:1", "msgs_seen": 6, "dropped": 0, "last_msg_at_ms": 14160000.0 }, { "source": "i2", "endpoint": "tcp://e:2", "msgs_seen": 4, "dropped": 0, "last_msg_at_ms": 14160000.0 } ] }
+      ]
+    }
+  ]
+}

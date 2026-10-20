@@ -1,0 +1,112 @@
+[package]
+name = "analyzer-api"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+log = { version = "0.4", features = ["std"] }
+# The crate's shell-facing error type: one enum, every variant rendering the message it replaced.
+thiserror = "2"
+# The read layer. This crate is a pass-through over it and adds no query of its own —
+# `static_audit`'s SQL ratchet has no entry for this crate, and that absence is the assertion.
+analyzer-serving-clickhouse = { path = "../serving-clickhouse" }
+analyzer-analysis = { path = "../analysis" }
+# The engine-free core: the executor's durable standing, which every read's consistency
+# boundary checks.
+analyzer-pipeline = { path = "../pipeline" }
+# For `report::wire`, the ONE figure serializer. Depending on the renderer rather than
+# reimplementing its output is what keeps one definition of a coverage-carrying figure
+# the same object instead of two that currently agree (`docs/read-api.md` §2.2).
+
+# ===========================================================================================
+# THE DEPENDENCY EVENT. Per-entry justification, per the D2 precedent — the fence, the
+# allowlist, `deny.toml` and this file all move in one commit, and the exception is a diff.
+#
+# What this crate is, stated once here because it is the justification every line below
+# inherits: the SECOND listener the network fence has ever admitted, the first with a route
+# table, the first with authentication, and the first any party outside the host is expected to
+# reach. It is NOT the workspace's first inbound listener — `daemon/src/metrics.rs` has listened
+# since the trust kit — and it is not an inbound WRITE path, which is the thing OPEN-2 governs
+# and which this API deliberately is not.
+# ===========================================================================================
+
+# The HTTP layer. Owning a router, an extractor set and a response model forever is the trade
+# design §2 already refused once for the ClickHouse transport; the same reasoning applies to
+# serving. Default features OFF so the form, multipart, original-uri and tower-log machinery
+# stay out — this API parses a path, a query string and one bearer header. `matched-path` is
+# on: the query extractor refuses a parameter the OpenAPI document does not declare for the
+# operation a request matched, and the route template is how it names that operation.
+axum = { version = "0.8", default-features = false, features = ["http1", "json", "matched-path", "query", "tokio"] }
+# Already in the workspace via `storage` (D2), where it drives the official ClickHouse client.
+# The features here are the server's: a runtime to accept on, and the signal handling the
+# graceful shutdown hooks into. Async still stops at the process boundary — the daemon's loop is
+# synchronous and stays that way; this crate owns its own runtime and blocks the caller.
+tokio = { version = "1", default-features = false, features = ["rt-multi-thread", "net", "signal", "sync", "time"] }
+# `fs` serves the console bundle (§8.3); `cors` scopes the one dev-mode origin allowance (§6.4).
+# Nothing else from this crate is enabled: no compression, no auth middleware of its own, no
+# tracing layer.
+tower-http = { version = "0.6", default-features = false, features = ["fs", "cors"] }
+# The wire format. Already justified in three crates for the same reason.
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# The OpenAPI schemas, DERIVED from the wire types (`docs/read-api.md` section 10).
+#
+# `macros` is utoipa's DEFAULT and the only feature enabled: `default-features = false` removes the
+# derive and leaves a crate whose own source does not compile.
+utoipa = "5"
+# Constant-time comparison for the viewer token. **The allowlist philosophy: buy
+# crypto-adjacent primitives, own arithmetic ones.** A wrong constant-time compare is invisible in
+# every test and exploitable in production, so audited beats owned; the calendar arithmetic in
+# `lake::dated` goes the other way, because a wrong date computation is loudly testable.
+subtle = { version = "2", default-features = false }
+# SSE needs a streaming body, and `axum::body::Body::from_stream` takes a `futures_core::Stream`.
+# The alternative was hand-rolling a `Stream` impl, which means naming `futures_core` anyway — a
+# transitive dependency promoted to a direct one to avoid a direct one. `sync` only: this is used
+# for exactly `BroadcastStream` and two combinators.
+# `sync` for `BroadcastStream`, which is the event fan-out; `time` for `IntervalStream`, which is
+# the SSE heartbeat — an idle stream is otherwise reaped by the operator's proxy on its own
+# read timeout, and the console sees the live view go quiet and then jump. Same crate, no new
+# entry on the allowlist: a feature, not a dependency.
+tokio-stream = { version = "0.1", default-features = false, features = ["sync", "time"] }
+
+[build-dependencies]
+# The console pin, verified at the last moment before the bytes become the product. Already on the
+# allowlist for three crates; this is a fourth use of a crate the workspace has, not a new entry.
+# A hand-rolled SHA-256 in a build script is the exact shape the allowlist philosophy refuses:
+# buy crypto-adjacent primitives, own arithmetic ones.
+sha2 = "0.10"
+
+[dev-dependencies]
+# The shared test harness: planted streams and the journal faults.
+harness = { path = "../harness", package = "analyzer-harness" }
+# The bucket layout (`dated`): the shipper's dated tree and the analyzer's own root.
+analyzer-lake = { path = "../lake" }
+# The journal fault store the pipeline suite shares (`harness::journal_faults`): a lost
+# acknowledgment is a refused journal write now that work lives in the journal, not a table.
+analyzer-objectstore = { path = "../objectstore", features = ["testing"] }
+analyzer-serving-clickhouse = { path = "../serving-clickhouse", features = ["testing"] }
+# The paged-surface walk seeds the roster through the shipped ingest, so the roster page it
+# walks is the one a deployment serves rather than rows planted around the reader.
+analyzer-ingest = { path = "../ingest" }
+# The goldens drive the router directly through `tower::ServiceExt::oneshot` rather than binding a
+# socket: the session sandbox kills a listening process, and a test that cannot run locally is a
+# test that only CI exercises. `tower` is already in the tree via `tower-http`.
+tower = { version = "0.5", default-features = false, features = ["util"] }
+# `test-util` gives the paused clock the SSE heartbeat test needs. A 20-second beat asserted by
+# sleeping 20 seconds is a test people delete; asserted by advancing a frozen clock it is instant
+# and exact. Dev-only, so nothing about the shipped dependency set moves.
+tokio = { version = "1", default-features = false, features = [
+    "rt-multi-thread",
+    "macros",
+    "test-util",
+] }

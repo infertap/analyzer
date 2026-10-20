@@ -1,0 +1,185 @@
+{
+  "claim": "the steady state: an in-order second wave advances by seeded slice, and the day's rows are the whole pass's rows",
+  "waves": [
+    {
+      "expect_sliced": false,
+      "records": [
+        {
+          "kind": "agent_start",
+          "at_ms": 1800000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 2160000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 2160000.0
+            }
+          ]
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "p",
+          "content_id": "p",
+          "at_ms": 3600000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic",
+          "n_tokens": 8
+        },
+        {
+          "kind": "evict",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "p",
+          "content_id": "p",
+          "at_ms": 4320000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic"
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "p",
+          "content_id": "p",
+          "at_ms": 5400000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic",
+          "n_tokens": 8
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "q",
+          "content_id": "q",
+          "at_ms": 5760000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic",
+          "n_tokens": 16
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 7200000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 7200000.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "expect_sliced": true,
+      "records": [
+        {
+          "kind": "heartbeat",
+          "at_ms": 10800000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 10800000.0
+            }
+          ]
+        },
+        {
+          "kind": "evict",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "q",
+          "content_id": "q",
+          "at_ms": 11520000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic"
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "p",
+          "content_id": "p",
+          "at_ms": 12600000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic",
+          "n_tokens": 8
+        },
+        {
+          "kind": "store",
+          "instance_id": "i1",
+          "dp_rank": 0,
+          "group_idx": 0,
+          "block_id": "r",
+          "content_id": "r",
+          "at_ms": 13320000.0,
+          "incarnation": "run-1",
+          "workload_class": "agentic",
+          "n_tokens": 32
+        },
+        {
+          "kind": "heartbeat",
+          "at_ms": 14040000.0,
+          "incarnation": "run-1",
+          "canary": "k1",
+          "msgs_seen": 10,
+          "dropped": 0,
+          "oversized": 0,
+          "heartbeat_secs": 60,
+          "max_segment_secs": 10800,
+          "endpoints": [
+            {
+              "source": "i1",
+              "endpoint": "tcp://e:1",
+              "msgs_seen": 10,
+              "dropped": 0,
+              "last_msg_at_ms": 14040000.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

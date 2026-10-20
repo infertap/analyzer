@@ -1,0 +1,30 @@
+[package]
+name = "analyzer-lake"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish = false
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# The lake's documents live in the object store, through the port.
+analyzer-objectstore = { path = "../objectstore" }
+thiserror = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1.0"
+# Lineage ids: a hash of the moment, the process and the directory.
+sha2 = "0.10"
+# The working state says what a restore, a rollback and a checkpoint took.
+log = "0.4"
+# The fold's working state (`docs/lake.md`).
+rocksdb = { version = "0.25", default-features = false, features = ["lz4", "bindgen-runtime"] }
+# A stripe's stream owns the database handle its iterator reads, without unsafe code.
+self_cell = "1"
+# The working state's log segments, framed as the spine frames its chunks.
