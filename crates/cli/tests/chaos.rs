@@ -428,7 +428,7 @@ const ANALYSIS_DUMP: &[(&str, &str)] = &[
     ),
     (
         "band_rollup_hourly",
-        "SELECT fleet_id, semantics_version, discriminator, class, band, tier, workload_class, model, instance_id, dp_rank, group_idx, bucket, toInt64(events), toInt64(tokens) FROM band_rollup_hourly FINAL WHERE gone = 0 ORDER BY ALL",
+        "SELECT * EXCEPT (version, gone) FROM band_rollup_hourly FINAL WHERE gone = 0 ORDER BY ALL",
     ),
     (
         "recompute_minute",
