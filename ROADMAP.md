@@ -16,6 +16,8 @@ commitment to a schedule, and a phase can be reordered by a recorded ruling
 - **Contributor readiness.** A hermetic `cargo test`, one command for the engine, tiered
   tests with actionable failures, a parallel CI, the suite checked a month ahead.
 - **Licensing.** `AGPL-3.0-only` with a CLA; the community files.
+- **The public repository.** This repository: a clean initial commit from a sanitised cut,
+  the internal design log left behind, the console opened beside it.
 
 ## Next
 
@@ -25,8 +27,6 @@ commitment to a schedule, and a phase can be reordered by a recorded ruling
 - **A boring install.** The OCI bundle with one binary and the engine, the quickstart as
   the bundle's own README, the chart as the Kubernetes path — installable on a clean
   machine without a conversation.
-- **The public repository.** A fresh, sanitised public cut of this repository: the public
-  documents, a clean initial commit, the internal design log left behind.
 
 ## Later
 

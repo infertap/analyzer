@@ -11,7 +11,7 @@
 # 1. **The console is staged from another repository.** It is compiled into the binary (D6), so
 #    a release build must have it, and `INFERTAP_REQUIRE_CONSOLE=1` makes a build without one
 #    FAIL rather than quietly produce a binary that answers `console_not_configured` on every
-#    page. The console repo is private, so this needs `CONSOLE_PAT` — see below.
+#    page. The console repository is public, so the fetch needs no credential.
 # 2. **ClickHouse is fetched and SHIPPED**, hash-verified, because the VM bundle carries the
 #    engine. The tap has no such payload.
 # 3. **Three artifacts, not one**: a VM bundle, a container image, and a Helm chart.
@@ -20,13 +20,6 @@
 #
 # WHAT THIS WORKFLOW NEEDS BEFORE ITS FIRST REAL TAG:
 #
-# - **`CONSOLE_PAT`** (set 2026-08-15): a fine-grained PAT with Contents:Read on
-#   infertap/console and nothing else. The contract submodule needs no credential because
-#   inference-events is public; the console is not. Deliberately NOT the existing
-#   `CONTRACT_PAT` — that name means "the credential that reads the contract", and this reads
-#   the console bundle. **Note the failure mode this buys: a fine-grained PAT EXPIRES, and when
-#   it does the release breaks at the moment you are cutting one.** The guard below fails with
-#   that sentence rather than mysteriously, which is the most a workflow can do about it.
 # - **Signing is keyless (Sigstore), since 2026-09-16, as the tap's is.** cosign exchanges this
 #   job's GitHub OIDC token for a short-lived certificate from Fulcio that names this workflow at
 #   this ref, signs, and records the signature in the Rekor transparency log; a customer verifies
@@ -229,35 +222,13 @@ jobs:
           echo "CLICKHOUSE_BIN=$PWD/clickhouse-common-static-${PIN}/usr/bin/clickhouse" >> "$GITHUB_ENV"
 
       - name: check out the console at the pinned commit
-        # **Deliberately NOT `actions/checkout`'s `token:` input**, and the console's own
-        # canary.yml records why: that credential is reused for the primary clone, so a PAT
-        # scoped to one repository makes checking out the OTHER fail with 403. A plain clone with
-        # the token in a git URL rewrite keeps the PAT at exactly one repository's Contents:Read,
-        # which is the least privilege that can work.
-        #
-        # `CONSOLE_PAT` rather than reusing `CONTRACT_PAT`: that name means "the credential that
-        # lets CI read the contract", and this reads the console BUNDLE. The name is what a future
-        # reader uses to decide what a token may reach, so it must not lie.
-        #
         # **Fetched by COMMIT, not by branch.** `console/PIN.toml` names it and the pin is what
-        # decides, not whatever `main` held when the release ran. A one-object shallow fetch is
-        # also the cheapest way to get exactly it.
-        env:
-          CONSOLE_PAT: ${{ secrets.CONSOLE_PAT }}
+        # the release reproduces; a branch tip is whatever it happens to be today. The console
+        # repository is public, so the fetch carries no credential and nothing can expire.
         run: |
           set -euo pipefail
-          if [ -z "${CONSOLE_PAT:-}" ]; then
-            echo "::error::CONSOLE_PAT is not set, so this release cannot stage the console." \
-                 "Add a fine-grained token with Contents:Read on infertap/console as the" \
-                 "CONSOLE_PAT secret. The console is compiled into the binary, so a release" \
-                 "without one is not a release."
-            exit 1
-          fi
           PINNED="$(grep -m1 '^source_commit' console/PIN.toml | cut -d'"' -f2)"
           echo "console pin: $PINNED"
-          git config --global \
-            url."https://x-access-token:${CONSOLE_PAT}@github.com/".insteadOf \
-            "https://github.com/"
           git init -q .console-src
           git -C .console-src remote add origin https://github.com/infertap/console.git
           git -C .console-src fetch -q --depth 1 origin "$PINNED"
